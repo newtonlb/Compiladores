@@ -22,7 +22,7 @@ int main()
 		if(outputString[0] == 'K' && strlen(outputString) > 2)
 		{
 			substitution_K();
-			 printf("%s\n", outputString);
+			 //printf("%s\n", outputString);
 			#ifdef COUNTERK
                 countK++;
 			#endif // COUNTERK
@@ -30,7 +30,7 @@ int main()
 		else if(outputString[0] == 'S' && strlen(outputString) > 3)
 		{
 			substitution_S();
-			 printf("%s\n", outputString);
+			 //printf("%s\n", outputString);
 			#ifdef COUNTERS
                 countS++;
             #endif // COUNTERS
@@ -50,7 +50,7 @@ int main()
 	#ifdef COUNTER
         counter = countK + countS;
     #endif // COUNTER
-
+     printf("%s\n", outputString);
 
 	return 0;
 }

@@ -24,11 +24,9 @@
 char newString[ARRAY_SIZE];
 char inputString[ARRAY_SIZE];
 char outputString[ARRAY_SIZE];
-char a[ARRAY_SIZE];
-char b[ARRAY_SIZE];
-char c[ARRAY_SIZE];
+
 char blank[ARRAY_SIZE];
-char d[ARRAY_SIZE];
+
 
 int posAinit;
 int posAfinal;
@@ -126,16 +124,14 @@ void substitution_K()
 	posBfinal = 0;
 	posCinit = 0;
 	posCfinal = 0;
-	memcpy(a, blank, ARRAY_SIZE*sizeof(char));
-	memcpy(b, blank, ARRAY_SIZE*sizeof(char));
-	memcpy(c, blank, ARRAY_SIZE*sizeof(char));
+	
 	memcpy(newString, blank, ARRAY_SIZE*sizeof(char));
 
 	if(outputString[1] == '(')
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
-		memcpy(a, outputString + posAinit, (posAfinal - posAinit +1)*sizeof(char));
+		
 		//printf("a: %s\n",a );
 
 	}
@@ -143,7 +139,7 @@ void substitution_K()
 	{
 		posAinit = 1;
 		posAfinal = posAinit;
-		memcpy(a, outputString + 1, sizeof(char));
+		
 		//printf("a: %s\n", a);
 	}
 	posBinit = posAfinal + 1;
@@ -152,7 +148,7 @@ void substitution_K()
 
 
 		posBfinal = searchParenthesis(posBinit);
-		memcpy(b, outputString + posBinit, (posBfinal - posBinit +1)*sizeof(char));
+		
 		//printf("b: %s\n",b );
 		/*printf(" parthesis pos: %d\n",finalPos );
 		memcpy(b, (outputString + (initPos)), (finalPos - initPos) *sizeof(char));
@@ -161,7 +157,7 @@ void substitution_K()
 	else
 	{
 		posBfinal = posBinit;
-		memcpy(b, outputString +posBinit, sizeof(char));
+		
 
 	}
 	memcpy(newString, outputString + posAinit, posAfinal*sizeof(char));
@@ -183,15 +179,12 @@ void substitution_S(){
 	posCinit = 0;
 	posCfinal = 0;
 
-	memcpy(a, blank, ARRAY_SIZE*sizeof(char));
-	memcpy(b, blank, ARRAY_SIZE*sizeof(char));
-	memcpy(c, blank, ARRAY_SIZE*sizeof(char));
+	
 	memcpy(newString, blank, ARRAY_SIZE*sizeof(char));
 	if(outputString[1] == '(')
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
-		memcpy(a, outputString + posAinit, (posAfinal - posAinit +1)*sizeof(char));
 		//printf("a: %s\n",a );
 	}
 	else
@@ -199,7 +192,7 @@ void substitution_S(){
 
 		posAfinal = 1;
 		posAinit = 1;
-		memcpy(a, outputString + 1, sizeof(char));
+		
 		//printf("a: %s\n", a);
 
 	}
@@ -209,20 +202,20 @@ void substitution_S(){
 
 
 		posBfinal = searchParenthesis(posBinit);
-		memcpy(b, outputString + posBinit, (posBfinal - posBinit +1)*sizeof(char));
+		
 		//printf("b: %s\n",b );
 	}
 	else
 	{
 		posBfinal = posBinit;
-		memcpy(b, outputString +posBinit, sizeof(char));
+	
 		//printf("b: %s\n",b );
 	}
 	posCinit = posBfinal + 1;
 	if(outputString[posCinit] == '(')
 	{
 		posCfinal = searchParenthesis(posCinit);
-		memcpy(c, outputString + posCinit, (posCfinal - posCinit +1)*sizeof(char));
+		
 		//printf("c: %s\n",c );
 
 
@@ -230,8 +223,8 @@ void substitution_S(){
 	else
 	{
 		posCfinal = posCinit +1;
-		memcpy(c, outputString + posCinit, sizeof(char));
-		//printf("c: %s\n",c );
+		
+		
 		posCfinal = posCinit;
 	}
 

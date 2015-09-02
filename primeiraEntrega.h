@@ -185,6 +185,7 @@ void substitution_S(){
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
+		
 		//printf("a: %s\n",a );
 	}
 	else
@@ -222,7 +223,7 @@ void substitution_S(){
 	}
 	else
 	{
-		posCfinal = posCinit +1;
+		
 		
 		
 		posCfinal = posCinit;
@@ -249,7 +250,7 @@ void substitution_S(){
 	memcpy(newString + strlen(newString),outputString + posCinit, (posCfinal-posCinit +1)*sizeof(char));
 	//printf("%s\n",newString );
 
-	memcpy(newString + strlen(newString), ")", (ARRAY_SIZE - (strlen(newString) + 1))*sizeof(char));
+	memcpy(newString + strlen(newString), ")", sizeof(char));
 	//printf("%s\n",newString );
 
 	memcpy(newString + strlen(newString), outputString + posCfinal +1, (ARRAY_SIZE-posCfinal +1)*sizeof(char));

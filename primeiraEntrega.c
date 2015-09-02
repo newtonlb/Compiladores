@@ -10,7 +10,7 @@ int main()
 	int removed = 0;
 	int reductible = 1;
 
-	readFile();
+	//readFile();
 
 	while(reductible == 1)
 	{

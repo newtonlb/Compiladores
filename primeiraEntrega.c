@@ -8,7 +8,7 @@ void readFile()
 	inputString = (char*) malloc(sizeof(char) * ARRAY_SIZE);
 
 	fscanf(filein,"%s", inputString);
-	memcpy(outputString, inputString, ARRAY_SIZE*sizeof(char));
+	memcpy(strings[(countVet%2)], inputString, ARRAY_SIZE*sizeof(char));
 
     fclose(filein);
 }
@@ -19,31 +19,31 @@ void removeParenthesis()
 		int removed = 0;
 		int lvl = 1;
 		int i = 0;
-        //printf("OutPutString = %s\n", outputString);
+        //printf("strings[(countVet%2)] = %s\n", strings[(countVet%2)]);
       //  system("PAUSE");
 		while (removed == 0)
 		{
 			i++;
 
-			if(outputString[i] == '(')
+			if(strings[(countVet%2)][i] == '(')
 			{
 				lvl++;
 			}
-			else if(outputString[i] == ')')
+			else if(strings[(countVet%2)][i] == ')')
 			{
 				lvl--;
                 if(lvl == 0)
                 {
                    
-                    memcpy(newString, outputString + 1,(i-1)*sizeof(char)) ;
+                    memcpy(strings[(countVet+1)%2], strings[(countVet%2)] + 1,(i-1)*sizeof(char)) ;
                    
 
                   
-                    int teste = strlen(outputString);
+                    int teste = strlen(strings[(countVet%2)]);
                  
-                    memcpy((newString + i -1), (outputString + i + 1), (teste - i )*sizeof(char));
+                    memcpy((strings[(countVet+1)%2] + i -1), (strings[(countVet%2)] + i + 1), (teste - i )*sizeof(char));
                     
-                    memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
+                    //memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ARRAY_SIZE*sizeof(char));
 
 
                     removed = 1;
@@ -59,7 +59,7 @@ int searchParenthesis(int initPos)
 	int lvl = 0;
 	int removed = 0;
 
-	if(outputString[initPos] == '(')
+	if(strings[(countVet%2)][initPos] == '(')
 	{
 		lvl = 1;
 		i = initPos;
@@ -67,11 +67,11 @@ int searchParenthesis(int initPos)
 		while (removed == 0)
 		{
 			i++;
-			if(outputString[i] == '(')
+			if(strings[(countVet%2)][i] == '(')
 			{
 				lvl++;
 			}
-			else if(outputString[i] == ')')
+			else if(strings[(countVet%2)][i] == ')')
 			{
 				lvl--;
 				if(lvl == 0)
@@ -97,9 +97,9 @@ void substitution_K()
 	int posCinit = 0;
 	int posCfinal = 0;
 
-	//memcpy(newString, blank, ARRAY_SIZE*sizeof(char));
+	//memcpy(strings[(countVet+1)%2], blank, ARRAY_SIZE*sizeof(char));
 
-	if(outputString[1] == '(')
+	if(strings[(countVet%2)][1] == '(')
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
@@ -111,7 +111,7 @@ void substitution_K()
 		posAfinal = posAinit;
 	}
 	posBinit = posAfinal + 1;
-	if(outputString[posBinit] == '(')
+	if(strings[(countVet%2)][posBinit] == '(')
 	{
 		posBfinal = searchParenthesis(posBinit);
 
@@ -121,10 +121,10 @@ void substitution_K()
 	{
 		posBfinal = posBinit;
 	}
-	memcpy(newString, outputString + posAinit, posAfinal*sizeof(char));
-	memcpy(newString + (posAfinal - posAinit + 1) , outputString + posBfinal +1, ((strlen(outputString)) - posBfinal)*sizeof(char));
+	memcpy(strings[(countVet+1)%2], strings[(countVet%2)] + posAinit, posAfinal*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + (posAfinal - posAinit + 1) , strings[(countVet%2)] + posBfinal +1, ((strlen(strings[(countVet%2)])) - posBfinal)*sizeof(char));
 
-	memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ARRAY_SIZE*sizeof(char));
 }
 
 
@@ -139,7 +139,7 @@ void substitution_S()
 	int posCfinal = 0;
 	int stringLastPos = 0;
 
-	if(outputString[1] == '(')
+	if(strings[(countVet%2)][1] == '(')
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
@@ -153,7 +153,7 @@ void substitution_S()
 
 	}
 	posBinit = posAfinal + 1;
-	if(outputString[posBinit] == '(')
+	if(strings[(countVet%2)][posBinit] == '(')
 	{
 
 
@@ -164,7 +164,7 @@ void substitution_S()
 		posBfinal = posBinit;
 	}
 	posCinit = posBfinal + 1;
-	if(outputString[posCinit] == '(')
+	if(strings[(countVet%2)][posCinit] == '(')
 	{
 		posCfinal = searchParenthesis(posCinit);
 	}
@@ -173,34 +173,34 @@ void substitution_S()
 		posCfinal = posCinit;
 	}
 
-	memcpy(newString, "(", sizeof(char)); //(
-	//printf("%s\n", newString);
+	memcpy(strings[(countVet+1)%2], "(", sizeof(char)); //(
+	//printf("%s\n", strings[(countVet+1)%2]);
 	stringLastPos++;
-	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit +1)*sizeof(char));  //(a
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posAinit, (posAfinal - posAinit +1)*sizeof(char));  //(a
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos += posAfinal - posAinit +1;
-	memcpy(newString + stringLastPos, outputString + posCinit, (posCfinal - posCinit +1)*sizeof(char)); //(ac
-	//printf("%s\n",newString);
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posCinit, (posCfinal - posCinit +1)*sizeof(char)); //(ac
+	//printf("%s\n",strings[(countVet+1)%2]);
 	stringLastPos += posCfinal - posCinit +1;
-	memcpy(newString + stringLastPos, ")", sizeof(char)); //(ac)
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char)); //(ac)
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos++;
-	memcpy(newString +stringLastPos, "(", sizeof(char));// (ac)(
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] +stringLastPos, "(", sizeof(char));// (ac)(
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos++;
-	memcpy(newString + stringLastPos, outputString +posBinit, (posBfinal-posBinit +1)*sizeof(char));
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] +posBinit, (posBfinal-posBinit +1)*sizeof(char));
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos += posBfinal-posBinit +1;
-	memcpy(newString + stringLastPos ,outputString + posCinit, (posCfinal-posCinit +1)*sizeof(char));
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos ,strings[(countVet%2)] + posCinit, (posCfinal-posCinit +1)*sizeof(char));
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos+= posCfinal-posCinit +1;
-	memcpy(newString + stringLastPos, ")", sizeof(char));
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char));
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos++;
-	memcpy(newString + stringLastPos, outputString + posCfinal +1, ((strlen(outputString))-posCfinal +1)*sizeof(char));
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posCfinal +1, ((strlen(strings[(countVet%2)]))-posCfinal +1)*sizeof(char));
+	//printf("%s\n",strings[(countVet+1)%2] );
 
-	memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ARRAY_SIZE*sizeof(char));
 }
 
 void substitution_I()
@@ -208,7 +208,7 @@ void substitution_I()
     int initPos = 1;
     int posAinit = 0;
     int posAfinal = 0;
-    if(outputString[initPos] == '(')
+    if(strings[(countVet%2)][initPos] == '(')
     {
         posAinit = initPos;
         posAfinal = searchParenthesis(initPos);
@@ -219,13 +219,13 @@ void substitution_I()
         posAfinal = posAinit;
     }
 
-    memcpy(newString, outputString + posAinit, (posAfinal-posAinit+1)*sizeof(char));
+    memcpy(strings[(countVet+1)%2], strings[(countVet%2)] + posAinit, (posAfinal-posAinit+1)*sizeof(char));
 
-    int tamanhoOutputString = strlen(outputString);
+    int tamanhoOutputString = strlen(strings[(countVet%2)]);
 
-	memcpy(newString + posAfinal, outputString + posAfinal + 1, (tamanhoOutputString-posAfinal +1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + posAfinal, strings[(countVet%2)] + posAfinal + 1, (tamanhoOutputString-posAfinal +1)*sizeof(char));
 
-	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ((strlen(strings[(countVet+1)%2])+1)*sizeof(char)));
 
 }
 
@@ -241,7 +241,7 @@ void substitution_B()
 	int posXfinal = 0;
 	int stringLastPos = 0;
 
-	if (outputString[initPos] == '(')
+	if (strings[(countVet%2)][initPos] == '(')
 	{
 		posFinit = initPos;
 		posFfinal = searchParenthesis(posFinit);
@@ -253,7 +253,7 @@ void substitution_B()
 	}
 	//printf("F = %d %d", posFinit, posFfinal);
 	posGinit = posFfinal + 1;
-	if (outputString[posGinit] == '(')
+	if (strings[(countVet%2)][posGinit] == '(')
 	{
 		posGfinal = searchParenthesis(posGinit);
 	}
@@ -264,7 +264,7 @@ void substitution_B()
 	//printf("G = %d %d", posGinit, posGfinal);
 
 	posXinit = posGfinal + 1;
-	if (outputString[posXinit] == '(')
+	if (strings[(countVet%2)][posXinit] == '(')
 	{
 		posXfinal = searchParenthesis(posXinit);
 	}
@@ -274,30 +274,30 @@ void substitution_B()
 	}
 	//printf("X = %d %d", posXinit, posXfinal);
 
-	int tamanho = strlen(outputString);
+	int tamanho = strlen(strings[(countVet%2)]);
 
-	memcpy(newString, outputString + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2], strings[(countVet%2)] + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
 	stringLastPos+= (posFfinal - posFinit + 1);
-	//printf("newString = %s outputString = %s\n\n", newString, outputString);
-	memcpy(newString + stringLastPos, "(", sizeof(char));
+	//printf("strings[(countVet+1)%2] = %s strings[(countVet%2)] = %s\n\n", strings[(countVet+1)%2], strings[(countVet%2)]);
+	memcpy(strings[(countVet+1)%2] + stringLastPos, "(", sizeof(char));
 	stringLastPos++;
-	//printf("newString = %s outputString = %s\n\n", newString, outputString);
-	memcpy(newString + stringLastPos, outputString + posGinit, (posGfinal - posGinit +1)*sizeof(char));
+	//printf("strings[(countVet+1)%2] = %s strings[(countVet%2)] = %s\n\n", strings[(countVet+1)%2], strings[(countVet%2)]);
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posGinit, (posGfinal - posGinit +1)*sizeof(char));
 	stringLastPos += (posGfinal - posGinit) + 1;
-	memcpy(newString + stringLastPos, outputString + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
 	stringLastPos += (posXfinal - posXinit) + 1;
-	memcpy(newString + stringLastPos, ")", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char));
 	stringLastPos++;
-	memcpy(newString + stringLastPos, outputString + posXfinal + 1, (tamanho - posXfinal + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posXfinal + 1, (tamanho - posXfinal + 1)*sizeof(char));
 
 
-	int tamanhoOutputString = strlen(outputString);
+	int tamanhoOutputString = strlen(strings[(countVet%2)]);
 
-	memcpy(newString + stringLastPos, outputString + posXfinal + 1, (tamanhoOutputString-posXfinal+1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posXfinal + 1, (tamanhoOutputString-posXfinal+1)*sizeof(char));
 
-	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ((strlen(strings[(countVet+1)%2])+1)*sizeof(char)));
 
-	//printf("outputString = %s\n\n", outputString);
+	//printf("strings[(countVet%2)] = %s\n\n", strings[(countVet%2)]);
 
 }
 
@@ -312,7 +312,7 @@ void substitution_C()
 	int posXinit = 0;
 	int posXfinal = 0;
 
-	if (outputString[initPos] == '(')
+	if (strings[(countVet%2)][initPos] == '(')
 	{
 		posFinit = initPos;
 		posFfinal = searchParenthesis(posFinit);
@@ -324,7 +324,7 @@ void substitution_C()
 	}
 
 	posXinit = posFfinal + 1;
-	if (outputString[posXinit] == '(')
+	if (strings[(countVet%2)][posXinit] == '(')
 	{
 		posXfinal = searchParenthesis(posXinit);
 	}
@@ -334,7 +334,7 @@ void substitution_C()
 	}
 
 	posYinit = posXfinal + 1;
-	if (outputString[posYinit] == '(')
+	if (strings[(countVet%2)][posYinit] == '(')
 	{
 		posYfinal = searchParenthesis(posYinit);	
 
@@ -345,18 +345,18 @@ void substitution_C()
 	}
 
 	int stringLastPos = 0;
-	memcpy(newString + stringLastPos, outputString + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
 	stringLastPos += (posFfinal - posFinit + 1);
-	memcpy(newString + stringLastPos, outputString + posYinit, (posYfinal - posYinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posYinit, (posYfinal - posYinit + 1)*sizeof(char));
 	stringLastPos += (posYfinal - posYinit + 1);
-	memcpy(newString + stringLastPos, outputString + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
 	stringLastPos += (posXfinal - posXinit + 1);
 
-	int tamanhoOutputString = strlen(outputString);
+	int tamanho = strlen(strings[(countVet%2)]);
 
-	memcpy(newString + stringLastPos, outputString + posYfinal + 1, (tamanhoOutputString-posYfinal+1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posYfinal + 1, (tamanho-posYfinal+1)*sizeof(char));
 
-	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ((strlen(strings[(countVet+1)%2])+1)*sizeof(char)));
 }
 
 // NAO TERMINADO
@@ -374,7 +374,7 @@ void substitution_s()
 	int posDinit = 0;
 	int posDfinal = 0;
 
-	if (outputString[initPos] == '(')
+	if (strings[(countVet%2)][initPos] == '(')
 	{
 		posAinit = initPos;
 		posAfinal = searchParenthesis(posAinit);
@@ -386,7 +386,7 @@ void substitution_s()
 	}
 
 	posBinit = posAfinal + 1;
-	if (outputString[posBinit] == '(')
+	if (strings[(countVet%2)][posBinit] == '(')
 	{
 		posBfinal = searchParenthesis(posBinit);
 	}
@@ -396,7 +396,7 @@ void substitution_s()
 	}
 
 	posCinit = posBfinal + 1;
-	if (outputString[posCinit] == '(')
+	if (strings[(countVet%2)][posCinit] == '(')
 	{
 		posCfinal = searchParenthesis(posCinit);	
 
@@ -407,7 +407,7 @@ void substitution_s()
 	}
 
 	posDinit = posCfinal + 1;
-	if (outputString[posDinit] == '(')
+	if (strings[(countVet%2)][posDinit] == '(')
 	{
 		posDfinal = searchParenthesis(posDinit);	
 
@@ -419,38 +419,38 @@ void substitution_s()
 
 	
 	int stringLastPos = 0;
-	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posAinit, (posAfinal - posAinit + 1)*sizeof(char));
 	stringLastPos += (posAfinal - posAinit + 1);
 
-	memcpy(newString + stringLastPos, "(", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, "(", sizeof(char));
 	stringLastPos++;
 
-	memcpy(newString + stringLastPos, outputString + posBinit, (posBfinal - posBinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posBinit, (posBfinal - posBinit + 1)*sizeof(char));
 	stringLastPos += (posBfinal - posBinit + 1);
 
-	memcpy(newString + stringLastPos, outputString + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
 	stringLastPos += (posDfinal - posDinit + 1);
 
-	memcpy(newString + stringLastPos, ")", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char));
 	stringLastPos++;
 
-	memcpy(newString + stringLastPos, "(", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, "(", sizeof(char));
 	stringLastPos++;
 
-	memcpy(newString + stringLastPos, outputString + posCinit, (posCfinal - posCinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posCinit, (posCfinal - posCinit + 1)*sizeof(char));
 	stringLastPos += (posCfinal - posCinit + 1);
 
-	memcpy(newString + stringLastPos, outputString + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
 	stringLastPos += (posDfinal - posDinit + 1);
 
-	memcpy(newString + stringLastPos, ")", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char));
 	stringLastPos++;
 
-	int tamanhoOutputString = strlen(outputString);
+	int tamanhoOutputString = strlen(strings[(countVet%2)]);
 
-	memcpy(newString + stringLastPos, outputString + posDfinal + 1, (tamanhoOutputString-posDfinal +1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posDfinal + 1, (tamanhoOutputString-posDfinal +1)*sizeof(char));
 
-	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ((strlen(strings[(countVet+1)%2])+1)*sizeof(char)));
 
 }
 void substitution_b()
@@ -466,7 +466,7 @@ void substitution_b()
 	int posDfinal = 0;
 	int stringLastPos = 0;
 
-	if(outputString[1] == '(')
+	if(strings[(countVet%2)][1] == '(')
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
@@ -480,7 +480,7 @@ void substitution_b()
 
 	}
 	posBinit = posAfinal + 1;
-	if(outputString[posBinit] == '(')
+	if(strings[(countVet%2)][posBinit] == '(')
 	{
 
 
@@ -491,7 +491,7 @@ void substitution_b()
 		posBfinal = posBinit;
 	}
 	posCinit = posBfinal + 1;
-	if(outputString[posCinit] == '(')
+	if(strings[(countVet%2)][posCinit] == '(')
 	{
 		posCfinal = searchParenthesis(posCinit);
 	}
@@ -500,7 +500,7 @@ void substitution_b()
 		posCfinal = posCinit;
 	}
 	posDinit = posCfinal + 1;
-	if(outputString[posDinit] == '(')
+	if(strings[(countVet%2)][posDinit] == '(')
 	{
 		posDfinal = searchParenthesis(posDinit);
 	}
@@ -511,31 +511,31 @@ void substitution_b()
 
 
 	 //(
-	//printf("%s\n", newString);
+	//printf("%s\n", strings[(countVet+1)%2]);
 	
-	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit +1)*sizeof(char));  //a
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posAinit, (posAfinal - posAinit +1)*sizeof(char));  //a
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos += posAfinal - posAinit +1;
-	memcpy(newString + stringLastPos, outputString + posBinit, (posBfinal - posBinit +1)*sizeof(char)); //b
-	//printf("%s\n",newString);
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posBinit, (posBfinal - posBinit +1)*sizeof(char)); //b
+	//printf("%s\n",strings[(countVet+1)%2]);
 	stringLastPos += posBfinal - posBinit +1;
-	memcpy(newString + stringLastPos, "(", sizeof(char)); //ab(
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, "(", sizeof(char)); //ab(
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos++;
-	//printf("%s\n",newString );
-	memcpy(newString + stringLastPos, outputString +posCinit, (posCfinal-posCinit +1)*sizeof(char));//ab(c
-	//printf("%s\n",newString );
+	//printf("%s\n",strings[(countVet+1)%2] );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] +posCinit, (posCfinal-posCinit +1)*sizeof(char));//ab(c
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos += posCfinal-posCinit +1;
-	memcpy(newString + stringLastPos ,outputString + posDinit, (posDfinal-posDinit +1)*sizeof(char));//ab(cd
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos ,strings[(countVet%2)] + posDinit, (posDfinal-posDinit +1)*sizeof(char));//ab(cd
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos+= posCfinal-posCinit +1;
-	memcpy(newString + stringLastPos, ")", sizeof(char));//ab(cd)
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char));//ab(cd)
+	//printf("%s\n",strings[(countVet+1)%2] );
 	stringLastPos++;
-	memcpy(newString + stringLastPos, outputString + posDfinal +1, ((strlen(outputString))-posDfinal +1)*sizeof(char));
-	//printf("%s\n",newString );
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posDfinal +1, ((strlen(strings[(countVet%2)]))-posDfinal +1)*sizeof(char));
+	//printf("%s\n",strings[(countVet+1)%2] );
 
-	memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], ARRAY_SIZE*sizeof(char));
 }
 
 void substitution_c()
@@ -551,7 +551,7 @@ void substitution_c()
 	int posDfinal = 0;
 	int stringLastPos = 0;
 
-	if(outputString[initPos] == '(')
+	if(strings[(countVet%2)][initPos] == '(')
 	{
 		posAinit = initPos;
 		posAfinal = searchParenthesis(posAinit);
@@ -563,7 +563,7 @@ void substitution_c()
 		posAfinal = posAinit;
 	}
 	posBinit = posAfinal + 1;
-	if(outputString[posBinit] == '(')
+	if(strings[(countVet%2)][posBinit] == '(')
 	{
 		posBfinal = searchParenthesis(posBinit);
 	}
@@ -572,7 +572,7 @@ void substitution_c()
 		posBfinal = posBinit;
 	}
 	posCinit = posBfinal + 1;
-	if(outputString[posCinit] == '(')
+	if(strings[(countVet%2)][posCinit] == '(')
 	{
 		posCfinal = searchParenthesis(posCinit);
 	}
@@ -581,7 +581,7 @@ void substitution_c()
 		posCfinal = posCinit;
 	}
 	posDinit = posCfinal + 1;
-	if (outputString[posDinit] == '(')
+	if (strings[(countVet%2)][posDinit] == '(')
 	{
 		posDfinal = searchParenthesis(posDinit);
 	}
@@ -590,37 +590,37 @@ void substitution_c()
 		posDfinal = posDinit;
 	}
 	
-	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posAinit, (posAfinal - posAinit + 1)*sizeof(char));
 	
 	stringLastPos += (posAfinal - posAinit + 1);
 	
-	memcpy(newString + stringLastPos, "(", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, "(", sizeof(char));
 	
 	stringLastPos++;
 	
-	memcpy(newString + stringLastPos, outputString + posBinit, (posBfinal - posBinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posBinit, (posBfinal - posBinit + 1)*sizeof(char));
 	
 	stringLastPos += (posBfinal - posBinit + 1);
 	
-	memcpy(newString + stringLastPos, outputString + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
 	
 	stringLastPos += (posDfinal - posDinit + 1);
 	
-	memcpy(newString + stringLastPos, ")", sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, ")", sizeof(char));
 	
 	stringLastPos++;
 	
-	memcpy(newString + stringLastPos, outputString + posCinit, (posCfinal - posCinit + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posCinit, (posCfinal - posCinit + 1)*sizeof(char));
 	
 	stringLastPos += (posCfinal - posCinit + 1);	
 	
-	int tamanho = strlen(outputString);
+	int tamanho = strlen(strings[(countVet%2)]);
 	
-	memcpy(newString + stringLastPos, outputString + posDfinal + 1, (tamanho - posDfinal + 1)*sizeof(char));
+	memcpy(strings[(countVet+1)%2] + stringLastPos, strings[(countVet%2)] + posDfinal + 1, (tamanho - posDfinal + 1)*sizeof(char));
 	
-	memcpy(outputString, newString, (strlen(newString) + 1)*sizeof(char));
+	//memcpy(strings[(countVet%2)], strings[(countVet+1)%2], (strlen(strings[(countVet+1)%2]) + 1)*sizeof(char));
 	
-	//printf("%s\n", outputString);
+	//printf("%s\n", strings[(countVet%2)]);
 
 
 }
@@ -640,74 +640,83 @@ int main()
 
 	while(reductible == 1)
 	{
-		while(outputString[0] == '(')
+		while(strings[countVet%2][0] == '(')
 		{
 			removeParenthesis();
+			countVet++;
 
 		}
 
-		tamanhoOutputString = strlen(outputString);
+		tamanhoOutputString = strlen(strings[(countVet%2)]);
 
-		if(outputString[0] == 'K' && tamanhoOutputString > 2)
+		if(strings[countVet%2][0] == 'K' && tamanhoOutputString > 2)
 		{
 			substitution_K();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERK
                 countK++;
 			#endif // COUNTERK
 		}
-		else if(outputString[0] == 'S' && tamanhoOutputString > 3)
+		else if(strings[countVet%2][0] == 'S' && tamanhoOutputString > 3)
 		{
 			substitution_S();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERS
                 countS++;
             #endif // COUNTERS
 		}
-		else if (outputString[0] == 'I' && tamanhoOutputString > 1)
+		else if (strings[countVet%2][0] == 'I' && tamanhoOutputString > 1)
 		{	
 			substitution_I();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERI	
 				countI++;
 			#endif
 		}
-		else if (outputString[0] == 'B' && tamanhoOutputString > 3)
+		else if (strings[countVet%2][0] == 'B' && tamanhoOutputString > 3)
 		{
 			substitution_B();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERB	
 				countB++;
 			#endif
 		}
-		else if (outputString[0] == 'C' && tamanhoOutputString > 3)
+		else if (strings[countVet%2][0] == 'C' && tamanhoOutputString > 3)
 		{
 			substitution_C();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERC
 				countC++;
 			#endif
 		}
-		else if (outputString[0] == 's' && tamanhoOutputString > 4)
+		else if (strings[countVet%2][0] == 's' && tamanhoOutputString > 4)
 		{
 			substitution_s();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERSLINHA
 				countSlinha++;
 			#endif
 		}
-		else if(outputString[0] == 'b' && tamanhoOutputString > 4)
+		else if(strings[countVet%2][0] == 'b' && tamanhoOutputString > 4)
 		{
 			substitution_b();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERBLINHA
 				countBlinha++;
 			#endif
 		}
-		else if(outputString[0] == 'c' && tamanhoOutputString > 4)
+		else if(strings[countVet%2][0] == 'c' && tamanhoOutputString > 4)
 		{
 			substitution_c();
-			//printf("%s\n", outputString);
+			countVet++;
+			//printf("%s\n", strings[(countVet%2)]);
 			#ifdef COUNTERCLINHA
 				countClinha++;
 			#endif
@@ -727,7 +736,7 @@ int main()
         counter = countK + countS + countI;
     #endif // COUNTER
      //printf("countK = %d , countS = %d, countI = %d, countB = %d\n", countK, countS, countI, countB);
-     printf("%s\n", outputString);
+     printf("%s\n", strings[(countVet%2)]);
 
 	return 0;
 }

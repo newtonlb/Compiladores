@@ -34,36 +34,17 @@ void removeParenthesis()
 				lvl--;
                 if(lvl == 0)
                 {
-                    //printf("%d\n", i);
-
-                  //  printf("NewStrong = %d , OutputString = %d\n",strlen(newString), strlen(outputString));
-                   // system("PAUSE");
+                   
                     memcpy(newString, outputString + 1,(i-1)*sizeof(char)) ;
-                   // printf("NewString : %s\n",newString);
-                   // printf("OutputString : %s\n", outputString);
-                   // system("PAUSE");
+                   
 
-                  //  printf("NewStrong = %d , OutputString = %d\n",strlen(newString), strlen(outputString));
-                   // system("PAUSE");
+                  
                     int teste = strlen(outputString);
-                  //  printf("i = %d\n", i);
+                 
                     memcpy((newString + i -1), (outputString + i + 1), (teste - i )*sizeof(char));
-                    //memcpy((newString + i -1), (outputString + i + 1), (ARRAY_SIZE - i )*sizeof(char));
-                   // printf("NewString : %s\n",newString);
-                    //printf("OutputString : %s\n", outputString);
-                    //system("PAUSE");
-                  //  printf("New String = %s\n", newString);
-
-                  //  printf("NewStrong = %d , OutputString = %d\n",strlen(newString), strlen(outputString));
-                  //  system("PAUSE");
+                    
                     memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
 
-                 //   printf("NewStrong = %d , OutputString = %d\n",strlen(newString), strlen(outputString));
-                 //   system("PAUSE");
-
-                    //printf("NewString : %s\n",newString);
-                   // printf("OutputString : %s\n", outputString);
-                    //system("PAUSE");
 
                     removed = 1;
                 }
@@ -122,40 +103,33 @@ void substitution_K()
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
-		//printf("a: %s\n",a );
 
 	}
 	else
 	{
 		posAinit = 1;
 		posAfinal = posAinit;
-		//printf("a: %s\n", a);
 	}
 	posBinit = posAfinal + 1;
 	if(outputString[posBinit] == '(')
 	{
 		posBfinal = searchParenthesis(posBinit);
 
-		//printf("b: %s\n",b );
-		/*printf(" parthesis pos: %d\n",finalPos );
-		memcpy(b, (outputString + (initPos)), (finalPos - initPos) *sizeof(char));
-		printf("b: %s\n",b );*/
+		
 	}
 	else
 	{
 		posBfinal = posBinit;
 	}
 	memcpy(newString, outputString + posAinit, posAfinal*sizeof(char));
-	//printf("%s\n",newString);
-	//printf("%d\n", posBfinal);
 	memcpy(newString + (posAfinal - posAinit + 1) , outputString + posBfinal +1, ((strlen(outputString)) - posBfinal)*sizeof(char));
-	//printf("%s\n", newString );
 
 	memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
 }
 
 
-void substitution_S(){
+void substitution_S()
+{
 
 	int posAinit = 0;
 	int posAfinal = 0;
@@ -165,20 +139,17 @@ void substitution_S(){
 	int posCfinal = 0;
 	int stringLastPos = 0;
 
-	//memcpy(newString, blank, ARRAY_SIZE*sizeof(char));
 	if(outputString[1] == '(')
 	{
 		posAinit = 1;
 		posAfinal = searchParenthesis(1);
 
-		//printf("a: %s\n",a );
 	}
 	else
 	{
 		posAfinal = 1;
 		posAinit = 1;
 
-		//printf("a: %s\n", a);
 
 	}
 	posBinit = posAfinal + 1;
@@ -187,18 +158,15 @@ void substitution_S(){
 
 
 		posBfinal = searchParenthesis(posBinit);
-		//printf("b: %s\n",b );
 	}
 	else
 	{
 		posBfinal = posBinit;
-		//printf("b: %s\n",b );
 	}
 	posCinit = posBfinal + 1;
 	if(outputString[posCinit] == '(')
 	{
 		posCfinal = searchParenthesis(posCinit);
-		//printf("c: %s\n",c );
 	}
 	else
 	{
@@ -235,6 +203,428 @@ void substitution_S(){
 	memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
 }
 
+void substitution_I()
+{
+    int initPos = 1;
+    int posAinit = 0;
+    int posAfinal = 0;
+    if(outputString[initPos] == '(')
+    {
+        posAinit = initPos;
+        posAfinal = searchParenthesis(initPos);
+    }
+    else
+    {
+        posAinit = initPos;
+        posAfinal = posAinit;
+    }
+
+    memcpy(newString, outputString + posAinit, (posAfinal-posAinit+1)*sizeof(char));
+
+    int tamanhoOutputString = strlen(outputString);
+
+	memcpy(newString + posAfinal, outputString + posAfinal + 1, (tamanhoOutputString-posAfinal +1)*sizeof(char));
+
+	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+
+}
+
+// B f g x => f(gx)
+void substitution_B()
+{
+	int initPos = 1;
+	int posFinit = 0;
+	int posFfinal = 0;
+	int posGinit = 0;
+	int posGfinal = 0;
+	int posXinit = 0;
+	int posXfinal = 0;
+	int stringLastPos = 0;
+
+	if (outputString[initPos] == '(')
+	{
+		posFinit = initPos;
+		posFfinal = searchParenthesis(posFinit);
+	}
+	else
+	{
+		posFinit = initPos;
+		posFfinal = posFinit;
+	}
+	printf("F = %d %d", posFinit, posFfinal);
+	posGinit = posFfinal + 1;
+	if (outputString[posGinit] == '(')
+	{
+		posGfinal = searchParenthesis(posGinit);
+	}
+	else
+	{
+		posGfinal = posGinit;
+	}
+	printf("G = %d %d", posGinit, posGfinal);
+
+	posXinit = posGfinal + 1;
+	if (outputString[posXinit] == '(')
+	{
+		posXfinal = searchParenthesis(posXinit);
+	}
+	else
+	{
+		posXfinal = posXinit;
+	}
+	printf("X = %d %d", posXinit, posXfinal);
+
+	int tamanho = strlen(outputString);
+
+	memcpy(newString, outputString + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
+	stringLastPos+= (posFfinal - posFinit + 1);
+	printf("newString = %s outputString = %s\n\n", newString, outputString);
+	memcpy(newString + stringLastPos, "(", sizeof(char));
+	stringLastPos++;
+	printf("newString = %s outputString = %s\n\n", newString, outputString);
+	memcpy(newString + stringLastPos, outputString + posGinit, (posGfinal - posGinit +1)*sizeof(char));
+	stringLastPos += (posGfinal - posGinit) + 1;
+	memcpy(newString + stringLastPos, outputString + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
+	stringLastPos += (posXfinal - posXinit) + 1;
+	memcpy(newString + stringLastPos, ")", sizeof(char));
+	stringLastPos++;
+	memcpy(newString + stringLastPos, outputString + posXfinal + 1, (tamanho - posXfinal + 1)*sizeof(char));
+
+
+	int tamanhoOutputString = strlen(outputString);
+
+	memcpy(newString + stringLastPos, outputString + posXfinal + 1, (tamanhoOutputString-posXfinal+1)*sizeof(char));
+
+	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+
+	printf("outputString = %s\n\n", outputString);
+
+}
+
+
+void substitution_C()
+{
+	int initPos = 1;
+	int posFinit = 0;
+	int posFfinal = 0;
+	int posYinit = 0;
+	int posYfinal = 0;
+	int posXinit = 0;
+	int posXfinal = 0;
+
+	if (outputString[initPos] == '(')
+	{
+		posFinit = initPos;
+		posFfinal = searchParenthesis(posFinit);
+	}
+	else
+	{
+		posFinit = initPos;
+		posFfinal = posFinit;
+	}
+
+	posXinit = posFfinal + 1;
+	if (outputString[posXinit] == '(')
+	{
+		posXfinal = searchParenthesis(posXinit);
+	}
+	else
+	{
+		posXfinal = posXinit;
+	}
+
+	posYinit = posXfinal + 1;
+	if (outputString[posYinit] == '(')
+	{
+		posYfinal = searchParenthesis(posYinit);	
+
+	}
+	else
+	{
+		posYfinal = posYinit;
+	}
+
+	int stringLastPos = 0;
+	memcpy(newString + stringLastPos, outputString + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
+	stringLastPos += (posFfinal - posFinit + 1);
+	memcpy(newString + stringLastPos, outputString + posYinit, (posYfinal - posYinit + 1)*sizeof(char));
+	stringLastPos += (posYfinal - posYinit + 1);
+	memcpy(newString + stringLastPos, outputString + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
+	stringLastPos += (posXfinal - posXinit + 1);
+
+	int tamanhoOutputString = strlen(outputString);
+
+	memcpy(newString + stringLastPos, outputString + posYfinal + 1, (tamanhoOutputString-posYfinal+1)*sizeof(char));
+
+	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+}
+
+// NAO TERMINADO
+// S'abcd => a(bd)(cd)
+void substitution_s()
+{
+
+	int initPos = 1;
+	int posAinit = 0;
+	int posAfinal = 0;
+	int posBinit = 0;
+	int posBfinal = 0;
+	int posCinit = 0;
+	int posCfinal = 0;
+	int posDinit = 0;
+	int posDfinal = 0;
+
+	if (outputString[initPos] == '(')
+	{
+		posAinit = initPos;
+		posAfinal = searchParenthesis(posAinit);
+	}
+	else
+	{
+		posAinit = initPos;
+		posAfinal = posAinit;
+	}
+
+	posBinit = posAfinal + 1;
+	if (outputString[posBinit] == '(')
+	{
+		posBfinal = searchParenthesis(posBinit);
+	}
+	else
+	{
+		posBfinal = posBinit;
+	}
+
+	posCinit = posBfinal + 1;
+	if (outputString[posCinit] == '(')
+	{
+		posCfinal = searchParenthesis(posCinit);	
+
+	}
+	else
+	{
+		posCfinal = posCinit;
+	}
+
+	posDinit = posCfinal + 1;
+	if (outputString[posDinit] == '(')
+	{
+		posDfinal = searchParenthesis(posDinit);	
+
+	}
+	else
+	{
+		posDfinal = posDinit;
+	}
+
+	
+	int stringLastPos = 0;
+	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit + 1)*sizeof(char));
+	stringLastPos += (posAfinal - posAinit + 1);
+
+	memcpy(newString + stringLastPos, "(", sizeof(char));
+	stringLastPos++;
+
+	memcpy(newString + stringLastPos, outputString + posBinit, (posBfinal - posBinit + 1)*sizeof(char));
+	stringLastPos += (posBfinal - posBinit + 1);
+
+	memcpy(newString + stringLastPos, outputString + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
+	stringLastPos += (posDfinal - posDinit + 1);
+
+	memcpy(newString + stringLastPos, ")", sizeof(char));
+	stringLastPos++;
+
+	memcpy(newString + stringLastPos, "(", sizeof(char));
+	stringLastPos++;
+
+	memcpy(newString + stringLastPos, outputString + posCinit, (posCfinal - posCinit + 1)*sizeof(char));
+	stringLastPos += (posCfinal - posCinit + 1);
+
+	memcpy(newString + stringLastPos, outputString + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
+	stringLastPos += (posDfinal - posDinit + 1);
+
+	memcpy(newString + stringLastPos, ")", sizeof(char));
+	stringLastPos++;
+
+	int tamanhoOutputString = strlen(outputString);
+
+	memcpy(newString + stringLastPos, outputString + posDfinal + 1, (tamanhoOutputString-posDfinal +1)*sizeof(char));
+
+	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
+
+}
+void substitution_b()
+{
+
+	int posAinit = 0;
+	int posAfinal = 0;
+	int posBinit = 0;
+	int posBfinal = 0;
+	int posCinit = 0;
+	int posCfinal = 0;
+	int posDinit = 0;
+	int posDfinal = 0;
+	int stringLastPos = 0;
+
+	if(outputString[1] == '(')
+	{
+		posAinit = 1;
+		posAfinal = searchParenthesis(1);
+
+	}
+	else
+	{
+		posAfinal = 1;
+		posAinit = 1;
+
+
+	}
+	posBinit = posAfinal + 1;
+	if(outputString[posBinit] == '(')
+	{
+
+
+		posBfinal = searchParenthesis(posBinit);
+	}
+	else
+	{
+		posBfinal = posBinit;
+	}
+	posCinit = posBfinal + 1;
+	if(outputString[posCinit] == '(')
+	{
+		posCfinal = searchParenthesis(posCinit);
+	}
+	else
+	{
+		posCfinal = posCinit;
+	}
+	posDinit = posCfinal + 1;
+	if(outputString[posDinit] == '(')
+	{
+		posDfinal = searchParenthesis(posDinit);
+	}
+	else
+	{
+		posDfinal = posDinit;
+	}
+
+
+	 //(
+	//printf("%s\n", newString);
+	
+	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit +1)*sizeof(char));  //a
+	//printf("%s\n",newString );
+	stringLastPos += posAfinal - posAinit +1;
+	memcpy(newString + stringLastPos, outputString + posBinit, (posBfinal - posBinit +1)*sizeof(char)); //b
+	//printf("%s\n",newString);
+	stringLastPos += posBfinal - posBinit +1;
+	memcpy(newString + stringLastPos, "(", sizeof(char)); //ab(
+	//printf("%s\n",newString );
+	stringLastPos++;
+	//printf("%s\n",newString );
+	memcpy(newString + stringLastPos, outputString +posCinit, (posCfinal-posCinit +1)*sizeof(char));//ab(c
+	//printf("%s\n",newString );
+	stringLastPos += posCfinal-posCinit +1;
+	memcpy(newString + stringLastPos ,outputString + posDinit, (posDfinal-posDinit +1)*sizeof(char));//ab(cd
+	//printf("%s\n",newString );
+	stringLastPos+= posCfinal-posCinit +1;
+	memcpy(newString + stringLastPos, ")", sizeof(char));//ab(cd)
+	//printf("%s\n",newString );
+	stringLastPos++;
+	memcpy(newString + stringLastPos, outputString + posDfinal +1, ((strlen(outputString))-posDfinal +1)*sizeof(char));
+	//printf("%s\n",newString );
+
+	memcpy(outputString, newString, ARRAY_SIZE*sizeof(char));
+}
+
+void substitution_c()
+{
+	int initPos = 1;
+	int posAinit = 0;
+	int posAfinal = 0;
+	int posBinit = 0;
+	int posBfinal = 0;
+	int posCinit = 0;
+	int posCfinal = 0;
+	int posDinit = 0;
+	int posDfinal = 0;
+	int stringLastPos = 0;
+
+	if(outputString[initPos] == '(')
+	{
+		posAinit = initPos;
+		posAfinal = searchParenthesis(posAinit);
+
+	}
+	else
+	{
+		posAinit = initPos;
+		posAfinal = posAinit;
+	}
+	posBinit = posAfinal + 1;
+	if(outputString[posBinit] == '(')
+	{
+		posBfinal = searchParenthesis(posBinit);
+	}
+	else
+	{
+		posBfinal = posBinit;
+	}
+	posCinit = posBfinal + 1;
+	if(outputString[posCinit] == '(')
+	{
+		posCfinal = searchParenthesis(posCinit);
+	}
+	else
+	{
+		posCfinal = posCinit;
+	}
+	posDinit = posCfinal + 1;
+	if (outputString[posDinit] == '(')
+	{
+		posDfinal = searchParenthesis(posDinit);
+	}
+	else
+	{
+		posDfinal = posDinit;
+	}
+	
+	memcpy(newString + stringLastPos, outputString + posAinit, (posAfinal - posAinit + 1)*sizeof(char));
+	
+	stringLastPos += (posAfinal - posAinit + 1);
+	
+	memcpy(newString + stringLastPos, "(", sizeof(char));
+	
+	stringLastPos++;
+	
+	memcpy(newString + stringLastPos, outputString + posBinit, (posBfinal - posBinit + 1)*sizeof(char));
+	
+	stringLastPos += (posBfinal - posBinit + 1);
+	
+	memcpy(newString + stringLastPos, outputString + posDinit, (posDfinal - posDinit + 1)*sizeof(char));
+	
+	stringLastPos += (posDfinal - posDinit + 1);
+	
+	memcpy(newString + stringLastPos, ")", sizeof(char));
+	
+	stringLastPos++;
+	
+	memcpy(newString + stringLastPos, outputString + posCinit, (posCfinal - posCinit + 1)*sizeof(char));
+	
+	stringLastPos += (posCfinal - posCinit + 1);	
+	
+	int tamanho = strlen(outputString);
+	
+	memcpy(newString + stringLastPos, outputString + posDfinal + 1, (tamanho - posDfinal + 1)*sizeof(char));
+	
+	memcpy(outputString, newString, (tamanho + 1)*sizeof(char));
+	
+	printf("%s\n", outputString);
+
+
+}
+
 
 int main()
 {
@@ -261,7 +651,6 @@ int main()
 		if(outputString[0] == 'K' && tamanhoOutputString > 2)
 		{
 			substitution_K();
-			 //printf("%s\n", outputString);
 			#ifdef COUNTERK
                 countK++;
 			#endif // COUNTERK
@@ -269,10 +658,44 @@ int main()
 		else if(outputString[0] == 'S' && tamanhoOutputString > 3)
 		{
 			substitution_S();
-			 //printf("%s\n", outputString);
 			#ifdef COUNTERS
                 countS++;
             #endif // COUNTERS
+		}
+		else if (outputString[0] == 'I' && tamanhoOutputString > 1)
+		{	
+			substitution_I();
+			#ifdef COUNTERI	
+				countI++;
+			#endif
+		}
+		else if (outputString[0] == 'B' && tamanhoOutputString > 3)
+		{
+			substitution_B();
+			#ifdef COUNTERB	
+				countB++;
+			#endif
+		}
+		else if (outputString[0] == 'C' && tamanhoOutputString > 3)
+		{
+			substitution_C();
+			#ifdef COUNTERC
+				countC++;
+			#endif
+		}
+		else if (outputString[0] == 's' && tamanhoOutputString > 4)
+		{
+			substitution_s();
+			#ifdef COUNTERSLINHA
+				countSlinha++;
+			#endif
+		}
+		else if(outputString[0] == 'b' && tamanhoOutputString > 4)
+		{
+			substitution_b();
+			#ifdef COUNTERBLINHA
+				countBlinha++;
+			#endif
 		}
 		else
 		{
@@ -280,21 +703,15 @@ int main()
 			reductible = 0;
 		}
 		#ifdef ITERATIONS
-            //printf("%s\n", outputString);
-            //printf("%lu\n",strlen(outputString));
             iterations++;
 		#endif // ITERATIONS
 	}
 
 	#ifdef COUNTER
-        counter = countK + countS;
+        counter = countK + countS + countI;
     #endif // COUNTER
-     printf("countK = %d , countS = %d\n", countK, countS);
+     printf("countK = %d , countS = %d, countI = %d, countB = %d\n", countK, countS, countI, countB);
      printf("%s\n", outputString);
 
 	return 0;
 }
-
-
-
-

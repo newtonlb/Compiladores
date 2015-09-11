@@ -12,10 +12,19 @@
 #ifdef MACROS
     #define COUNTERK
     #define COUNTERS
+    #define COUNTERSLINHA
+    #define COUNTERBLINHA
+	#define COUNTERI
+	#define COUNTERB
     #define ITERATIONS
     #define COUNTER
     int countK = 0;
     int countS = 0;
+    int countI = 0;
+    int countB = 0;
+    int countC = 0;
+    int countSlinha = 0;
+    int countBlinha = 0;
     int counter = 0;
 	int iterations = 0;
 #endif // MACROS

@@ -697,6 +697,13 @@ int main()
 				countBlinha++;
 			#endif
 		}
+		else if(outputString[0] == 'c' && tamanhoOutputString > 4)
+		{
+			substitution_c();
+			#ifdef COUNTERCLINHA
+				countClinha++;
+			#endif
+		}
 		else
 		{
 

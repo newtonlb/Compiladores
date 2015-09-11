@@ -16,6 +16,7 @@
     #define COUNTERBLINHA
 	#define COUNTERI
 	#define COUNTERB
+    #define COUNTERCLINHA
     #define ITERATIONS
     #define COUNTER
     int countK = 0;
@@ -25,6 +26,7 @@
     int countC = 0;
     int countSlinha = 0;
     int countBlinha = 0;
+    int countClinha = 0;
     int counter = 0;
 	int iterations = 0;
 #endif // MACROS

@@ -10,7 +10,7 @@ int main( ){
 
     printf("Numero de repeticoes de Y: ");
     scanf("%d", &numY);
-    entradagerada = fopen ("in.txt", "w");
+    entradagerada = fopen ("input.txt", "w");
     for(i=0; i<numY-2; i++){
         fputs(valordeY,entradagerada);
         fputs("((",entradagerada);

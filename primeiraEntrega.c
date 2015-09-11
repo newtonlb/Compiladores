@@ -251,7 +251,7 @@ void substitution_B()
 		posFinit = initPos;
 		posFfinal = posFinit;
 	}
-	printf("F = %d %d", posFinit, posFfinal);
+	//printf("F = %d %d", posFinit, posFfinal);
 	posGinit = posFfinal + 1;
 	if (outputString[posGinit] == '(')
 	{
@@ -261,7 +261,7 @@ void substitution_B()
 	{
 		posGfinal = posGinit;
 	}
-	printf("G = %d %d", posGinit, posGfinal);
+	//printf("G = %d %d", posGinit, posGfinal);
 
 	posXinit = posGfinal + 1;
 	if (outputString[posXinit] == '(')
@@ -272,16 +272,16 @@ void substitution_B()
 	{
 		posXfinal = posXinit;
 	}
-	printf("X = %d %d", posXinit, posXfinal);
+	//printf("X = %d %d", posXinit, posXfinal);
 
 	int tamanho = strlen(outputString);
 
 	memcpy(newString, outputString + posFinit, (posFfinal - posFinit + 1)*sizeof(char));
 	stringLastPos+= (posFfinal - posFinit + 1);
-	printf("newString = %s outputString = %s\n\n", newString, outputString);
+	//printf("newString = %s outputString = %s\n\n", newString, outputString);
 	memcpy(newString + stringLastPos, "(", sizeof(char));
 	stringLastPos++;
-	printf("newString = %s outputString = %s\n\n", newString, outputString);
+	//printf("newString = %s outputString = %s\n\n", newString, outputString);
 	memcpy(newString + stringLastPos, outputString + posGinit, (posGfinal - posGinit +1)*sizeof(char));
 	stringLastPos += (posGfinal - posGinit) + 1;
 	memcpy(newString + stringLastPos, outputString + posXinit, (posXfinal - posXinit + 1)*sizeof(char));
@@ -297,7 +297,7 @@ void substitution_B()
 
 	memcpy(outputString, newString, ((strlen(newString)+1)*sizeof(char)));
 
-	printf("outputString = %s\n\n", outputString);
+	//printf("outputString = %s\n\n", outputString);
 
 }
 
@@ -618,9 +618,9 @@ void substitution_c()
 	
 	memcpy(newString + stringLastPos, outputString + posDfinal + 1, (tamanho - posDfinal + 1)*sizeof(char));
 	
-	memcpy(outputString, newString, (tamanho + 1)*sizeof(char));
+	memcpy(outputString, newString, (strlen(newString) + 1)*sizeof(char));
 	
-	printf("%s\n", outputString);
+	//printf("%s\n", outputString);
 
 
 }
@@ -651,6 +651,7 @@ int main()
 		if(outputString[0] == 'K' && tamanhoOutputString > 2)
 		{
 			substitution_K();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERK
                 countK++;
 			#endif // COUNTERK
@@ -658,6 +659,7 @@ int main()
 		else if(outputString[0] == 'S' && tamanhoOutputString > 3)
 		{
 			substitution_S();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERS
                 countS++;
             #endif // COUNTERS
@@ -665,6 +667,7 @@ int main()
 		else if (outputString[0] == 'I' && tamanhoOutputString > 1)
 		{	
 			substitution_I();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERI	
 				countI++;
 			#endif
@@ -672,6 +675,7 @@ int main()
 		else if (outputString[0] == 'B' && tamanhoOutputString > 3)
 		{
 			substitution_B();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERB	
 				countB++;
 			#endif
@@ -679,6 +683,7 @@ int main()
 		else if (outputString[0] == 'C' && tamanhoOutputString > 3)
 		{
 			substitution_C();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERC
 				countC++;
 			#endif
@@ -686,6 +691,7 @@ int main()
 		else if (outputString[0] == 's' && tamanhoOutputString > 4)
 		{
 			substitution_s();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERSLINHA
 				countSlinha++;
 			#endif
@@ -693,6 +699,7 @@ int main()
 		else if(outputString[0] == 'b' && tamanhoOutputString > 4)
 		{
 			substitution_b();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERBLINHA
 				countBlinha++;
 			#endif
@@ -700,6 +707,7 @@ int main()
 		else if(outputString[0] == 'c' && tamanhoOutputString > 4)
 		{
 			substitution_c();
+			//printf("%s\n", outputString);
 			#ifdef COUNTERCLINHA
 				countClinha++;
 			#endif
@@ -712,12 +720,13 @@ int main()
 		#ifdef ITERATIONS
             iterations++;
 		#endif // ITERATIONS
+            //printf("\n");
 	}
 
 	#ifdef COUNTER
         counter = countK + countS + countI;
     #endif // COUNTER
-     printf("countK = %d , countS = %d, countI = %d, countB = %d\n", countK, countS, countI, countB);
+     //printf("countK = %d , countS = %d, countI = %d, countB = %d\n", countK, countS, countI, countB);
      printf("%s\n", outputString);
 
 	return 0;

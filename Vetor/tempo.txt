@@ -1,0 +1,4 @@
+turner : 2m28.532s
+turner O4: 1m13.583
+ks : 28m15.372s
+ks O4: 13m49.657

@@ -42,9 +42,14 @@ char blank[ARRAY_SIZE];
 
 /// Funcoes
 void readFile();
-void removeParenthesis();
+int removeParenthesis(int tamanho);
 int searchParenthesis(int initPos);
-void substitution_K();
-void substitution_S();
+int substitution_K(int tamanho);
+int substitution_S(int tamanho);
+int substitution_s(int tamanho);
+int substitution_B(int tamanho);
+int substitution_b(int tamanho);
+int substitution_C(int tamanho);
+int substitution_c(int tamanho);
 
 #endif

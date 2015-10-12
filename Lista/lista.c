@@ -5,6 +5,8 @@
 NODE* new_node()
 {
     NODE* newNode = (NODE*)malloc(sizeof(NODE));
+    newNode->down = NULL;
+    newNode->next = NULL;
     return newNode;
 }
 
@@ -15,12 +17,12 @@ int searchParenthesis(int initPos, char* string)
     int i = 0;
     int lvl = 0;
     int removed = 0;
-    
+
     if(string[initPos] == '(')
     {
         lvl = 1;
         i = initPos;
-        
+
         while (removed == 0)
         {
             i++;
@@ -37,7 +39,7 @@ int searchParenthesis(int initPos, char* string)
                 }
             }
         }
-        
+
     }
     return i;
 }
@@ -46,10 +48,12 @@ int searchParenthesis(int initPos, char* string)
 NODE* create_list(int i, int j, char* string)
 {
     NODE* inicio = NULL;
-    int k = 0;
+    int k;
+    //printf("Entrou\n");
     for (k = i; k <= j && string[k] != ')' ; k++)
     {
-        if (string[k] != '(')
+        //printf("%c", string[k]);
+        if (string[k] != '(') // Qualquer caracter e ')'
         {
             if (inicio == NULL)
             {
@@ -67,7 +71,7 @@ NODE* create_list(int i, int j, char* string)
                 aux->next->caract = string[k];
             }
         }
-        else if (string[k] == '(')
+        else if (string[k] == '(') // Quando for '('
         {
             int novoj;
             novoj = searchParenthesis(k, string);
@@ -80,12 +84,19 @@ NODE* create_list(int i, int j, char* string)
             }
             else
             {
+               // printf("\nSKT");
                 NODE* aux = new_node();
                 aux = inicio;
-                while((aux->next) != NULL)
+                int contadorAB = 1;
+                while(aux->next != NULL)
                 {
+
                     aux = aux->next;
+                    printf("%d\n", contadorAB);
+                    contadorAB++;
+
                 }
+               // printf("TABOM");
                 aux->next = new_node();
                 aux->next->caract = string[k];
                 aux->next->down = create_list(k + 1, novoj - 1 , string);
@@ -116,7 +127,7 @@ void imprime(NODE* no)
         }
         aux = aux->next;
     }
-    
+
 }
 
 NODE* retiraParenteses(NODE* inicio)
@@ -133,9 +144,9 @@ NODE* retiraParenteses(NODE* inicio)
         }
         aux->next = inicio->next;
     }
-    free(inicio);
-    
-    
+   // free(inicio);
+
+
     return retorno;
 }
 
@@ -156,20 +167,20 @@ void freeRecursao(NODE* inicio)
             }
         }
     }
-    
+
 }
 
 /// K a b => a
 NODE* substitution_K(NODE* inicio)
 {
-    
+
     NODE* a = inicio->next;
     NODE* b = a->next;
     NODE* cauda = b->next;
     a->next = cauda;
     b->next = NULL;
-    freeRecursao(b);
-    free(inicio);
+   // freeRecursao(b);
+  //  free(inicio);
     return a;
 }
 
@@ -177,13 +188,13 @@ NODE* clone(NODE* inicio)
 {
     NODE* novo = new_node();
     NODE* novoinicio = novo;
-    
+
     NODE* aux = NULL;
     aux = new_node();
     aux = inicio;
     int ehNull = 0;
-    
-    
+
+
     while(aux != NULL)
     {
         novo->caract = aux->caract;
@@ -216,7 +227,7 @@ NODE* substitution_S(NODE* inicio)
     NODE* aux = new_node();
     //imprime(c);
     //imprime(novoC);
-    
+
     a->next = c;
     c->next = aux;
     aux->caract = '(';
@@ -224,17 +235,17 @@ NODE* substitution_S(NODE* inicio)
     b->next = novoC;
     novoC->next = NULL;
     aux->next = cauda;
-    free(inicio);
+   // free(inicio);
     //imprime(a);
     return a;
-    
+
 }
 
 /// I a => a
 NODE* substitution_I(NODE* inicio)
 {
     NODE* a = inicio->next;
-    free(inicio);
+  //  free(inicio);
     return a;
 }
 
@@ -252,7 +263,7 @@ NODE* substitution_B(NODE* inicio)
     aux->down = g;
     g->next = x;
     x->next = NULL;
-    free(inicio);
+   // free(inicio);
     return f;
 }
 
@@ -267,7 +278,7 @@ NODE* substitution_C(NODE* inicio)
     f->next = y;
     y->next = x;
     x->next = cauda;
-    free(inicio);
+   // free(inicio);
     return f;
 }
 
@@ -294,9 +305,9 @@ NODE* substitution_s(NODE* inicio)
     novod->next = NULL;
     aux2->next = cauda;
     //system("PAUSE");
-    free(inicio);
+  //  free(inicio);
     return a;
-    
+
 }
 
 /// B' a b c d => ab(cd)
@@ -315,7 +326,7 @@ NODE* substitution_b(NODE* inicio)
     aux->down = c;
     c->next = d;
     d->next = NULL;
-    free(inicio);
+    //free(inicio);
     return a;
 }
 
@@ -335,25 +346,28 @@ NODE* substitution_c(NODE* inicio)
     b->next = d;
     d->next = NULL;
     c->next = cauda;
-    free(inicio);
+    //free(inicio);
     return a;
 }
 
 
 int main()
 {
-    //freopen("saidaLista.txt", "w", stdout);
+   // freopen("saidaLista.txt", "w", stdout);
     int tamanho = strlen(string);
-    int i = 0, redutible = 1;
+    int i = 0, redutible = 0;
+    printf("\nWTFK\n");
+    printf("Entrada1:\n%s\n", string);
     NODE* inicio = create_list(0,tamanho,string);
-    //printf("Entrada = ");
+    printf("\nWTFK2\n");
+    printf("Entrada2:\n");
     //imprime(inicio);
-    //printf("\n");
-    printf("Clonado =");
-    //NODE* clonado = clone(inicio);
-    //imprime(clonado);
+    printf("\n\n");
+  //  printf("Clonado:\n");
+   // NODE* clonado = clone(inicio);
+   // imprime(clonado);
     printf("\n");
-    
+
     while(redutible == 1)
     {
 #ifdef ITERATIONS
@@ -367,7 +381,7 @@ int main()
 #ifdef COUNTERREMOVEPARENTESES
                 contRemoveParenteses++;
 #endif
-                
+
                 inicio = retiraParenteses(inicio);
                 break;
             case 'I':
@@ -388,7 +402,7 @@ int main()
                 contK++;
                 if (inicio->next == NULL)
                 {
-                    
+
                     redutible = 0;
                     break;
                 }
@@ -469,7 +483,7 @@ int main()
                 }
                 inicio = substitution_s(inicio);
                 break;
-            
+
             /*case '\0':
                 inicio = inicio->next;
                 if(inicio == NULL)
@@ -481,9 +495,9 @@ int main()
         }
     }
 }
-    
-    
-    
+
+
+
 #ifdef PRINTS
     printf("ContK = %d\n", contK);
     printf("ContS = %d\n", contS);
@@ -496,9 +510,9 @@ int main()
     printf("ContRemoveParenteses = %d\n", contRemoveParenteses);
     printf("Iterations = %d\n", iterations);
 #endif
-    //printf("chegou aqui");
-    imprime(inicio);
+    printf("chegou aqui\n");
+   // imprime(inicio);
     printf("\n");
-    
+
     return 0;
 }

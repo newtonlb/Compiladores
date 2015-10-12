@@ -42,17 +42,6 @@ int searchParenthesis(int initPos, char* string)
 }
 
 
-
-
-void insertCaractToNode(char entrada, NODE* no)
-{
-	NODE* aux = no;
-	aux->caract = entrada;
-	aux->next = NULL;
-	aux->down = NULL;
-}
-
-
 NODE* create_list(int i, int j, char* string)
 {
 	NODE* inicio = NULL;
@@ -64,7 +53,7 @@ NODE* create_list(int i, int j, char* string)
 			if (inicio == NULL)
 			{
 				inicio = new_node();
-				insertCaractToNode(string[k], inicio);
+				inicio->caract = string[k];
 			}
 			else
 			{
@@ -74,7 +63,7 @@ NODE* create_list(int i, int j, char* string)
 					aux = aux->next;
 				}
 				aux->next = new_node();
-				insertCaractToNode(string[k], aux->next);
+				aux->next->caract = string[k];
 			}
 		}
 		else if (string[k] == '(')
@@ -84,7 +73,7 @@ NODE* create_list(int i, int j, char* string)
 			if(inicio == NULL)
 			{
 				inicio = new_node();
-				insertCaractToNode(string[k], inicio);
+				inicio->caract = string[k];
 				inicio->down = create_list(k + 1, novoj - 1, string);
 				k = novoj;
 			}
@@ -96,7 +85,7 @@ NODE* create_list(int i, int j, char* string)
 					aux = aux->next;
 				}
 				aux->next = new_node();
-				insertCaractToNode(string[k], aux->next);
+				aux->next->caract = string[k];
 				aux->next->down = create_list(k + 1, novoj - 1 , string);
 				k = novoj;
 			}
@@ -150,22 +139,21 @@ return retorno;
 
 void freeRecursao(NODE* inicio)
 {
+	if (inicio != NULL)
+	{
+		 while(inicio->next != NULL)
+	    {
+	    	if(inicio->down != NULL)
+	    		freeRecursao(inicio->down);
+	    	else
+	    	{
+	    		NODE* aux = inicio->next;
+	    		free(inicio);
+	    		inicio = aux;
+	    	}
+	    }
+	}
 
-    if(inicio->down != NULL)
-    {
-        freeRecursao(inicio->down);
-    }
-    else
-    {
-        while(inicio->next != NULL)
-        {
-           NODE* aux = inicio->next;
-           free(inicio);
-           inicio = aux;
-        }
-
-    }
-    free(inicio);
 }
 
 /// K a b => a
@@ -182,22 +170,35 @@ NODE* substitution_K(NODE* inicio)
     return a;
 }
 
-NODE* clone(NODE* no)
+NODE* clone(NODE* inicio)
 {
-  NODE* novo = NULL;
+	NODE* novo = new_node();
+	NODE* ret = novo;
+	NODE* aux = inicio;
+	while(aux != NULL)
+	{
+		if(aux->caract != '(')
+		{
+			novo->caract = aux->caract;
+		}
+		else
+		{
+			novo->caract = '(';
+			novo->down = clone(aux->down);
+		}
+		aux = aux->next;
 
-  if(no != NULL)
-  {
-     novo = new_node();
-     novo->caract = no->caract;
-     novo->next = clone(no->next);
-     if(no->down != NULL)
-     {
-         novo->caract = '(';
-         novo->down = clone(no->down);
-     }
-  }
-  return novo;
+		if(aux != NULL)
+		{
+			novo->next = new_node();
+			novo = novo->next;
+		}
+		else
+			novo->next = NULL;
+		
+	}
+	novo->next = NULL;
+	return ret;
 }
 
 
@@ -338,9 +339,13 @@ int main()
 	int tamanho = strlen(string);
 	int i = 0, redutible = 1;
 	NODE* inicio = create_list(0,tamanho,string);
-	printf("Entrada = ");
-    imprime(inicio);
-	printf("\n");
+	// printf("Entrada = ");
+ //    imprime(inicio);
+	// printf("\n");
+	// printf("Clonado =");
+	// NODE* clonado = clone(inicio);
+	// imprime(clonado);
+	// printf("\n");
 
 	while(redutible == 1)
 	{
@@ -353,11 +358,7 @@ int main()
 				#ifdef COUNTERREMOVEPARENTESES
           				 contRemoveParenteses++;
     				#endif
-				if (inicio->next->next == NULL)
-				{
-					redutible = 0;
-					break;
-				}
+				
 				inicio = retiraParenteses(inicio);
 				break;
 			case 'I':

@@ -674,6 +674,7 @@ int substitution_c(int tamanho)
 
 int main()
 {
+	freopen("saida.txt", "w", stdout);
 
 	int lvl = 0;
 	int i = 0;
@@ -700,6 +701,8 @@ int main()
 			case 'K':
 			{
 				tamanhoOutputString = substitution_K(tamanhoOutputString);
+				printf("%s\n", strings[(countVet%2)]);
+				printf("\n\n");
 				if (tamanhoOutputString == 0)
 				{
 					reductible = 0;
@@ -714,6 +717,8 @@ int main()
 			case 'S':
 			{
 				tamanhoOutputString = substitution_S(tamanhoOutputString);
+				printf("%s\n", strings[(countVet%2)]);
+				printf("\n\n");
 				if (tamanhoOutputString == 0)
 				{
 					reductible = 0;

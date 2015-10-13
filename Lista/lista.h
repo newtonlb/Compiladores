@@ -9,57 +9,57 @@
 #define MACROS
 
 #ifdef MACROS
-#define COUNTERK
-#define COUNTERS
-#define COUNTERI
-#define COUNTERB
-#define COUNTERC
-#define COUNTERSLINHA
-#define COUNTERBLINHA
-#define COUNTERCLINHA
-#define COUNTERREMOVEPARENTESES
-#define ITERATIONS
-#define PRINTS
+    #define COUNTERK
+    #define COUNTERS
+    #define COUNTERI
+    #define COUNTERB
+    #define COUNTERC
+    #define COUNTERSLINHA
+    #define COUNTERBLINHA
+    #define COUNTERCLINHA
+    #define COUNTERREMOVEPARENTESES
+    #define ITERATIONS
+    #define PRINTS
 
-#ifdef COUNTERK
-int contK = 0;
-#endif
+    #ifdef COUNTERK
+           int contK = 0;
+    #endif
 
-#ifdef COUNTERS
-int contS = 0;
-#endif
+    #ifdef COUNTERS
+           int contS = 0;
+    #endif
 
-#ifdef COUNTERI
-int contI = 0;
-#endif
+    #ifdef COUNTERI
+           int contI = 0;
+    #endif
 
-#ifdef COUNTERB
-int contB = 0;
-#endif
+    #ifdef COUNTERB
+           int contB = 0;
+    #endif
 
-#ifdef COUNTERC
-int contC = 0;
-#endif
+    #ifdef COUNTERC
+            int contC = 0;
+    #endif
 
-#ifdef COUNTERSLINHA
-int contSlinha = 0;
-#endif
+    #ifdef COUNTERSLINHA
+            int contSlinha = 0;
+    #endif
 
-#ifdef COUNTERBLINHA
-int contBlinha = 0;
-#endif
+    #ifdef COUNTERBLINHA
+          int contBlinha = 0;
+    #endif
 
-#ifdef COUNTERCLINHA
-int contClinha = 0;
-#endif
+    #ifdef COUNTERCLINHA
+           int contClinha = 0;
+    #endif
 
-#ifdef COUNTERREMOVEPARENTESES
-int contRemoveParenteses = 0;
-#endif
+    #ifdef COUNTERREMOVEPARENTESES
+           int contRemoveParenteses = 0;
+    #endif
 
-#ifdef ITERATIONS
-int iterations = 0;
-#endif
+    #ifdef ITERATIONS
+           int iterations = 0;
+    #endif
 
 #endif // MACROS
 
@@ -67,9 +67,9 @@ int iterations = 0;
 // Node Struct
 typedef struct node
 {
-    char caract;
-    struct node *next;
-    struct node *down;
+	char caract;
+	struct node *next;
+	struct node *down;
 } NODE;
 
 
@@ -95,7 +95,7 @@ NODE* substitution_s(NODE* inicio);
 NODE* substitution_b(NODE* inicio);
 NODE* substitution_c(NODE* inicio);
 
-//char *string "Sa"
+
 // Initial Input String
 //Turner de 1
 //char *string = "s(cBI(SII))I(B(cBI(SII))I)((s(cBI(SII))I(B(cBI(SII))I)(KK))K)";
@@ -104,7 +104,6 @@ NODE* substitution_c(NODE* inicio);
 
 
 //char *string = "S(XXX)(YYY)(ZZ(Z)Z)(DDD)";
-//char *string = "S(SSK)(KK)(KK)";
 //char *string = "S(X(X)(XX(Z))(XX))(YY(Y))((Z)ZZ)(XXX)";
 
 //KS 1000

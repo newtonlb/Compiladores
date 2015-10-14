@@ -1,14 +1,5 @@
 #include "lista.h"
 
-// Create a New Node
-NODE* new_node()
-{
-	NODE* newNode = (NODE*)malloc(sizeof(NODE));
-	newNode->next = NULL;
-	newNode->down = NULL;
-	return newNode;
-}
-
 
 // Search Parenthesis in Initial String
 int searchParenthesis(int initPos, char* string)
@@ -54,7 +45,7 @@ NODE* create_list(int i, int j, char* string)
 		{
 			if (inicio == NULL)
 			{
-				inicio = new_node();
+				inicio = (NODE*)malloc(sizeof(NODE));
 				inicio->caract = string[k];
 			}
 			else
@@ -64,7 +55,7 @@ NODE* create_list(int i, int j, char* string)
 				{
 					aux = aux->next;
 				}
-				aux->next = new_node();
+				aux->next = (NODE*)malloc(sizeof(NODE));
 				aux->next->caract = string[k];
 			}
 		}
@@ -74,7 +65,7 @@ NODE* create_list(int i, int j, char* string)
 			novoj = searchParenthesis(k, string);
 			if(inicio == NULL)
 			{
-				inicio = new_node();
+				inicio = (NODE*)malloc(sizeof(NODE));
 				inicio->caract = string[k];
 				inicio->down = create_list(k + 1, novoj - 1, string);
 				k = novoj;
@@ -86,7 +77,7 @@ NODE* create_list(int i, int j, char* string)
 				{
 					aux = aux->next;
 				}
-				aux->next = new_node();
+				aux->next = (NODE*)malloc(sizeof(NODE));
 				aux->next->caract = string[k];
 				aux->next->down = create_list(k + 1, novoj - 1 , string);
 				k = novoj;
@@ -174,7 +165,7 @@ NODE* substitution_K(NODE* inicio)
 NODE* clone(NODE* inicio)
 {
 	NODE* novoinicio;
-	NODE* clonado = new_node();
+	NODE* clonado = (NODE*)malloc(sizeof(NODE));
 	NODE* aux = inicio;
 
 	novoinicio = clonado;
@@ -192,7 +183,7 @@ NODE* clone(NODE* inicio)
 		}
 
 		aux = aux->next;
-		clonado->next = new_node();
+		clonado->next = (NODE*)malloc(sizeof(NODE));
 		clonado = clonado->next;
 	} 
 
@@ -222,7 +213,7 @@ NODE* substitution_S(NODE* inicio)
     NODE* cauda = c->next;
     c->next = NULL;
     NODE* novoC = clone(c);
-    NODE* aux = new_node();
+    NODE* aux = (NODE*)malloc(sizeof(NODE));
 
     a->next = c;
     c->next = aux;
@@ -238,14 +229,6 @@ NODE* substitution_S(NODE* inicio)
 
 
 
-/// I a => a
-NODE* substitution_I(NODE* inicio)
-{
-	NODE* a = inicio->next;
-	free(inicio);
-	return a;
-}
-
 /// B f g x => f(gx)
 NODE* substitution_B(NODE* inicio)
 {
@@ -253,7 +236,7 @@ NODE* substitution_B(NODE* inicio)
 	NODE* g = f->next;
 	NODE* x = g->next;
 	NODE* cauda = x->next;
-	NODE* aux = new_node();
+	NODE* aux = (NODE*)malloc(sizeof(NODE));
 	f->next = aux;
 	aux->caract = '(';
 	aux->next = cauda;
@@ -290,8 +273,8 @@ NODE* substitution_s(NODE* inicio)
 	d->next = NULL;		
 	NODE* novod = clone(d);
 	
-	NODE* aux1 = new_node();
-	NODE* aux2 = new_node();
+	NODE* aux1 = (NODE*)malloc(sizeof(NODE));
+	NODE* aux2 = (NODE*)malloc(sizeof(NODE));
 	a->next = aux1;
 	aux1->caract = '(';
 	aux1->next = aux2;
@@ -317,7 +300,7 @@ NODE* substitution_b(NODE* inicio)
 	NODE* c = b->next;
 	NODE* d = c->next;
 	NODE* cauda = d->next;
-	NODE* aux = new_node();
+	NODE* aux = (NODE*)malloc(sizeof(NODE));
 	a->next = b;
 	b->next = aux;
 	aux->caract = '(';
@@ -337,7 +320,7 @@ NODE* substitution_c(NODE* inicio)
 	NODE* c = b->next;
 	NODE* d = c->next;
 	NODE* cauda = d->next;
-	NODE* aux = new_node();
+	NODE* aux = (NODE*)malloc(sizeof(NODE));
 	a->next = aux;
 	aux->caract = '(';
 	aux->next = c;
@@ -354,8 +337,7 @@ int main()
 {
 	int tamanho = strlen(string);
 	
-	int i = 0, redutible = 1;
-	printf("\nTamanho = %d\n", tamanho);	
+	int i = 0, redutible = 1;	
 	
 	NODE* inicio = create_list(0,tamanho,string);
 	/*
@@ -391,7 +373,10 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_I(inicio);
+				NODE* aux = inicio;
+				inicio = inicio->next;
+				aux->next = NULL;
+				free(aux);
 				break;
 			case 'K':
 				#ifdef COUNTERK

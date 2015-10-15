@@ -90,9 +90,6 @@ NODE* create_list(int i, int j, char* string)
 void imprime(NODE* no)
 {
 	NODE* aux = no;
-	//printf("\n");
-	//system("PAUSE");
-	//printf("\n");
 	while(aux != NULL)
 	{
 		if (aux->caract != '(')
@@ -340,16 +337,7 @@ int main()
 	int i = 0, redutible = 1;	
 	
 	NODE* inicio = create_list(0,tamanho,string);
-	/*
-	printf("Entrada = ");
- 	imprime(inicio);
-	printf("\n");
-	printf("Clonado =");
-	NODE* clonado = clone(inicio);
-	imprime(clonado);
 	
-	printf("\n\n\n\n");
-	*/
 	while(redutible == 1)
 	{
 		#ifdef ITERATIONS

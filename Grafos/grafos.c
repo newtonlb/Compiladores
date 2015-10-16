@@ -143,10 +143,11 @@ int main()
     int size = strlen(string);
     
     CELL* inicio = create_graph(0, size, string);
-    print_graph(inicio);
+    //print_graph(inicio);
     printf("\n");
     CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 3 nós anteriores ao operador
     CELL* aux = inicio;
+    int i;
     int reductible = 1;
     
     while(reductible == 1)
@@ -177,17 +178,32 @@ int main()
                 }
                 break;
                 
+            case 'S':
+                if(vetor[2] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                vetor[1]->left = vetor[0]->right; //colocando o a no lugar
+                vetor[0]->left = vetor[1]->right; //montando o nó que vai ser o bc
+                vetor[0]->right = vetor[2]->right; //aqui tbm (mais especificamente, o c)
+                vetor[2]->right = vetor[0]; //colocando o no que é bc no lado direito da raiz
+                vetor[1]->right = vetor[0]->right; //juntando, apontando o segundo c para o primeiro c
                 
-                
-                
+                break;
                 
             default:
                 reductible = 0;
                 break;
         }
+        for(i = 0; i< 4; i++)
+        {
+            vetor[i] = NULL;
+        }
 
         
     }
+    //printf("DEVERIA TER REDUZIDO\N\N\N\N\N");
     print_graph(inicio);
     printf("\n");
     

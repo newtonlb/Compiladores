@@ -135,16 +135,11 @@ void print_graph(CELL* inicio)
         printf("%c",inicio->type);
     }
 }
-
-
-
-int main()
+void mg_V1()
 {
     int size = strlen(string);
     
     CELL* inicio = create_graph(0, size, string);
-    //print_graph(inicio);
-    printf("\n");
     CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 3 nós anteriores ao operador
     CELL* aux = inicio;
     int i;
@@ -192,6 +187,86 @@ int main()
                 
                 break;
                 
+                
+            case 'I':
+                if(vetor[0] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                vetor[1]->left = vetor[0]->right;
+                break;
+                
+            case 'B':
+                if(vetor[2] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                vetor[1]->left = vetor[1]->right;
+                vetor[1]->right = vetor[2]->right;
+                vetor[2]->right = vetor[1];
+                vetor[2]->left = vetor[0]->right;
+                
+                break;
+                
+            case 'C':
+                if(vetor[2] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                vetor[0]->left = vetor[0]->right;
+                vetor[0]->right = vetor[2]->right;
+                vetor[2]->right = vetor[1]->right;
+                vetor[2]->left = vetor[0];
+                break;
+                
+            case 's':
+                if(vetor[3] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                
+                vetor[2]->left = vetor[0]->right; //a
+                vetor[0]->left = vetor[1]->right;
+                vetor[0]->right = vetor[3]->right;
+                vetor[1]->left = vetor[2]->right;
+                vetor[1]->right = vetor[3]->right;
+                vetor[2]->right = vetor[0]; //bd
+                vetor[3]->right = vetor[1]; //cd
+                
+                break;
+                
+            case 'b':
+                if (vetor[3] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                vetor[1]->left = vetor[0]->right;
+                vetor[2]->left = vetor[2]->right;
+                vetor[2]->right = vetor[3]->right;
+                vetor[3]->left = vetor[1];
+                vetor[3]->right = vetor[2];
+                
+                break;
+                
+            case 'c':
+                if(vetor[3] == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                
+                vetor[2]->left = vetor[0]->right;
+                vetor[0]->left = vetor[1]->right;
+                vetor[0]->right = vetor[3]->right;
+                vetor[3]->right = vetor[2]->right;
+                vetor[2]->right = vetor[0];
+                break;
+                
             default:
                 reductible = 0;
                 break;
@@ -200,12 +275,22 @@ int main()
         {
             vetor[i] = NULL;
         }
-
+        
         
     }
-    //printf("DEVERIA TER REDUZIDO\N\N\N\N\N");
     print_graph(inicio);
     printf("\n");
+}
+
+
+int main()
+{
+    
+    //print_graph(inicio);
+    mg_V1();
+    
+       //printf("DEVERIA TER REDUZIDO\N\N\N\N\N");
+  
     
     
     

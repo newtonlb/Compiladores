@@ -137,11 +137,57 @@ void print_graph(CELL* inicio)
 }
 
 
+
 int main()
 {
     int size = strlen(string);
     
     CELL* inicio = create_graph(0, size, string);
+    print_graph(inicio);
+    printf("\n");
+    CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 3 nós anteriores ao operador
+    CELL* aux = inicio;
+    int reductible = 1;
+    
+    while(reductible == 1)
+    {
+        for(aux = inicio; aux->left != NULL; aux = aux->left)
+        {
+            vetor[3] = vetor[2];
+            vetor[2] = vetor[1];
+            vetor[1] = vetor[0];
+            vetor[0] = aux;
+        } //para pegar os 3 nós anteriores quando desce no grafo
+        switch (aux->type)
+        {
+            case 'K':
+                if(vetor[1] == NULL)
+                {
+                    reductible = 0; // chegou ao fim
+                    break;
+                }
+                if (vetor[1] != inicio) //se o nó for diferente de raiz, faz logo o filho de cima apontar pro a
+                {
+                    vetor[2]->left = vetor[0]->right;
+                }
+                else
+                {
+                    vetor[1]->left = vetor[0]->right;
+                    vetor[1]->right = NULL;
+                }
+                break;
+                
+                
+                
+                
+                
+            default:
+                reductible = 0;
+                break;
+        }
+
+        
+    }
     print_graph(inicio);
     printf("\n");
     

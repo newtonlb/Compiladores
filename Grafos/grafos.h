@@ -108,7 +108,7 @@ void print_graph(CELL* inicio);
 //char *string = "S(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))((S(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(KK))K)";
 
 //char *string = "Kab";
-char *string = "S(XX)(YY)(ZZ)(DDD)";
+char *string = "K(XX)(YY)(ZZ)(DDD)";
 //char *string = "S(X(X)(XX(Z))(XX))(YY(Y))((Z)ZZ)(XXX)";
 
 //KS 1000

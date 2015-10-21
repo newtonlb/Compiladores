@@ -171,6 +171,9 @@ void mg_V1()
                     vetor[1]->left = vetor[0]->right;
                     vetor[1]->right = NULL;
                 }
+                #ifdef COUNTERK
+                         contK++;
+                    #endif
                 break;
                 
             case 'S':
@@ -185,6 +188,9 @@ void mg_V1()
                 vetor[2]->right = vetor[0]; //colocando o no que é bc no lado direito da raiz
                 vetor[1]->right = vetor[0]->right; //juntando, apontando o segundo c para o primeiro c
                 
+                #ifdef COUNTERS
+                         contS++;
+                    #endif
                 break;
                 
                 
@@ -195,6 +201,10 @@ void mg_V1()
                     break;
                 }
                 vetor[1]->left = vetor[0]->right;
+
+                #ifdef COUNTERI
+                         contI++;
+                    #endif
                 break;
                 
             case 'B':
@@ -208,6 +218,9 @@ void mg_V1()
                 vetor[2]->right = vetor[1];
                 vetor[2]->left = vetor[0]->right;
                 
+                #ifdef COUNTERB
+                         contB++;
+                    #endif
                 break;
                 
             case 'C':
@@ -220,6 +233,10 @@ void mg_V1()
                 vetor[0]->right = vetor[2]->right;
                 vetor[2]->right = vetor[1]->right;
                 vetor[2]->left = vetor[0];
+
+                #ifdef COUNTERC
+                         contC++;
+                    #endif
                 break;
                 
             case 's':
@@ -237,6 +254,9 @@ void mg_V1()
                 vetor[2]->right = vetor[0]; //bd
                 vetor[3]->right = vetor[1]; //cd
                 
+                #ifdef COUNTERSLINHA
+                         contSlinha++;
+                    #endif
                 break;
                 
             case 'b':
@@ -250,6 +270,11 @@ void mg_V1()
                 vetor[2]->right = vetor[3]->right;
                 vetor[3]->left = vetor[1];
                 vetor[3]->right = vetor[2];
+
+                #ifdef COUNTERBLINHA
+                         contBlinha++;
+                    #endif
+
                 
                 break;
                 
@@ -265,6 +290,10 @@ void mg_V1()
                 vetor[0]->right = vetor[3]->right;
                 vetor[3]->right = vetor[2]->right;
                 vetor[2]->right = vetor[0];
+
+                #ifdef COUNTERCLINHA
+                         contClinha++;
+                    #endif
                 break;
                 
             default:
@@ -291,7 +320,18 @@ int main()
     
        //printf("DEVERIA TER REDUZIDO\N\N\N\N\N");
   
-    
+    #ifdef PRINTS
+        printf("ContK = %d\n", contK);
+        printf("ContS = %d\n", contS);
+        printf("ContI = %d\n", contI);
+        printf("ContB = %d\n", contB);
+        printf("ContC = %d\n", contC);
+        printf("ContSlinha = %d\n", contSlinha);
+        printf("ContBlinha = %d\n", contBlinha);
+        printf("ContClinha = %d\n", contClinha);
+        printf("ContRemoveParenteses = %d\n", contRemoveParenteses);
+        printf("Iterations = %d\n", iterations);
+        #endif
     
     
     

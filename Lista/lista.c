@@ -59,7 +59,7 @@ NODE* create_list(int i, int j, char* string)
 				aux->next->caract = string[k];
 			}
 		}
-		else if (string[k] == '(')
+		else
 		{
 			int novoj;
 			novoj = searchParenthesis(k, string);
@@ -143,20 +143,7 @@ void freeRecursao(NODE* inicio)
     }
 }
 
-/// K a b => a
-NODE* substitution_K(NODE* inicio)
-{
 
-    NODE* a = inicio->next;
-    NODE* b = a->next;
-    NODE* cauda = b->next;
-    a->next = cauda;
-    b->next = NULL;
-    freeRecursao(b);
-    inicio->next = NULL;
-    free(inicio);
-    return a;
-}
 
 
 NODE* clone(NODE* inicio)
@@ -200,141 +187,14 @@ NODE* clone(NODE* inicio)
 }
 
 
-/// S a b c => (ac)(bc) == ac(bc)
-NODE* substitution_S(NODE* inicio)
-{
-    // S a b c => ac(bc)
-    NODE* a = inicio->next;
-    NODE* b = a->next;
-    NODE* c = b->next;
-    NODE* cauda = c->next;
-    c->next = NULL;
-    NODE* novoC = clone(c);
-    NODE* aux = (NODE*)malloc(sizeof(NODE));
-
-    a->next = c;
-    c->next = aux;
-    aux->caract = '(';
-    aux->down = b;
-    b->next = novoC;
-    novoC->next = NULL;
-    aux->next = cauda;
-    inicio->next = NULL;
-    freeRecursao(inicio);
-    return a;
-}
-
-
-
-/// B f g x => f(gx)
-NODE* substitution_B(NODE* inicio)
-{
-	NODE* f = inicio->next;
-	NODE* g = f->next;
-	NODE* x = g->next;
-	NODE* cauda = x->next;
-	NODE* aux = (NODE*)malloc(sizeof(NODE));
-	f->next = aux;
-	aux->caract = '(';
-	aux->next = cauda;
-	aux->down = g;
-	g->next = x;
-	x->next = NULL;
-	free(inicio);
-	return f;
-}
-
-
-/// C f x y => f y x
-NODE* substitution_C(NODE* inicio)
-{
-	NODE* f = inicio->next;
-	NODE* x = f->next;
-	NODE* y = x->next;
-	NODE* cauda = y->next;
-	f->next = y;
-	y->next = x;
-	x->next = cauda;
-	free(inicio);
-	return f;
-}
-
-/// S' a b c d => a(bd)(cd)
-NODE* substitution_s(NODE* inicio)
-{
-	NODE* a = inicio->next;
-	NODE* b = a->next;
-	NODE* c = b->next;
-	NODE* d = c->next;
-	NODE* cauda = d->next;
-	d->next = NULL;		
-	NODE* novod = clone(d);
-	
-	NODE* aux1 = (NODE*)malloc(sizeof(NODE));
-	NODE* aux2 = (NODE*)malloc(sizeof(NODE));
-	a->next = aux1;
-	aux1->caract = '(';
-	aux1->next = aux2;
-	aux1->down = b;
-	b->next = d;
-	d->next = NULL;
-	aux2->caract = '(';
-	aux2->down = c;
-	c->next = novod;
-	novod->next = NULL;
-	aux2->next = cauda;
-	inicio->next = NULL;
-	freeRecursao(inicio);
-	return a;
-
-}
-
-/// B' a b c d => ab(cd)
-NODE* substitution_b(NODE* inicio)
-{
-	NODE* a = inicio->next;
-	NODE* b = a->next;
-	NODE* c = b->next;
-	NODE* d = c->next;
-	NODE* cauda = d->next;
-	NODE* aux = (NODE*)malloc(sizeof(NODE));
-	a->next = b;
-	b->next = aux;
-	aux->caract = '(';
-	aux->next = cauda;
-	aux->down = c;
-	c->next = d;
-	d->next = NULL;
-	free(inicio);
-	return a;
-}
-
-/// C' a b c d => a(bd)c
-NODE* substitution_c(NODE* inicio)
-{
-	NODE* a = inicio->next;
-	NODE* b = a->next;
-	NODE* c = b->next;
-	NODE* d = c->next;
-	NODE* cauda = d->next;
-	NODE* aux = (NODE*)malloc(sizeof(NODE));
-	a->next = aux;
-	aux->caract = '(';
-	aux->next = c;
-	aux->down = b;
-	b->next = d;
-	d->next = NULL;
-	c->next = cauda;
-	free(inicio);
-	return a;
-}
 
 
 int main()
 {
 	int tamanho = strlen(string);
 	
-	int i = 0, redutible = 1;	
+	int i = 0, redutible = 1;
+	NODE* a,*b,*c,*d,*f,*x,*y, *g,*cauda, *aux, *aux1, *aux2, *novod, *novoC;	
 	
 	NODE* inicio = create_list(0,tamanho,string);
 	
@@ -361,7 +221,7 @@ int main()
 					redutible = 0;
 					break;
 				}
-				NODE* aux = inicio;
+				aux = inicio;
 				inicio = inicio->next;
 				aux->next = NULL;
 				free(aux);
@@ -375,7 +235,19 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_K(inicio);
+				//inicio = substitution_K(inicio);
+				#ifdef SUBSTITUTION_K
+					a = inicio->next;
+	   				b = a->next;
+	    			cauda = b->next;
+	    			a->next = cauda;
+				    b->next = NULL;
+				    freeRecursao(b);
+				    inicio->next = NULL;
+				    free(inicio);
+				    inicio = a;
+			    #endif
+
 				break;
 			case 'C':
 				#ifdef COUNTERC
@@ -386,7 +258,18 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_C(inicio);
+				//inicio = substitution_C(inicio);
+				#ifdef SUBSTITUTION_C
+					f = inicio->next;
+					x = f->next;
+					y = x->next;
+					cauda = y->next;
+					f->next = y;
+					y->next = x;
+					x->next = cauda;
+					free(inicio);
+					inicio = f;
+				#endif
 				break;
 			case 'B':
 				#ifdef COUNTERB
@@ -397,7 +280,22 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_B(inicio);
+				//inicio = substitution_B(inicio);
+				#ifdef SUBSTITUTION_B
+					f = inicio->next;
+					g = f->next;
+					x = g->next;
+					cauda = x->next;
+					aux = (NODE*)malloc(sizeof(NODE));
+					f->next = aux;
+					aux->caract = '(';
+					aux->next = cauda;
+					aux->down = g;
+					g->next = x;
+					x->next = NULL;
+					free(inicio);
+					inicio = f;
+				#endif
 				break;
 			case 'b':
 				#ifdef COUNTERBLINHA
@@ -408,7 +306,24 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_b(inicio);
+				//inicio = substitution_b(inicio);
+				#ifdef SUBSTITUTION_BLINHA
+					a = inicio->next;
+					b = a->next;
+					c = b->next;
+					d = c->next;
+					cauda = d->next;
+					aux = (NODE*)malloc(sizeof(NODE));
+					a->next = b;
+					b->next = aux;
+					aux->caract = '(';
+					aux->next = cauda;
+					aux->down = c;
+					c->next = d;
+					d->next = NULL;
+					free(inicio);
+					inicio = a;
+				#endif
 				break;
 			case 'c':
 				#ifdef COUNTERCLINHA
@@ -419,7 +334,24 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_c(inicio);
+				//inicio = substitution_c(inicio);
+				#ifdef SUBSTITUTION_CLINHA
+					a = inicio->next;
+					b = a->next;
+					c = b->next;
+					d = c->next;
+					cauda = d->next;
+					aux = (NODE*)malloc(sizeof(NODE));
+					a->next = aux;
+					aux->caract = '(';
+					aux->next = c;
+					aux->down = b;
+					b->next = d;
+					d->next = NULL;
+					c->next = cauda;
+					free(inicio);
+					inicio = a;
+				#endif
 				break;
 			case 'S':
 				#ifdef COUNTERS
@@ -430,7 +362,29 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_S(inicio);
+				//inicio = substitution_S(inicio);
+
+				#ifdef SUBSTITUTION_S
+				    a = inicio->next;
+				    b = a->next;
+				    c = b->next;
+				    cauda = c->next;
+				    c->next = NULL;
+				    novoC = clone(c);
+				    aux = (NODE*)malloc(sizeof(NODE));
+
+				    a->next = c;
+				    c->next = aux;
+				    aux->caract = '(';
+				    aux->down = b;
+				    b->next = novoC;
+				    novoC->next = NULL;
+				    aux->next = cauda;
+				    inicio->next = NULL;
+				    free(inicio);
+				    inicio = a;
+				#endif
+
 				break;
 			case 's':
 			    	#ifdef COUNTERSLINHA
@@ -441,7 +395,33 @@ int main()
 					redutible = 0;
 					break;
 				}
-				inicio = substitution_s(inicio);
+				//inicio = substitution_s(inicio);
+				#ifdef SUBSTITUTION_SLINHA
+					a = inicio->next;
+					b = a->next;
+					c = b->next;
+					d = c->next;
+					cauda = d->next;
+					d->next = NULL;		
+					novod = clone(d);
+					
+					aux1 = (NODE*)malloc(sizeof(NODE));
+					aux2 = (NODE*)malloc(sizeof(NODE));
+					a->next = aux1;
+					aux1->caract = '(';
+					aux1->next = aux2;
+					aux1->down = b;
+					b->next = d;
+					d->next = NULL;
+					aux2->caract = '(';
+					aux2->down = c;
+					c->next = novod;
+					novod->next = NULL;
+					aux2->next = cauda;
+					inicio->next = NULL;
+					free(inicio);
+					inicio = a;
+				#endif
 				break;
 			default:
 				redutible = 0;

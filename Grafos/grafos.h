@@ -78,6 +78,13 @@ typedef struct cell
     struct cell* right;
 }CELL;
 
+typedef struct pilha
+{
+	int cabeca_pilha;
+	int tamanho;
+	Cell** celulas; 
+}Pilha;
+
 // Global var to indicate redutible
 int redutible = 0;
 

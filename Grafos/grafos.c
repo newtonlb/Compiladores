@@ -1,6 +1,6 @@
 #include "grafos.h"
 
-CELL* create_cell()
+CELL* create_CELL()
 {
     CELL* novo = (CELL*) malloc(sizeof(CELL));
     novo->left = NULL;
@@ -10,7 +10,7 @@ CELL* create_cell()
 
 
 
-CELL* create_cell_parenthesis(CELL* esq, CELL* dir)
+CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
     CELL* novo = (CELL*) malloc(sizeof(CELL));
     novo->type = '@';
@@ -18,13 +18,67 @@ CELL* create_cell_parenthesis(CELL* esq, CELL* dir)
     novo->right = dir;
     return novo;
 }
-CELL* create_cell_leaf(char type)
+CELL* create_CELL_leaf(char type)
 {
     CELL* novo = (CELL*) malloc(sizeof(CELL));
     novo->type = type;
     novo->left = NULL;
     novo->right = NULL;
     return novo;
+}
+
+Pilha create_pilha()
+{
+    Pilha* pilha_nova = (Pilha*)malloc(sizeof(Pilha));
+    pilha_nova->tamanho = 500;
+    pilha_nova->cabeca_pilha = -1; //pilha vazia
+    pilha_nova->celulas = (CELL**)malloc(sizeof(CELL*)*pilha_nova->tamanho); //alocando o espaco para 500 celulas
+
+    return pilha_nova;
+}
+
+void pilha_insere(Pilha *p, CELL** celula)
+{
+    p->cabeca_pilha++;
+    p->celulas[p->cabeca_pilha] = celula;
+    if(p->cabeca_pilha + 1 == p->tamanho) //a pilha ta eminência de encher
+    {
+        p->tamanho += 100;
+        p->celulas = (CELL**)realloc((CELL**)p->celulas, sizeof(CELL*)*p->tamanho); //realoca mais espaço pra caber mais celula na pilha
+    }
+
+}
+
+CELL** get_topo_pilha(Pilha* p)
+{
+    return p->celulas[p->cabeca_pilha];
+}
+
+int is_Pilha_Vazia(Pilha* p)
+{
+    if(p->cabeca_pilha > -1)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1; //ta vazia
+    }
+}
+
+void pilha_remove(Pilha* p)
+{
+    if(is_Pilha_Vazia(p) == 0)
+    {
+        p->cabeca_pilha--;
+    }
+    //nao tem else porque se estiver vazia, n faz nada.
+}
+
+void free_pilha(Pilha* p)
+{
+    free(p->celulas);
+    free(p);
 }
 
 int searchParenthesis(int initPos, char* string)
@@ -62,7 +116,7 @@ int searchParenthesis(int initPos, char* string)
 CELL* create_graph(int i, int j, char* str)
 {
     int k = 0;
-    CELL* inicio = create_cell_parenthesis(NULL, NULL);
+    CELL* inicio = create_CELL_parenthesis(NULL, NULL);
     CELL* aux = NULL;
     for (k = i; k <= j && string[k] != ')' ; k++)
     {
@@ -84,7 +138,7 @@ CELL* create_graph(int i, int j, char* str)
             else
             {
                 aux = inicio;
-                inicio = create_cell_parenthesis(aux, create_graph(k+1, novoj - 1, string));
+                inicio = create_CELL_parenthesis(aux, create_graph(k+1, novoj - 1, string));
                 k = novoj;
             }
         }
@@ -92,17 +146,17 @@ CELL* create_graph(int i, int j, char* str)
         {
             if(inicio->left == NULL)
             {
-                inicio->left = create_cell_leaf(string[k]);
+                inicio->left = create_CELL_leaf(string[k]);
                
             }
             else if(inicio->right == NULL)
             {
-                inicio->right = create_cell_leaf(string[k]);
+                inicio->right = create_CELL_leaf(string[k]);
             }
             else
             {
                 aux = inicio;
-                inicio = create_cell_parenthesis(aux, create_cell_leaf(string[k]));
+                inicio = create_CELL_parenthesis(aux, create_CELL_leaf(string[k]));
             }
         }
     }
@@ -309,6 +363,12 @@ void mg_V1()
     }
     print_graph(inicio);
     printf("\n");
+}
+
+
+void mg_V2()
+{
+
 }
 
 

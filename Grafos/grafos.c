@@ -1,6 +1,6 @@
 #include "grafos.h"
 
-CELL* create_cell()
+CELL* create_CELL()
 {
     CELL* novo = (CELL*) malloc(sizeof(CELL));
     novo->left = NULL;
@@ -8,7 +8,9 @@ CELL* create_cell()
     return novo;
 }
 
-CELL* create_cell_parenthesis(CELL* esq, CELL* dir)
+
+
+CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
     CELL* novo = (CELL*) malloc(sizeof(CELL));
     novo->type = '@';
@@ -16,7 +18,7 @@ CELL* create_cell_parenthesis(CELL* esq, CELL* dir)
     novo->right = dir;
     return novo;
 }
-CELL* create_cell_leaf(char type)
+CELL* create_CELL_leaf(char type)
 {
     CELL* novo = (CELL*) malloc(sizeof(CELL));
     novo->type = type;
@@ -25,17 +27,71 @@ CELL* create_cell_leaf(char type)
     return novo;
 }
 
+Pilha create_pilha()
+{
+    Pilha* pilha_nova = (Pilha*)malloc(sizeof(Pilha));
+    pilha_nova->tamanho = 500;
+    pilha_nova->cabeca_pilha = -1; //pilha vazia
+    pilha_nova->celulas = (CELL**)malloc(sizeof(CELL*)*pilha_nova->tamanho); //alocando o espaco para 500 celulas
+
+    return pilha_nova;
+}
+
+void pilha_insere(Pilha *p, CELL* celula)
+{
+    p->cabeca_pilha++;
+    p->celulas[p->cabeca_pilha] = celula;
+    if(p->cabeca_pilha + 1 == p->tamanho) //a pilha ta eminência de encher
+    {
+        p->tamanho += 100;
+        p->celulas = (CELL**)realloc((CELL**)p->celulas, sizeof(CELL*)*p->tamanho); //realoca mais espaço pra caber mais celula na pilha
+    }
+
+}
+
+CELL** get_topo_pilha(Pilha* p)
+{
+    return p->celulas[p->cabeca_pilha];
+}
+
+int is_Pilha_Vazia(Pilha* p)
+{
+    if(p->cabeca_pilha > -1)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1; //ta vazia
+    }
+}
+
+void pilha_remove(Pilha* p)
+{
+    if(is_Pilha_Vazia(p) == 0)
+    {
+        p->cabeca_pilha--;
+    }
+    //nao tem else porque se estiver vazia, n faz nada.
+}
+
+void free_pilha(Pilha* p)
+{
+    free(p->celulas);
+    free(p);
+}
+
 int searchParenthesis(int initPos, char* string)
 {
     int i = 0;
     int lvl = 0;
     int removed = 0;
-
+    
     if(string[initPos] == '(')
     {
         lvl = 1;
         i = initPos;
-
+        
         while (removed == 0)
         {
             i++;
@@ -52,7 +108,7 @@ int searchParenthesis(int initPos, char* string)
                 }
             }
         }
-
+        
     }
     return i;
 }
@@ -60,7 +116,7 @@ int searchParenthesis(int initPos, char* string)
 CELL* create_graph(int i, int j, char* str)
 {
     int k = 0;
-    CELL* inicio = create_cell_parenthesis(NULL, NULL);
+    CELL* inicio = create_CELL_parenthesis(NULL, NULL);
     CELL* aux = NULL;
     for (k = i; k <= j && string[k] != ')' ; k++)
     {
@@ -78,11 +134,11 @@ CELL* create_graph(int i, int j, char* str)
                 inicio->right = create_graph(k+1, novoj - 1, string);
                 k = novoj;
             }
-
+            
             else
             {
                 aux = inicio;
-                inicio = create_cell_parenthesis(aux, create_graph(k+1, novoj - 1, string));
+                inicio = create_CELL_parenthesis(aux, create_graph(k+1, novoj - 1, string));
                 k = novoj;
             }
         }
@@ -90,17 +146,17 @@ CELL* create_graph(int i, int j, char* str)
         {
             if(inicio->left == NULL)
             {
-                inicio->left = create_cell_leaf(string[k]);
-
+                inicio->left = create_CELL_leaf(string[k]);
+               
             }
             else if(inicio->right == NULL)
             {
-                inicio->right = create_cell_leaf(string[k]);
+                inicio->right = create_CELL_leaf(string[k]);
             }
             else
             {
                 aux = inicio;
-                inicio = create_cell_parenthesis(aux, create_cell_leaf(string[k]));
+                inicio = create_CELL_parenthesis(aux, create_CELL_leaf(string[k]));
             }
         }
     }
@@ -136,13 +192,13 @@ void print_graph(CELL* inicio)
 void mg_V1()
 {
     int size = strlen(string);
-
+    
     CELL* inicio = create_graph(0, size, string);
-    CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 3 nós anteriores ao operador
+    CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 4 nós anteriores ao operador
     CELL* aux = inicio;
     int i;
     int reductible = 1;
-
+    
     while(reductible == 1)
     {
         for(aux = inicio; aux->left != NULL; aux = aux->left)
@@ -173,7 +229,7 @@ void mg_V1()
                          contK++;
                     #endif
                 break;
-
+                
             case 'S':
                 if(vetor[2] == NULL)
                 {
@@ -185,13 +241,13 @@ void mg_V1()
                 vetor[0]->right = vetor[2]->right; //aqui tbm (mais especificamente, o c)
                 vetor[2]->right = vetor[0]; //colocando o no que é bc no lado direito da raiz
                 vetor[1]->right = vetor[0]->right; //juntando, apontando o segundo c para o primeiro c
-
+                
                 #ifdef COUNTERS
                          contS++;
                     #endif
                 break;
-
-
+                
+                
             case 'I':
                 if(vetor[0] == NULL)
                 {
@@ -204,7 +260,7 @@ void mg_V1()
                          contI++;
                     #endif
                 break;
-
+                
             case 'B':
                 if(vetor[2] == NULL)
                 {
@@ -215,12 +271,12 @@ void mg_V1()
                 vetor[1]->right = vetor[2]->right;
                 vetor[2]->right = vetor[1];
                 vetor[2]->left = vetor[0]->right;
-
+                
                 #ifdef COUNTERB
                          contB++;
                     #endif
                 break;
-
+                
             case 'C':
                 if(vetor[2] == NULL)
                 {
@@ -236,14 +292,14 @@ void mg_V1()
                          contC++;
                     #endif
                 break;
-
+                
             case 's':
                 if(vetor[3] == NULL)
                 {
                     reductible = 0;
                     break;
                 }
-
+                
                 vetor[2]->left = vetor[0]->right; //a
                 vetor[0]->left = vetor[1]->right;
                 vetor[0]->right = vetor[3]->right;
@@ -251,12 +307,12 @@ void mg_V1()
                 vetor[1]->right = vetor[3]->right;
                 vetor[2]->right = vetor[0]; //bd
                 vetor[3]->right = vetor[1]; //cd
-
+                
                 #ifdef COUNTERSLINHA
                          contSlinha++;
                     #endif
                 break;
-
+                
             case 'b':
                 if (vetor[3] == NULL)
                 {
@@ -273,16 +329,16 @@ void mg_V1()
                          contBlinha++;
                     #endif
 
-
+                
                 break;
-
+                
             case 'c':
                 if(vetor[3] == NULL)
                 {
                     reductible = 0;
                     break;
                 }
-
+                
                 vetor[2]->left = vetor[0]->right;
                 vetor[0]->left = vetor[1]->right;
                 vetor[0]->right = vetor[3]->right;
@@ -293,7 +349,7 @@ void mg_V1()
                          contClinha++;
                     #endif
                 break;
-
+                
             default:
                 reductible = 0;
                 break;
@@ -302,43 +358,13 @@ void mg_V1()
         {
             vetor[i] = NULL;
         }
-
-
+        
+        
     }
     print_graph(inicio);
     printf("\n");
 }
 
-STACK* pop(STACK *pilha)
-{
-    STACK* temp = pilha->top;
-
-    if (temp == NULL)
-    {
-        return NULL;
-    }
-    else
-        temp = temp->top;
-    free(pilha);
-    return temp;
-}
-
-void display(STACK *pilha)
-{
-    STACK* temp = pilha->top;
-
-    if (temp == NULL)
-    {
-        printf("Stack is empty");
-        return;
-    }
-    printf("%c ", pilha->elem->type);
-    while (temp != NULL)
-    {
-        printf("%c ", temp->elem->type);
-        temp = temp->top;
-    }
- }
 
 void mg_V2()
 {
@@ -349,20 +375,28 @@ void mg_V2()
     int i;
     int reductible = 1;
 
-    STACK* pilha;
-
+    Pilha* pilha = create_pilha();
+    pilha_insere(pilha, inicio);
     while(reductible == 1)
     {
         printf("\n");
         print_graph(inicio);
         printf("\n\n");
-        for(aux = inicio; aux->left != NULL; aux = aux->left)
+        for(aux = get_topo_pilha(pilha); aux->left != NULL; aux = aux->left)
         {
+            
+
+            if(aux->type == '@' && aux != get_topo_pilha(pilha))
+            {
+                pilha_insere(pilha, aux);
+            }
+
             // Works like a push in the stack
             // Isso aqui embaixo é só pra testar
-            printf(" %c ", aux->type);
+            /*printf(" %c ", aux->type);
             printf("\n");
             print_graph(aux);
+
             if(pilha == NULL)
             {
                 pilha = (STACK*) malloc(sizeof(STACK));
@@ -376,22 +410,9 @@ void mg_V2()
                 temp->elem = aux;
                 pilha = temp;
             }
-
-        }
-        printf("\n");
-        aux = inicio;
-        // Enquanto ela for diferente de vazia, tem redução
-        printf(" alow ");
-        display(pilha);
-        printf(" kd ");
-        reductible = 0;
-        break;
-        printf("TXT");
-        while(pilha != NULL)
-        {
-            printf("%c\n",pilha->elem->type);
-            break;
-            switch (pilha->elem->type)
+            */
+         }           
+         switch (aux->type)
             {
                 case 'K':
                     if(pilha == NULL)

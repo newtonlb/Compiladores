@@ -1,30 +1,39 @@
 #include "grafos.h"
 
+
+
 CELL* create_CELL()
 {
-    CELL* novo = (CELL*) malloc(sizeof(CELL));
-    novo->left = NULL;
-    novo->right = NULL;
-    return novo;
+	lastPos++;
+    heap[lastPos]->left = NULL;
+    heap[lastPos]->right = NULL;
+    return heap[lastPos];
 }
 
-
+void zerar_Heap()
+{
+    int i;
+    for (i = 0; i < HEAP_SIZE; i++)
+    {
+        heap[i] = (CELL*)malloc(sizeof(CELL));
+    }
+}
 
 CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
-    CELL* novo = (CELL*) malloc(sizeof(CELL));
-    novo->type = '@';
-    novo->left = esq;
-    novo->right = dir;
-    return novo;
+	lastPos++;
+    heap[lastPos]->type = '@';
+    heap[lastPos]->left = esq;
+    heap[lastPos]->right = dir;
+    return heap[lastPos];
 }
 CELL* create_CELL_leaf(char type)
 {
-    CELL* novo = (CELL*) malloc(sizeof(CELL));
-    novo->type = type;
-    novo->left = NULL;
-    novo->right = NULL;
-    return novo;
+	lastPos++;
+    heap[lastPos]->type = type;
+    heap[lastPos]->left = NULL;
+    heap[lastPos]->right = NULL;
+    return heap[lastPos];
 }
 
 Pilha* create_pilha()
@@ -455,17 +464,6 @@ void mg_V2()
                             vetor[1]->left = vetor[0]->right;
                             vetor[1]->right = NULL;
                         }
-                    /*
-                    if (vetor[1] != inicio) //se o nó for diferente de raiz, faz logo o filho de cima apontar pro a
-                    {
-                        vetor[2]->left = vetor[0]->right;
-                    }
-                    else
-                    {
-                        vetor[1]->left = vetor[0]->right;
-                        vetor[1]->right = NULL;
-                    }
-                    */
                     #ifdef COUNTERK
                              contK++;
                         #endif
@@ -500,13 +498,7 @@ void mg_V2()
                 vetor[0]->right = vetor[2]->right; //aqui tbm (mais especificamente, o c)
                 vetor[2]->right = vetor[0]; //colocando o no que é bc no lado direito da raiz
                 vetor[1]->right = vetor[0]->right; //juntando, apontando o segundo c para o primeiro c
-                    /*
-                    vetor[1]->left = vetor[0]->right; //colocando o a no lugar
-                    vetor[0]->left = vetor[1]->right; //montando o nó que vai ser o bc
-                    vetor[0]->right = vetor[2]->right; //aqui tbm (mais especificamente, o c)
-                    vetor[2]->right = vetor[0]; //colocando o no que é bc no lado direito da raiz
-                    vetor[1]->right = vetor[0]->right; //juntando, apontando o segundo c para o primeiro c
-                    */
+                
                     #ifdef COUNTERS
                              contS++;
                         #endif
@@ -519,7 +511,18 @@ void mg_V2()
                         reductible = 0;
                         break;
                     }
-                   // vetor[1]->left = vetor[0]->right;
+                    if (!is_Pilha_Vazia(pilha))
+                    {
+                    	vetor[0] = get_topo_pilha(pilha);
+                    	pilha_remove(pilha);
+                    }
+                    else
+                    {
+                    	reductible = 0;
+                    	break;
+                    }
+                    vetor[1] = get_topo_pilha(pilha);
+                   	vetor[1]->left = vetor[0]->right;
 
                     #ifdef COUNTERI
                              contI++;
@@ -532,12 +535,27 @@ void mg_V2()
                         reductible = 0;
                         break;
                     }
-                    /*
+                    for(i = 0; i < 3; i++)
+                    {
+                        if(!is_Pilha_Vazia(pilha))
+                        {
+                            vetor[i] = get_topo_pilha(pilha);
+                            if(i != 2)
+                            {
+                                pilha_remove(pilha);
+                            }
+                        }
+                        else
+                        {
+                            reductible = 0;
+                            break;
+                        }
+                    }
+               
                     vetor[1]->left = vetor[1]->right;
                     vetor[1]->right = vetor[2]->right;
                     vetor[2]->right = vetor[1];
                     vetor[2]->left = vetor[0]->right;
-                    */
                     #ifdef COUNTERB
                              contB++;
                         #endif
@@ -549,12 +567,28 @@ void mg_V2()
                         reductible = 0;
                         break;
                     }
-                    /*
+                    for(i = 0; i < 3; i++)
+                    {
+                        if(!is_Pilha_Vazia(pilha))
+                        {
+                            vetor[i] = get_topo_pilha(pilha);
+                            if(i != 2)
+                            {
+                                pilha_remove(pilha);
+                            }
+                        }
+                        else
+                        {
+                            reductible = 0;
+                            break;
+                        }
+                    }
+                    
                     vetor[0]->left = vetor[0]->right;
                     vetor[0]->right = vetor[2]->right;
                     vetor[2]->right = vetor[1]->right;
                     vetor[2]->left = vetor[0];
-                    */
+                    
                     #ifdef COUNTERC
                              contC++;
                         #endif
@@ -566,7 +600,22 @@ void mg_V2()
                         reductible = 0;
                         break;
                     }
-                    /*
+                    for(i = 0; i < 4; i++)
+                    {
+                        if(!is_Pilha_Vazia(pilha))
+                        {
+                            vetor[i] = get_topo_pilha(pilha);
+                            if(i != 3)
+                            {
+                                pilha_remove(pilha);
+                            }
+                        }
+                        else
+                        {
+                            reductible = 0;
+                            break;
+                        }
+                    }
                     vetor[2]->left = vetor[0]->right; //a
                     vetor[0]->left = vetor[1]->right;
                     vetor[0]->right = vetor[3]->right;
@@ -574,7 +623,6 @@ void mg_V2()
                     vetor[1]->right = vetor[3]->right;
                     vetor[2]->right = vetor[0]; //bd
                     vetor[3]->right = vetor[1]; //cd
-                    */
                     #ifdef COUNTERSLINHA
                              contSlinha++;
                         #endif
@@ -586,13 +634,29 @@ void mg_V2()
                         reductible = 0;
                         break;
                     }
-                    /*
+                    for(i = 0; i < 4; i++)
+                    {
+                        if(!is_Pilha_Vazia(pilha))
+                        {
+                            vetor[i] = get_topo_pilha(pilha);
+                            if(i != 3)
+                            {
+                                pilha_remove(pilha);
+                            }
+                        }
+                        else
+                        {
+                            reductible = 0;
+                            break;
+                        }
+                    }
+                    
                     vetor[1]->left = vetor[0]->right;
                     vetor[2]->left = vetor[2]->right;
                     vetor[2]->right = vetor[3]->right;
                     vetor[3]->left = vetor[1];
                     vetor[3]->right = vetor[2];
-                    */
+                    
                     #ifdef COUNTERBLINHA
                              contBlinha++;
                         #endif
@@ -606,13 +670,27 @@ void mg_V2()
                         reductible = 0;
                         break;
                     }
-                    /*
+                    for(i = 0; i < 4; i++)
+                    {
+                        if(!is_Pilha_Vazia(pilha))
+                        {
+                            vetor[i] = get_topo_pilha(pilha);
+                            if(i != 3)
+                            {
+                                pilha_remove(pilha);
+                            }
+                        }
+                        else
+                        {
+                            reductible = 0;
+                            break;
+                        }
+                    }
                     vetor[2]->left = vetor[0]->right;
                     vetor[0]->left = vetor[1]->right;
                     vetor[0]->right = vetor[3]->right;
                     vetor[3]->right = vetor[2]->right;
                     vetor[2]->right = vetor[0];
-                    */
                     #ifdef COUNTERCLINHA
                              contClinha++;
                         #endif
@@ -638,10 +716,10 @@ void mg_V2()
 
 int main()
 {
-
+	zerar_Heap();
     //print_graph(inicio);
-    mg_V1();
-     //mg_V2();
+    //mg_V1();
+    mg_V2();
 
        //printf("DEVERIA TER REDUZIDO\n\n\n");
 

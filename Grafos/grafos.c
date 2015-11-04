@@ -90,7 +90,7 @@ void free_pilha(Pilha* p)
     free(p);
 }
 
-int searchParenthesis(int initPos, char* string)
+int searchParenthesis(int initPos)
 {
     int i = 0;
     int lvl = 0;
@@ -122,7 +122,7 @@ int searchParenthesis(int initPos, char* string)
     return i;
 }
 
-CELL* create_graph(int i, int j, char* str)
+CELL* create_graph(int i, int j)
 {
     int k = 0;
     CELL* inicio = create_CELL_parenthesis(NULL, NULL);
@@ -132,22 +132,22 @@ CELL* create_graph(int i, int j, char* str)
         if(string[k] == '(')
         {
             int novoj;
-            novoj = searchParenthesis(k, string);
+            novoj = searchParenthesis(k);
             if(inicio->left == NULL)
             {
-                inicio->left = create_graph(k + 1, novoj - 1, string);
+                inicio->left = create_graph(k + 1, novoj - 1);
                 k = novoj;
             }
             else if(inicio->right == NULL)
             {
-                inicio->right = create_graph(k+1, novoj - 1, string);
+                inicio->right = create_graph(k+1, novoj - 1);
                 k = novoj;
             }
             
             else
             {
                 aux = inicio;
-                inicio = create_CELL_parenthesis(aux, create_graph(k+1, novoj - 1, string));
+                inicio = create_CELL_parenthesis(aux, create_graph(k+1, novoj - 1));
                 k = novoj;
             }
         }
@@ -202,7 +202,7 @@ void mg_V1()
 {
     int size = strlen(string);
     
-    CELL* inicio = create_graph(0, size, string);
+    CELL* inicio = create_graph(0, size);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 4 nós anteriores ao operador
     CELL* aux = inicio;
     int i;
@@ -379,7 +379,7 @@ void mg_V2()
 {
     int size = strlen(string);
 
-    CELL* inicio = create_graph(0, size, string);
+    CELL* inicio = create_graph(0, size);
     CELL* aux = inicio;
     int i;
     int reductible = 1;
@@ -389,9 +389,6 @@ void mg_V2()
     CELL* vetor[] = {NULL, NULL, NULL, NULL};
     while(reductible == 1)
     {
-        //printf("\n");
-        //print_graph(inicio);
-        //printf("\n\n");
         for(aux = get_topo_pilha(pilha); aux->left != NULL; aux = aux->left)
         {
             
@@ -401,26 +398,6 @@ void mg_V2()
                 pilha_insere(pilha, aux);
             }
 
-            // Works like a push in the stack
-            // Isso aqui embaixo é só pra testar
-            /*printf(" %c ", aux->type);
-            printf("\n");
-            print_graph(aux);
-
-            if(pilha == NULL)
-            {
-                pilha = (STACK*) malloc(sizeof(STACK));
-                pilha->top = NULL;
-                pilha->elem = aux;
-            }
-            else
-            {
-                STACK* temp = malloc(sizeof(STACK));
-                temp->top = pilha;
-                temp->elem = aux;
-                pilha = temp;
-            }
-            */
          }           
          switch (aux->type)
             {

@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define HEAP_SIZE 100000000 // We will define later
+#define HEAP_SIZE 1000000 // We will define later
 
 #define MACROS
 
@@ -87,7 +87,7 @@ typedef struct pilha
 
 // Global var to indicate redutible
 int redutible = 0;
-CELL* heap[HEAP_SIZE];
+CELL heap[HEAP_SIZE];
 int lastPos = 0;
 
 /// Functions

@@ -5,35 +5,27 @@
 CELL* create_CELL()
 {
 	lastPos++;
-    heap[lastPos]->left = NULL;
-    heap[lastPos]->right = NULL;
-    return heap[lastPos];
+    heap[lastPos].left = NULL;
+    heap[lastPos].right = NULL;
+    return &heap[lastPos];
 }
 
-void zerar_Heap()
-{
-    int i;
-    for (i = 0; i < HEAP_SIZE; i++)
-    {
-        heap[i] = (CELL*)malloc(sizeof(CELL));
-    }
-}
 
 CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
 	lastPos++;
-    heap[lastPos]->type = '@';
-    heap[lastPos]->left = esq;
-    heap[lastPos]->right = dir;
-    return heap[lastPos];
+    heap[lastPos].type = '@';
+    heap[lastPos].left = esq;
+    heap[lastPos].right = dir;
+    return &heap[lastPos];
 }
 CELL* create_CELL_leaf(char type)
 {
 	lastPos++;
-    heap[lastPos]->type = type;
-    heap[lastPos]->left = NULL;
-    heap[lastPos]->right = NULL;
-    return heap[lastPos];
+    heap[lastPos].type = type;
+    heap[lastPos].left = NULL;
+    heap[lastPos].right = NULL;
+    return &heap[lastPos];
 }
 
 Pilha* create_pilha()
@@ -88,88 +80,6 @@ void free_pilha(Pilha* p)
 {
     free(p->celulas);
     free(p);
-}
-
-int searchParenthesis(int initPos)
-{
-    int i = 0;
-    int lvl = 0;
-    int removed = 0;
-    
-    if(string[initPos] == '(')
-    {
-        lvl = 1;
-        i = initPos;
-        
-        while (removed == 0)
-        {
-            i++;
-            if(string[i] == '(')
-            {
-                lvl++;
-            }
-            else if(string[i] == ')')
-            {
-                lvl--;
-                if(lvl == 0)
-                {
-                    removed = 1;
-                }
-            }
-        }
-        
-    }
-    return i;
-}
-
-CELL* create_graph(int i, int j)
-{
-    int k = 0;
-    CELL* inicio = create_CELL_parenthesis(NULL, NULL);
-    CELL* aux = NULL;
-    for (k = i; k <= j && string[k] != ')' ; k++)
-    {
-        if(string[k] == '(')
-        {
-            int novoj;
-            novoj = searchParenthesis(k);
-            if(inicio->left == NULL)
-            {
-                inicio->left = create_graph(k + 1, novoj - 1);
-                k = novoj;
-            }
-            else if(inicio->right == NULL)
-            {
-                inicio->right = create_graph(k+1, novoj - 1);
-                k = novoj;
-            }
-            
-            else
-            {
-                aux = inicio;
-                inicio = create_CELL_parenthesis(aux, create_graph(k+1, novoj - 1));
-                k = novoj;
-            }
-        }
-        else
-        {
-            if(inicio->left == NULL)
-            {
-                inicio->left = create_CELL_leaf(string[k]);
-               
-            }
-            else if(inicio->right == NULL)
-            {
-                inicio->right = create_CELL_leaf(string[k]);
-            }
-            else
-            {
-                aux = inicio;
-                inicio = create_CELL_parenthesis(aux, create_CELL_leaf(string[k]));
-            }
-        }
-    }
-    return inicio;
 }
 
 
@@ -423,11 +333,10 @@ void mg_V2()
 {
     int size = strlen(string);
 
-    CELL* inicio = create_graph(0, size);
+    CELL* inicio = create_graph2(size);
     CELL* aux = inicio;
     int i;
     int reductible = 1;
-
     Pilha* pilha = create_pilha();
     pilha_insere(pilha, inicio);
     CELL* vetor[] = {NULL, NULL, NULL, NULL};
@@ -442,7 +351,8 @@ void mg_V2()
                 pilha_insere(pilha, aux);
             }
 
-         }           
+         } 
+
          switch (aux->type)
             {
                 case 'K':
@@ -729,6 +639,7 @@ void mg_V2()
             */
 
         }
+
     }
 
     print_graph(inicio);
@@ -737,10 +648,9 @@ void mg_V2()
 
 int main()
 {
-	zerar_Heap();
     //print_graph(inicio);
-    //mg_V1();
-    mg_V2();
+    mg_V1();
+    //mg_V2();
 
        //printf("DEVERIA TER REDUZIDO\n\n\n");
 
@@ -755,6 +665,7 @@ int main()
         printf("ContClinha = %d\n", contClinha);
         printf("ContRemoveParenteses = %d\n", contRemoveParenteses);
         printf("Iterations = %d\n", iterations);
+        printf("lastPos = %d\n", lastPos);
         #endif
 
 

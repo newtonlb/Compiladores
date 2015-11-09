@@ -172,6 +172,50 @@ CELL* create_graph(int i, int j)
     return inicio;
 }
 
+
+int pos = 0;
+
+CELL* create_graph2(int size)
+{
+    CELL* inicio = create_CELL_parenthesis(NULL, NULL);
+    CELL* aux = NULL;
+    while(pos < size)
+    {
+        if (string[pos] == ')')
+        {
+            pos++;
+            return inicio;
+        }
+        else if (string[pos] == '(')
+        {
+            pos++;
+            if(inicio->left == NULL)
+                inicio->left = create_graph2(size);
+            else if (inicio->right == NULL)
+                inicio->right = create_graph2(size);
+            else
+            {
+                aux = inicio;
+                inicio = create_CELL_parenthesis(aux, create_graph2(size));
+            }
+        }
+        else
+        {
+            if(inicio->left == NULL)
+                inicio->left = create_CELL_leaf(string[pos]);
+            else if(inicio->right == NULL)
+                inicio->right = create_CELL_leaf(string[pos]);
+            else
+            {
+                aux = inicio;
+                inicio = create_CELL_parenthesis(aux, create_CELL_leaf(string[pos])); 
+            }
+            pos++;
+        }
+    }
+    return inicio;
+}
+
 void print_graph(CELL* inicio)
 {
     if(inicio->type == '@')
@@ -202,7 +246,7 @@ void mg_V1()
 {
     int size = strlen(string);
     
-    CELL* inicio = create_graph(0, size);
+    CELL* inicio = create_graph2(size);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}; //para guardar os 4 nós anteriores ao operador
     CELL* aux = inicio;
     int i;

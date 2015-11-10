@@ -343,15 +343,14 @@ void mg_V2()
     while(reductible == 1)
     {
         for(aux = get_topo_pilha(pilha); aux->left != NULL; aux = aux->left)
-        {
-            
+        {           
 
             if(aux->type == '@' && aux != get_topo_pilha(pilha))
             {
                 pilha_insere(pilha, aux);
             }
 
-         } 
+        } 
 
          switch (aux->type)
             {
@@ -377,6 +376,7 @@ void mg_V2()
                             reductible = 0;
                             break;
                         }
+                    }
                         if(vetor[1] != inicio)
                         {
                             if(is_Pilha_Vazia(pilha))
@@ -638,10 +638,9 @@ void mg_V2()
             }
             */
 
-        }
+        
 
     }
-
     print_graph(inicio);
     printf("\n");
 }
@@ -649,8 +648,8 @@ void mg_V2()
 int main()
 {
     //print_graph(inicio);
-    mg_V1();
-    //mg_V2();
+    //mg_V1();
+    mg_V2();
 
        //printf("DEVERIA TER REDUZIDO\n\n\n");
 

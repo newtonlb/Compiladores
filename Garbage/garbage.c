@@ -167,15 +167,9 @@ void mg_V2()
     Pilha* pilha = create_pilha();
     pilha_insere(pilha, inicio);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
-   // printf("Sem Reduzir: ");
-   // print_graph(inicio);
-   // printf("\n");
     int counter = 0;
     while(reductible == 1)
     {
-      //  counter++;
-      //  printf("Counter = %d\n");
-        // Tem que verificar no comeco, se a pilha esta vazia
         if (is_Pilha_Vazia(pilha))
         {
             reductible = 0;
@@ -187,7 +181,6 @@ void mg_V2()
             if(aux != aux2)
             {
                  pilha_insere(pilha, aux);
-         //   printf("%c\n", aux->type);
             }
 
         }
@@ -231,8 +224,6 @@ void mg_V2()
 
                      }
                 }
-               //   print_graph(inicio);
-             //   printf("\nreduziu K\n");
             }
 #ifdef COUNTERK
             contK++;
@@ -281,8 +272,6 @@ void mg_V2()
                         }
                      }
                 }
-              //  print_graph(inicio);
-              //  printf("\nreduziu S\n");
 
 
             }
@@ -321,9 +310,6 @@ void mg_V2()
                          pilha_insere(pilha, a);
                      }
                 }
-
-             //   print_graph(inicio);
-              //  printf("\nreduziu I\n");
             }
 
 #ifdef COUNTERI
@@ -614,12 +600,6 @@ void mg_V2()
             reductible = 0;
             break;
         }
-        /*
-        for(i = 0; i< 4; i++)
-        {
-            vetor[i] = NULL;
-        }
-        */
 
 
 
@@ -632,7 +612,6 @@ int main()
 {
     mg_V2();
 
-    //printf("DEVERIA TER REDUZIDO\n\n\n");
 
 #ifdef PRINTS
     printf("ContK = %d\n", contK);

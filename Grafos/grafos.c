@@ -799,11 +799,8 @@ void mg_V2()
 
 
     }
-    printf("Depois de Reduzir: ");
     print_graph(inicio);
-
-    printf("\n\n\n\neita porra = %c\n", aux->type);
-    printf("\n\n");
+    printf("\n");
 }
 
 int main()

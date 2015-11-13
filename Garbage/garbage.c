@@ -14,7 +14,7 @@ CELL* create_CELL()
 CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
     lastPos++;
-    heap[lastPos].type = '@';
+    heap[lastPos].type.operador = '@';
     heap[lastPos].left = esq;
     heap[lastPos].right = dir;
     return &heap[lastPos];
@@ -22,18 +22,20 @@ CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 CELL* create_CELL_leaf(char type)
 {
     lastPos++;
-    heap[lastPos].type = type;
+    heap[lastPos].type.operador = type;
     heap[lastPos].left = NULL;
     heap[lastPos].right = NULL;
+    heap[lastPos].id = 'o';
     return &heap[lastPos];
 }
 
 CELL* create_CELL_number(int type)
 {
     lastPos++;
-    heap[lastPos].type = '$';
-    heap[lastPos].right = (CELL*)type;
+    heap[lastPos].type.number = type;
     heap[lastPos].left = NULL;
+    heap[lastPos].right = NULL;
+    heap[lastPos].id = 'n';
     return &heap[lastPos];
 }
 
@@ -139,7 +141,7 @@ CELL* create_graph2(int size)
             }
             pos++;
             number = atoi(stringAux);
-            printf("Number : %d\n", number);
+            printf("\n");
             
             if(inicio->left == NULL)
                 inicio->left = create_CELL_number(number);
@@ -150,7 +152,6 @@ CELL* create_graph2(int size)
                 aux = inicio;
                 inicio = create_CELL_parenthesis(aux, create_CELL_number(number));
             }
-            //inicio->right = create_CELL_leaf(string[pos]);
         }
         else
         {
@@ -171,7 +172,7 @@ CELL* create_graph2(int size)
 
 void print_graph(CELL* inicio)
 {
-    if(inicio->type == '@')
+    if(inicio->type.operador == '@')
     {
         if(inicio->left != NULL)
         {
@@ -179,24 +180,24 @@ void print_graph(CELL* inicio)
         }
         if(inicio->right != NULL)
         {
-            if(inicio->right->type == '@')
+            if(inicio->right->type.operador == '@')
             {
                 printf("(");
             }
             print_graph(inicio->right);
-            if(inicio->right->type == '@')
+            if(inicio->right->type.operador == '@')
             {
                 printf(")");
             }
         }
     }
-    else if(inicio->type == '$')
+    else if (inicio->id == 'o')
     {
-        printf("%d ",(int)(inicio->left));
+        printf("%c",inicio->type.operador);
     }
-    else
+    else if(inicio->id == 'n')
     {
-        printf("%c ",inicio->type);
+        printf("%d", (int)inicio->type.number);
     }
 }
 
@@ -208,12 +209,11 @@ void mg_V2()
     CELL* inicio = create_graph2(size);
     CELL* aux = inicio, *aux2, *aux3;
     int i;
-    int reductible = 1;
+    int reductible = 0;
     Pilha* pilha = create_pilha();
     pilha_insere(pilha, inicio);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
     int counter = 0;
-
     while(reductible == 1)
     {
         if (is_Pilha_Vazia(pilha))
@@ -227,8 +227,6 @@ void mg_V2()
             if(aux != aux2)
             {
                  pilha_insere(pilha, aux);
-                  printf("%c ", aux->type);
-                  printf("%d\n", (int)aux->right);
             }
 
         }
@@ -236,7 +234,7 @@ void mg_V2()
 
         aux = get_topo_pilha(pilha);
        // printf("\n\n");
-        switch (aux->type)
+        switch (aux->type.operador)
         {
         case 'K':
             if(pilha == NULL)

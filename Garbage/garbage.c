@@ -28,6 +28,16 @@ CELL* create_CELL_leaf(char type)
     return &heap[lastPos];
 }
 
+CELL* create_CELL_number(int type)
+{
+    lastPos++;
+    heap[lastPos].type = '$';
+    heap[lastPos].right = (CELL*)type;
+    heap[lastPos].left = NULL;
+    return &heap[lastPos];
+}
+
+
 Pilha* create_pilha()
 {
     Pilha* pilha_nova = (Pilha*)malloc(sizeof(Pilha));
@@ -111,6 +121,37 @@ CELL* create_graph2(int size)
                 inicio = create_CELL_parenthesis(aux, create_graph2(size));
             }
         }
+        else if(string[pos] == '$')
+        {
+            //$$
+            //$121312323$
+            pos++;
+
+            char stringAux[50];
+            int contadorAux = 0;
+            int number;
+            while(string[pos] != '$')
+            {
+
+               stringAux[contadorAux] = string[pos];
+               contadorAux++;
+               pos++;
+            }
+            pos++;
+            number = atoi(stringAux);
+            printf("Number : %d\n", number);
+            
+            if(inicio->left == NULL)
+                inicio->left = create_CELL_number(number);
+            else if(inicio->right == NULL)
+                inicio->right = create_CELL_number(number);
+            else
+            {
+                aux = inicio;
+                inicio = create_CELL_parenthesis(aux, create_CELL_number(number));
+            }
+            //inicio->right = create_CELL_leaf(string[pos]);
+        }
         else
         {
             if(inicio->left == NULL)
@@ -149,9 +190,13 @@ void print_graph(CELL* inicio)
             }
         }
     }
+    else if(inicio->type == '$')
+    {
+        printf("%d ",(int)(inicio->left));
+    }
     else
     {
-        printf("%c",inicio->type);
+        printf("%c ",inicio->type);
     }
 }
 
@@ -168,6 +213,7 @@ void mg_V2()
     pilha_insere(pilha, inicio);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
     int counter = 0;
+
     while(reductible == 1)
     {
         if (is_Pilha_Vazia(pilha))
@@ -181,9 +227,12 @@ void mg_V2()
             if(aux != aux2)
             {
                  pilha_insere(pilha, aux);
+                  printf("%c ", aux->type);
+                  printf("%d\n", (int)aux->right);
             }
 
         }
+        printf("\n");
 
         aux = get_topo_pilha(pilha);
        // printf("\n\n");
@@ -596,10 +645,16 @@ void mg_V2()
 #endif
             break;
 
+
+        case '+':
+
+            break;
         default:
             reductible = 0;
             break;
         }
+
+        
 
 
 

@@ -798,6 +798,130 @@ void mg_V2()
                 }
             }
             break;
+
+        case '=':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            if (a->right->type.number == b->right->type.number)
+                            {
+                                c->left = create_CELL_leaf('K');
+                            }
+                            else
+                                c->left = create_CELL_leaf('k');
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
+        case '<':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            if (a->right->type.number < b->right->type.number)
+                            {
+                                c->left = create_CELL_leaf('K');
+                            }
+                            else
+                                c->left = create_CELL_leaf('k');
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
+        case '>':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            if (a->right->type.number > b->right->type.number)
+                            {
+                                c->left = create_CELL_leaf('K');
+                            }
+                            else
+                                c->left = create_CELL_leaf('k');
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
         default:
             reductible = 0;
             break;

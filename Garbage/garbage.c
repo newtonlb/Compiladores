@@ -141,7 +141,11 @@ CELL* create_graph2(int size)
             }
             pos++;
             number = atoi(stringAux);
-            printf("\n");
+            while(contadorAux >= 0)
+            {
+                stringAux[contadorAux] = '\0';
+                contadorAux--;                
+            }
             
             if(inicio->left == NULL)
                 inicio->left = create_CELL_number(number);
@@ -209,7 +213,7 @@ void mg_V2()
     CELL* inicio = create_graph2(size);
     CELL* aux = inicio, *aux2, *aux3;
     int i;
-    int reductible = 0;
+    int reductible = 1;
     Pilha* pilha = create_pilha();
     pilha_insere(pilha, inicio);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
@@ -645,7 +649,154 @@ void mg_V2()
 
 
         case '+':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
 
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+                        a->right->type.number = ((int)a->right->type.number + (int)b->right->type.number);
+                        printf("a = %d\n", (int)a->right->type.number);
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            c->left = a->right;
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
+            break;
+        case '-':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+                        a->right->type.number = ((int)a->right->type.number - (int)b->right->type.number);
+                        printf("a = %d\n", (int)a->right->type.number);
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            c->left = a->right;
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
+        case '*':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+                        a->right->type.number = ((int)a->right->type.number * (int)b->right->type.number);
+                        printf("a = %d\n", (int)a->right->type.number);
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            c->left = a->right;
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
+        case '/':
+            if(pilha == NULL)
+            {
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador '+'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+                        a->right->type.number = ((int)a->right->type.number / (int)b->right->type.number);
+                        printf("a = %d\n", (int)a->right->type.number);
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            c = get_topo_pilha(pilha);
+                            c->left = a->right;
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            b->left = a->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
             break;
         default:
             reductible = 0;

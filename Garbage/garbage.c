@@ -214,6 +214,10 @@ CELL* reduct(CELL* inicio)
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
     CELL* aux = inicio, *aux2, *aux3, *aux4, *aux5;
     int i;
+    int resultSoma = 0;
+    int resultDiv = 0;
+    int resultMult = 0;
+    int resultSub = 0;
     int imprimirGrafo = 0;
     int reductible = 1;
     Pilha* pilha = create_pilha();
@@ -749,21 +753,57 @@ CELL* reduct(CELL* inicio)
                      {
                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
                         pilha_remove(pilha);
-
-                        a->right->type.number = ((int)a->right->type.number + (int)b->right->type.number);
-                        printf("a = %d\n", (int)a->right->type.number);
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        if(!is_Pilha_Vazia(pilha))
                         {
                             c = get_topo_pilha(pilha);
-                            c->left = a->right;
-                            pilha_insere(pilha, c);
+                            pilha_remove(pilha);
+                            //printf("entrou na recursao do a\n");
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            //printf("primeiro: %d\n", (int)aux4->type.number);
+                            //printf("segundo: %d\n", (int)aux5->type.number);
+
+                            resultSoma = ((int)aux4->type.number + (int)aux5->type.number);
+
+                            c->left = create_CELL_number(resultSoma);
                         }
-                        else   // Nao tem cauda
+                        else
                         {
-                            b->left = a->right;
+                            //nao tem cauda
+
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            resultSoma = ((int)aux4->type.number + (int)aux5->type.number);
+                            b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
-                            pilha_insere(pilha, b);
+
+
                         }
+                        
+                        
 
                      }
                 }
@@ -787,21 +827,57 @@ CELL* reduct(CELL* inicio)
                      {
                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
                         pilha_remove(pilha);
-
-                        a->right->type.number = ((int)a->right->type.number - (int)b->right->type.number);
-                        //printf("a = %d\n", (int)a->right->type.number);
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        if(!is_Pilha_Vazia(pilha))
                         {
                             c = get_topo_pilha(pilha);
-                            c->left = a->right;
-                            pilha_insere(pilha, c);
+                            pilha_remove(pilha);
+                            //printf("entrou na recursao do a\n");
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            //printf("primeiro: %d\n", (int)aux4->type.number);
+                            //printf("segundo: %d\n", (int)aux5->type.number);
+
+                            resultSoma = ((int)aux4->type.number - (int)aux5->type.number);
+
+                            c->left = create_CELL_number(resultSoma);
                         }
-                        else   // Nao tem cauda
+                        else
                         {
-                            b->left = a->right;
+                            //nao tem cauda
+
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            resultSoma = ((int)aux4->type.number - (int)aux5->type.number);
+                            b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
-                            pilha_insere(pilha, b);
+
+
                         }
+                        
+                        
 
                      }
                 }
@@ -825,25 +901,62 @@ CELL* reduct(CELL* inicio)
                      {
                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
                         pilha_remove(pilha);
-
-                        a->right->type.number = ((int)a->right->type.number * (int)b->right->type.number);
-                        printf("a = %d\n", (int)a->right->type.number);
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        if(!is_Pilha_Vazia(pilha))
                         {
                             c = get_topo_pilha(pilha);
-                            c->left = a->right;
-                            pilha_insere(pilha, c);
+                            pilha_remove(pilha);
+                            //printf("entrou na recursao do a\n");
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            //printf("primeiro: %d\n", (int)aux4->type.number);
+                            //printf("segundo: %d\n", (int)aux5->type.number);
+
+                            resultSoma = ((int)aux4->type.number * (int)aux5->type.number);
+
+                            c->left = create_CELL_number(resultSoma);
                         }
-                        else   // Nao tem cauda
+                        else
                         {
-                            b->left = a->right;
+                            //nao tem cauda
+
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            resultSoma = ((int)aux4->type.number * (int)aux5->type.number);
+                            b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
-                            pilha_insere(pilha, b);
+
+
                         }
+                        
+                        
 
                      }
                 }
             }
+            break;
         case '/':
             if(pilha == NULL)
             {
@@ -862,21 +975,57 @@ CELL* reduct(CELL* inicio)
                      {
                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
                         pilha_remove(pilha);
-
-                        a->right->type.number = ((int)a->right->type.number / (int)b->right->type.number);
-                        //printf("a = %d\n", (int)a->right->type.number);
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        if(!is_Pilha_Vazia(pilha))
                         {
                             c = get_topo_pilha(pilha);
-                            c->left = a->right;
-                            pilha_insere(pilha, c);
+                            pilha_remove(pilha);
+                            //printf("entrou na recursao do a\n");
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            //printf("primeiro: %d\n", (int)aux4->type.number);
+                            //printf("segundo: %d\n", (int)aux5->type.number);
+
+                            resultSoma = ((int)aux4->type.number / (int)aux5->type.number);
+
+                            c->left = create_CELL_number(resultSoma);
                         }
-                        else   // Nao tem cauda
+                        else
                         {
-                            b->left = a->right;
+                            //nao tem cauda
+
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            resultSoma = ((int)aux4->type.number / (int)aux5->type.number);
+                            b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
-                            pilha_insere(pilha, b);
+
+
                         }
+                        
+                        
 
                      }
                 }
@@ -908,18 +1057,30 @@ CELL* reduct(CELL* inicio)
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
-                            
+                            pilha_remove(pilha);
                             //print_graph(a->right);
                            
                             
                             //print_graph(b->right);
                             
-                            aux4 = reduct(a->right);
+                           aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
                             aux5 = reduct(b->right);
-                            pilha_remove(pilha); //ERA ISSO QUE FALTAVA PRA FUNCIONAR
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
 
                             
-                            if ((int)aux4->left->type.number == (int)aux5->left->type.number)
+                            if ((int)aux4->type.number == (int)aux5->type.number)
                             {
                                 //printf("entrou no K\n");
                                 c->left = create_CELL_leaf('K');
@@ -933,7 +1094,31 @@ CELL* reduct(CELL* inicio)
                         }
                         else   // Nao tem cauda
                         {
-                            b->left = a->right;
+                             aux4 = reduct(a->right);
+                            
+                            
+                            aux5 = reduct(b->right);
+                           
+                           
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            if ((int)aux4->type.number == (int)aux5->type.number)
+                            {
+                                //printf("entrou no K\n");
+                                b->left = create_CELL_leaf('K');
+                            }
+                            else
+                            {
+                                b->left = create_CELL_leaf('k');
+                            }
+                           
                             b->right = NULL;
                             pilha_insere(pilha, b);
                         }
@@ -974,17 +1159,66 @@ CELL* reduct(CELL* inicio)
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
-                            if (a->right->type.number < b->right->type.number)
+                            pilha_remove(pilha);
+                            //printf("entrou na recursao do a\n");
+                            aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
                             {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            //printf("primeiro: %d\n", (int)aux4->type.number);
+                            //printf("segundo: %d\n", (int)aux5->type.number);
+
+                            if ((int)aux4->type.number < (int)aux5->type.number)
+                            {
+                                //printf("fez a comparação\n");
                                 c->left = create_CELL_leaf('K');
                             }
                             else
+                            {
+                                //printf("fez a comparação\n");
                                 c->left = create_CELL_leaf('k');
+                            }
+                                
                             pilha_insere(pilha, c);
                         }
                         else   // Nao tem cauda
                         {
-                            b->left = a->right;
+                            aux4 = reduct(a->right);
+                            
+                            
+                            aux5 = reduct(b->right);
+                           
+                           
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            if ((int)aux4->type.number < (int)aux5->type.number)
+                            {
+                                //printf("entrou no K\n");
+                                b->left = create_CELL_leaf('K');
+                            }
+                            else
+                            {
+                                b->left = create_CELL_leaf('k');
+                            }
+                           
                             b->right = NULL;
                             pilha_insere(pilha, b);
                         }
@@ -992,6 +1226,8 @@ CELL* reduct(CELL* inicio)
                      }
                 }
             }
+            //printf("chegou aqui\n");
+            break;
         case '>':
             if(pilha == NULL)
             {
@@ -1000,7 +1236,7 @@ CELL* reduct(CELL* inicio)
             }
             else
             {
-                pilha_remove(pilha); // Tirar o operador '+'
+                pilha_remove(pilha); // Tirar o operador '='
                 if (!is_Pilha_Vazia(pilha))
                 {
                     a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
@@ -1015,24 +1251,86 @@ CELL* reduct(CELL* inicio)
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
-                            if (a->right->type.number > b->right->type.number)
+                            pilha_remove(pilha);
+                            //print_graph(a->right);
+                           
+                            
+                            //print_graph(b->right);
+                            
+                           aux4 = reduct(a->right);
+                            //printf("saiu na recursao do a\n");
+                            //printf("entrou na recursao do b\n");
+                            aux5 = reduct(b->right);
+                            //printf("saiu na recursao do b\n");
+                            //printf("chegou aqui depois\n");
+                            
+                            if(aux4->type.operador == '@')
                             {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+
+                            
+                            if ((int)aux4->type.number > (int)aux5->type.number)
+                            {
+                                //printf("entrou no K\n");
                                 c->left = create_CELL_leaf('K');
                             }
                             else
+                            {
+                                //printf("entrou no k\n");
                                 c->left = create_CELL_leaf('k');
+                            }
                             pilha_insere(pilha, c);
                         }
                         else   // Nao tem cauda
                         {
-                            b->left = a->right;
+                             aux4 = reduct(a->right);
+                            
+                            
+                            aux5 = reduct(b->right);
+                           
+                           
+                            
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            if ((int)aux4->type.number > (int)aux5->type.number)
+                            {
+                                //printf("entrou no K\n");
+                                b->left = create_CELL_leaf('K');
+                            }
+                            else
+                            {
+                                b->left = create_CELL_leaf('k');
+                            }
+                           
                             b->right = NULL;
                             pilha_insere(pilha, b);
                         }
 
                      }
                 }
+
             }
+            //printf("imprimindo depois do  = : \n");
+            //print_graph(inicio);
+            //printf("\n\n");
+            //imprimirGrafo = 1;
+            if(imprimirGrafo == 1)
+            {
+                print_graph(inicio);
+            }
+            break;
+            break;
         default:
             reductible = 0;
             break;

@@ -83,7 +83,7 @@ void pilha_remove(Pilha* p)
 {
     if(is_Pilha_Vazia(p) == 0)
     {
-        
+
         p->cabeca_pilha--;
     }
     //nao tem else porque se estiver vazia, n faz nada.
@@ -146,9 +146,9 @@ CELL* create_graph2(int size)
             while(contadorAux >= 0)
             {
                 stringAux[contadorAux] = '\0';
-                contadorAux--;                
+                contadorAux--;
             }
-            
+
             if(inicio->left == NULL)
                 inicio->left = create_CELL_number(number);
             else if(inicio->right == NULL)
@@ -204,7 +204,7 @@ void print_graph(CELL* inicio)
     }
     else if(inicio->id == 'n')
     {
-       
+
         printf("%d", (int)inicio->type.number);
     }
 }
@@ -224,7 +224,7 @@ CELL* reduct(CELL* inicio)
     pilha_insere(pilha, inicio);
     while(reductible == 1)
     {
-        
+
         if (is_Pilha_Vazia(pilha))
         {
             reductible = 0;
@@ -239,7 +239,7 @@ CELL* reduct(CELL* inicio)
             }
 
         }
-   
+
 
         aux = get_topo_pilha(pilha);
        // printf("\n\n");
@@ -250,7 +250,7 @@ CELL* reduct(CELL* inicio)
         //printf("chegou aqui\n");
             if(pilha == NULL)
             {
-                
+
                 reductible = 0; // chegou ao fim
                 break;
             }
@@ -275,7 +275,7 @@ CELL* reduct(CELL* inicio)
                             printf("GRAFO DE b\n\n\n");
                             print_graph(b->right);
                             printf("\n\n");*/
-                            
+
                             c = get_topo_pilha(pilha);  // o '@' que guarda o c
                             pilha_remove(pilha);
                             c->left = a->right;
@@ -304,7 +304,7 @@ CELL* reduct(CELL* inicio)
         //printf("chegou aqui\n");
             if(pilha == NULL)
             {
-                
+
                 reductible = 0; // chegou ao fim
                 break;
             }
@@ -393,7 +393,7 @@ CELL* reduct(CELL* inicio)
                             pilha_remove(pilha);
                             a = create_CELL_parenthesis(a->right, c->right);
                             b = create_CELL_parenthesis(b->right, c->right);
-                            
+
                             c->left = a;
                             c->right = b;
                             if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
@@ -764,7 +764,7 @@ CELL* reduct(CELL* inicio)
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -802,8 +802,8 @@ CELL* reduct(CELL* inicio)
 
 
                         }
-                        
-                        
+
+
 
                      }
                 }
@@ -838,7 +838,7 @@ CELL* reduct(CELL* inicio)
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -876,8 +876,8 @@ CELL* reduct(CELL* inicio)
 
 
                         }
-                        
-                        
+
+
 
                      }
                 }
@@ -912,7 +912,7 @@ CELL* reduct(CELL* inicio)
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -950,8 +950,8 @@ CELL* reduct(CELL* inicio)
 
 
                         }
-                        
-                        
+
+
 
                      }
                 }
@@ -986,7 +986,7 @@ CELL* reduct(CELL* inicio)
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1024,8 +1024,8 @@ CELL* reduct(CELL* inicio)
 
 
                         }
-                        
-                        
+
+
 
                      }
                 }
@@ -1059,17 +1059,17 @@ CELL* reduct(CELL* inicio)
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
                             //print_graph(a->right);
-                           
-                            
+
+
                             //print_graph(b->right);
-                            
+
                            aux4 = reduct(a->right);
                             //printf("saiu na recursao do a\n");
                             //printf("entrou na recursao do b\n");
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1079,7 +1079,7 @@ CELL* reduct(CELL* inicio)
                                 aux5 = aux5->left;
                             }
 
-                            
+
                             if ((int)aux4->type.number == (int)aux5->type.number)
                             {
                                 //printf("entrou no K\n");
@@ -1095,12 +1095,12 @@ CELL* reduct(CELL* inicio)
                         else   // Nao tem cauda
                         {
                              aux4 = reduct(a->right);
-                            
-                            
+
+
                             aux5 = reduct(b->right);
-                           
-                           
-                            
+
+
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1118,7 +1118,7 @@ CELL* reduct(CELL* inicio)
                             {
                                 b->left = create_CELL_leaf('k');
                             }
-                           
+
                             b->right = NULL;
                             pilha_insere(pilha, b);
                         }
@@ -1167,7 +1167,7 @@ CELL* reduct(CELL* inicio)
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1189,18 +1189,18 @@ CELL* reduct(CELL* inicio)
                                 //printf("fez a comparação\n");
                                 c->left = create_CELL_leaf('k');
                             }
-                                
+
                             pilha_insere(pilha, c);
                         }
                         else   // Nao tem cauda
                         {
                             aux4 = reduct(a->right);
-                            
-                            
+
+
                             aux5 = reduct(b->right);
-                           
-                           
-                            
+
+
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1218,7 +1218,7 @@ CELL* reduct(CELL* inicio)
                             {
                                 b->left = create_CELL_leaf('k');
                             }
-                           
+
                             b->right = NULL;
                             pilha_insere(pilha, b);
                         }
@@ -1253,17 +1253,17 @@ CELL* reduct(CELL* inicio)
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
                             //print_graph(a->right);
-                           
-                            
+
+
                             //print_graph(b->right);
-                            
+
                            aux4 = reduct(a->right);
                             //printf("saiu na recursao do a\n");
                             //printf("entrou na recursao do b\n");
                             aux5 = reduct(b->right);
                             //printf("saiu na recursao do b\n");
                             //printf("chegou aqui depois\n");
-                            
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1273,7 +1273,7 @@ CELL* reduct(CELL* inicio)
                                 aux5 = aux5->left;
                             }
 
-                            
+
                             if ((int)aux4->type.number > (int)aux5->type.number)
                             {
                                 //printf("entrou no K\n");
@@ -1289,12 +1289,12 @@ CELL* reduct(CELL* inicio)
                         else   // Nao tem cauda
                         {
                              aux4 = reduct(a->right);
-                            
-                            
+
+
                             aux5 = reduct(b->right);
-                           
-                           
-                            
+
+
+
                             if(aux4->type.operador == '@')
                             {
                                 aux4 = aux4->left;
@@ -1312,7 +1312,7 @@ CELL* reduct(CELL* inicio)
                             {
                                 b->left = create_CELL_leaf('k');
                             }
-                           
+
                             b->right = NULL;
                             pilha_insere(pilha, b);
                         }
@@ -1330,13 +1330,52 @@ CELL* reduct(CELL* inicio)
                 print_graph(inicio);
             }
             break;
+
+        case 'Y':
+            if(pilha == NULL)
+            {
+                reductible = 0;
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); //tira o operador
+                if (!is_Pilha_Vazia(pilha))
+                {
+                     a = get_topo_pilha(pilha);  // o '@' que guarda o a
+                     pilha_remove(pilha);
+                     printf("%c\n", a->type.operador);
+
+                     aux2 = a->left;
+
+                     a->left = a->right;
+                     a->right = create_CELL_parenthesis(aux2, a->right);
+
+
+
+
+                     if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                     {
+                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                         pilha_remove(pilha);
+                         b->left = a;
+                         pilha_insere(pilha, b);
+                     }
+                     else   // Nao tem cauda
+                     {
+                         pilha_insere(pilha, a);
+                     }
+                }
+            }
             break;
+
+
         default:
             reductible = 0;
             break;
         }
 
-        
+
 
         /*printf("\n\n");
         print_graph(inicio);

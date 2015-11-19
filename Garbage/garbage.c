@@ -243,7 +243,10 @@ CELL* reduct(CELL* inicio)
 
         aux = get_topo_pilha(pilha);
        // printf("\n\n");
-        //printf("combinador: %c\n", aux->type.operador);
+        printf("combinador: %c\n", aux->type.operador);
+        printf("string = ");
+        print_graph(inicio);
+        printf("\n");
         switch (aux->type.operador)
         {
         case 'K':
@@ -1033,8 +1036,6 @@ CELL* reduct(CELL* inicio)
             break;
 
         case '=':
-        //printf("antes do = \n");
-        //print_graph(inicio);
             if(pilha == NULL)
             {
                 reductible = 0; // chegou ao fim
@@ -1063,7 +1064,7 @@ CELL* reduct(CELL* inicio)
 
                             //print_graph(b->right);
 
-                           aux4 = reduct(a->right);
+                            aux4 = reduct(a->right);
                             //printf("saiu na recursao do a\n");
                             //printf("entrou na recursao do b\n");
                             aux5 = reduct(b->right);
@@ -1072,13 +1073,24 @@ CELL* reduct(CELL* inicio)
 
                             if(aux4->type.operador == '@')
                             {
-                                aux4 = aux4->left;
+                                if (aux4->left != NULL)
+                                {
+                                    aux4 = aux4->left;
+                                }
+                                else
+                                    aux4 = aux4->right;
                             }
                             if(aux5->type.operador == '@')
                             {
-                                aux5 = aux5->left;
+                                if (aux5->left != NULL)
+                                {
+                                    aux5 = aux5->left;
+                                }
+                                else
+                                    aux5 = aux5->right;
                             }
-
+                            print_graph(inicio);
+                            printf("xxt\n");
 
                             if ((int)aux4->type.number == (int)aux5->type.number)
                             {

@@ -83,6 +83,7 @@ void pilha_remove(Pilha* p)
 {
     if(is_Pilha_Vazia(p) == 0)
     {
+        
         p->cabeca_pilha--;
     }
     //nao tem else porque se estiver vazia, n faz nada.
@@ -103,6 +104,7 @@ CELL* create_graph2(int size)
 {
     CELL* inicio = create_CELL_parenthesis(NULL, NULL);
     CELL* aux = NULL;
+
     while(pos < size)
     {
         if (string[pos] == ')')
@@ -197,29 +199,28 @@ void print_graph(CELL* inicio)
     }
     else if (inicio->id == 'o')
     {
+
         printf("%c",inicio->type.operador);
     }
     else if(inicio->id == 'n')
     {
+       
         printf("%d", (int)inicio->type.number);
     }
 }
 
-
-void mg_V2()
+CELL* reduct(CELL* inicio)
 {
-    int size = strlen(string);
-
-    CELL* inicio = create_graph2(size);
-    CELL* aux = inicio, *aux2, *aux3;
+    CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
+    CELL* aux = inicio, *aux2, *aux3, *aux4, *aux5;
     int i;
+    int imprimirGrafo = 0;
     int reductible = 1;
     Pilha* pilha = create_pilha();
     pilha_insere(pilha, inicio);
-    CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
-    int counter = 0;
     while(reductible == 1)
     {
+        
         if (is_Pilha_Vazia(pilha))
         {
             reductible = 0;
@@ -234,15 +235,18 @@ void mg_V2()
             }
 
         }
-        printf("\n");
+   
 
         aux = get_topo_pilha(pilha);
        // printf("\n\n");
+        printf("combinador: %c\n", aux->type.operador);
         switch (aux->type.operador)
         {
         case 'K':
+        //printf("chegou aqui\n");
             if(pilha == NULL)
             {
+                
                 reductible = 0; // chegou ao fim
                 break;
             }
@@ -261,6 +265,13 @@ void mg_V2()
 
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
+                            /*printf("GRAFO DE A\n\n\n");
+                            print_graph(a->right);
+                            printf("\n\n");
+                            printf("GRAFO DE b\n\n\n");
+                            print_graph(b->right);
+                            printf("\n\n");*/
+                            
                             c = get_topo_pilha(pilha);  // o '@' que guarda o c
                             pilha_remove(pilha);
                             c->left = a->right;
@@ -279,6 +290,68 @@ void mg_V2()
 #ifdef COUNTERK
             contK++;
 #endif
+            if(imprimirGrafo == 1)
+            {
+                print_graph(inicio);
+            }
+            break;
+
+        case 'k':
+        //printf("chegou aqui\n");
+            if(pilha == NULL)
+            {
+                
+                reductible = 0; // chegou ao fim
+                break;
+            }
+            else
+            {
+                pilha_remove(pilha); // Tirar o operador 'K'
+                if (!is_Pilha_Vazia(pilha))
+                {
+                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
+                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
+
+                    if(!is_Pilha_Vazia(pilha))
+                     {
+                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                        pilha_remove(pilha);
+
+                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                        {
+                            /*printf("GRAFO DE A\n\n\n");
+                            print_graph(a->right);
+                            printf("\n\n");
+                            printf("GRAFO DE b\n\n\n");
+                            print_graph(b->right);
+                            printf("\n\n");*/
+                            printf("chegou aqui no que tem cauda\n");
+                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
+                            pilha_remove(pilha);
+                            c->left = b->right;
+                            pilha_insere(pilha, c);
+                        }
+                        else   // Nao tem cauda
+                        {
+                            printf("chegou aqui no que NAO tem cauda\n");
+                            b->left = b->right;
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+
+                     }
+                }
+            }
+#ifdef COUNTERK
+            contK++;
+#endif
+            if(imprimirGrafo == 1)
+            {
+                print_graph(inicio);
+            }
+            printf("\n\n");
+        print_graph(inicio);
+        printf("\n\n");
             break;
 
         case 'S':
@@ -307,6 +380,7 @@ void mg_V2()
                             pilha_remove(pilha);
                             a = create_CELL_parenthesis(a->right, c->right);
                             b = create_CELL_parenthesis(b->right, c->right);
+                            
                             c->left = a;
                             c->right = b;
                             if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
@@ -723,6 +797,7 @@ void mg_V2()
                      }
                 }
             }
+            break;
         case '*':
             if(pilha == NULL)
             {
@@ -800,6 +875,8 @@ void mg_V2()
             break;
 
         case '=':
+        printf("antes do = \n");
+        print_graph(inicio);
             if(pilha == NULL)
             {
                 reductible = 0; // chegou ao fim
@@ -807,7 +884,7 @@ void mg_V2()
             }
             else
             {
-                pilha_remove(pilha); // Tirar o operador '+'
+                pilha_remove(pilha); // Tirar o operador '='
                 if (!is_Pilha_Vazia(pilha))
                 {
                     a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
@@ -822,12 +899,27 @@ void mg_V2()
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
-                            if (a->right->type.number == b->right->type.number)
+                            
+                            //print_graph(a->right);
+                           
+                            
+                            //print_graph(b->right);
+                            
+                            aux4 = reduct(a->right);
+                            aux5 = reduct(b->right);
+                            
+
+                            
+                            if ((int)aux4->left->type.number == (int)aux5->left->type.number)
                             {
+                                //printf("entrou no K\n");
                                 c->left = create_CELL_leaf('K');
                             }
                             else
+                            {
+                                //printf("entrou no k\n");
                                 c->left = create_CELL_leaf('k');
+                            }
                             pilha_insere(pilha, c);
                         }
                         else   // Nao tem cauda
@@ -839,7 +931,17 @@ void mg_V2()
 
                      }
                 }
+
             }
+            printf("imprimindo depois do  = : \n");
+            print_graph(inicio);
+            //printf("\n\n");
+            //imprimirGrafo = 1;
+            if(imprimirGrafo == 1)
+            {
+                print_graph(inicio);
+            }
+            break;
         case '<':
             if(pilha == NULL)
             {
@@ -929,16 +1031,37 @@ void mg_V2()
 
         
 
-
-
+        /*printf("\n\n");
+        print_graph(inicio);
+        printf("\n\n");*/
     }
+    return inicio;
+}
+void mg_V2()
+{
+    int size = strlen(string);
+
+    CELL* inicio = create_graph2(size);
+    CELL* aux = inicio, *aux2, *aux3;
+    int i;
+    int imprimirGrafo = 0;
+    int reductible = 1;
+    Pilha* pilha = create_pilha();
+    pilha_insere(pilha, inicio);
+    CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
+    int counter = 0;
+
+    //print_graph(inicio);
+    //printf("\n");
+    inicio = reduct(inicio);
     print_graph(inicio);
-    printf("\n");
+
 }
 
 int main()
 {
     mg_V2();
+    printf("\n\n");
 
 
 #ifdef PRINTS

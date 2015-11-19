@@ -239,7 +239,7 @@ CELL* reduct(CELL* inicio)
 
         aux = get_topo_pilha(pilha);
        // printf("\n\n");
-        printf("combinador: %c\n", aux->type.operador);
+        //printf("combinador: %c\n", aux->type.operador);
         switch (aux->type.operador)
         {
         case 'K':
@@ -325,15 +325,24 @@ CELL* reduct(CELL* inicio)
                             printf("GRAFO DE b\n\n\n");
                             print_graph(b->right);
                             printf("\n\n");*/
-                            printf("chegou aqui no que tem cauda\n");
-                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
+                            //printf("chegou aqui no que tem cauda\n");
+                            //printf("a: \n\n");
+                            //print_graph(a->right);
+                            //printf("\n\n\n");
+                            //printf("b: \n\n");
+                            //print_graph(b->right);
+                            //printf("\n\n\n");
+                            c = get_topo_pilha(pilha);
+                            //printf("c: \n\n");
+                            //print_graph(c->right);  // o '@' que guarda o c
+                            //printf("\n");
                             pilha_remove(pilha);
                             c->left = b->right;
                             pilha_insere(pilha, c);
                         }
                         else   // Nao tem cauda
                         {
-                            printf("chegou aqui no que NAO tem cauda\n");
+                            //printf("chegou aqui no que NAO tem cauda\n");
                             b->left = b->right;
                             b->right = NULL;
                             pilha_insere(pilha, b);
@@ -349,9 +358,9 @@ CELL* reduct(CELL* inicio)
             {
                 print_graph(inicio);
             }
-            printf("\n\n");
-        print_graph(inicio);
-        printf("\n\n");
+            //printf("\n\n");
+            //print_graph(inicio);
+        //printf("\n\n");
             break;
 
         case 'S':
@@ -780,7 +789,7 @@ CELL* reduct(CELL* inicio)
                         pilha_remove(pilha);
 
                         a->right->type.number = ((int)a->right->type.number - (int)b->right->type.number);
-                        printf("a = %d\n", (int)a->right->type.number);
+                        //printf("a = %d\n", (int)a->right->type.number);
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
@@ -855,7 +864,7 @@ CELL* reduct(CELL* inicio)
                         pilha_remove(pilha);
 
                         a->right->type.number = ((int)a->right->type.number / (int)b->right->type.number);
-                        printf("a = %d\n", (int)a->right->type.number);
+                        //printf("a = %d\n", (int)a->right->type.number);
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
@@ -875,8 +884,8 @@ CELL* reduct(CELL* inicio)
             break;
 
         case '=':
-        printf("antes do = \n");
-        print_graph(inicio);
+        //printf("antes do = \n");
+        //print_graph(inicio);
             if(pilha == NULL)
             {
                 reductible = 0; // chegou ao fim
@@ -907,7 +916,7 @@ CELL* reduct(CELL* inicio)
                             
                             aux4 = reduct(a->right);
                             aux5 = reduct(b->right);
-                            
+                            pilha_remove(pilha); //ERA ISSO QUE FALTAVA PRA FUNCIONAR
 
                             
                             if ((int)aux4->left->type.number == (int)aux5->left->type.number)
@@ -933,8 +942,8 @@ CELL* reduct(CELL* inicio)
                 }
 
             }
-            printf("imprimindo depois do  = : \n");
-            print_graph(inicio);
+            //printf("imprimindo depois do  = : \n");
+            //print_graph(inicio);
             //printf("\n\n");
             //imprimirGrafo = 1;
             if(imprimirGrafo == 1)

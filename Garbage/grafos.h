@@ -121,6 +121,9 @@ void free_pilha(Pilha* p);
  NODE* substitution_c(NODE* inicio);
  */
 
+
+
+
 // Initial Input String
 //Turner de 1
 //char *string = "s(cBI(SII))I(B(cBI(SII))I)((s(cBI(SII))I(B(cBI(SII))I)(KK))K)";
@@ -137,7 +140,7 @@ void free_pilha(Pilha* p);
 
 //char *string = "BBfgx1";
 
-//char *string = "cxyzw";
+// char *string = "cxyw$3$";
 
 // char *string = "IIab";
 //char *string = "kab";
@@ -157,6 +160,8 @@ char* string = "S(C(c=I$0$)1)(s+I(B(Y(bS(cI(c=I$0$)$1$)(b(s+)I(cBI(c-I$1$)))))(c
 
 //char* string = "S(S(K-)(I))(K$1$)$3$";
 
+//char *string = "Y(a)";
+
 // teste
 //char* string = "=(I)$0$$2$$1$(s+I(B(Y(bS(cI(c=I$0$)$1$)(b(s+)I(cBI(c-I$1$)))))(c-I$1$))$2$)";
 
@@ -168,7 +173,7 @@ char* string = "S(C(c=I$0$)1)(s+I(B(Y(bS(cI(c=I$0$)$1$)(b(s+)I(cBI(c-I$1$)))))(c
 
 //fib2
 
-//char *string = "S(K(SII))(S(S(KS)K)(K(SII)))(S(K(S(S(S(S(K<)I)(K$2$))I)))(S(S(KS)(S(K(S(K+)))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$2$))))))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$1$))))))$21$";
+// char *string = "S(K(SII))(S(S(KS)K)(K(SII)))(S(K(S(S(S(S(K<)I)(K$2$))I)))(S(S(KS)(S(K(S(K+)))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$2$))))))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$1$))))))$11$";
 
 // '+' a b (soma de dois numeros naturais)
 //char *string = "(<$3$$2$)";

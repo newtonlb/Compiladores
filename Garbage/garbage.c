@@ -205,7 +205,7 @@ void print_graph(CELL* inicio)
     else if(inicio->id == 'n')
     {
 
-        printf("%d", (int)inicio->type.number);
+        printf("%d", inicio->type.number);
     }
 }
 
@@ -242,6 +242,9 @@ CELL* reduct(CELL* inicio)
 
 
         aux = get_topo_pilha(pilha);
+        printf("%c\n", aux->type.operador);
+        print_graph(inicio);
+        printf("\n");
         switch (aux->type.operador)
         {
         case 'K':
@@ -312,18 +315,20 @@ CELL* reduct(CELL* inicio)
                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
                         pilha_remove(pilha);
 
+                        aux2 = create_CELL_parenthesis(b->right, NULL);
+
                         if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                         {
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
-                            c->left = b->right;
+                            c->left = aux2;
                             pilha_insere(pilha, c);
                         }
                         else   // Nao tem cauda
                         {
-                            b->left = b->right;
+                            b->left = aux2;
                             b->right = NULL;
-                            pilha_insere(pilha, b);
+                            pilha_insere(pilha, aux2);
                         }
 
                     }
@@ -449,20 +454,22 @@ CELL* reduct(CELL* inicio)
                         {
                             x = get_topo_pilha(pilha);  // o '@' que guarda o x
                             pilha_remove(pilha);
-                            x->left = f->right;
-                            x->right = create_CELL_parenthesis(g->right, x->right);
+                            par1 = create_CELL_parenthesis(g->right, x->right);
+                            aux2 = create_CELL_parenthesis(f->right, par1);
 
 
                             if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                             {
                                 cauda = get_topo_pilha(pilha);
                                 pilha_remove(pilha);
-                                cauda->left = x;
+                                cauda->left = aux2;
                                 pilha_insere(pilha, cauda);
                             }
                             else   // Nao tem cauda
                             {
-                                pilha_insere(pilha, x);
+                                x->right = NULL;
+                                x->left = aux2;
+                                pilha_insere(pilha, aux2);
                             }
                         }
                     }
@@ -475,7 +482,7 @@ CELL* reduct(CELL* inicio)
 #endif
             break;
 
-        case 'C': ///Funcionando para o caso base e o caso base com cauda, porem nao funciona com dois C seguidos
+        case 'C': 
             if(pilha == NULL)
             {
                 reductible = 0;
@@ -555,24 +562,24 @@ CELL* reduct(CELL* inicio)
                             {
                                 d = get_topo_pilha(pilha);
                                 pilha_remove(pilha);
-                                a->left = a->right;
                                 par1 = create_CELL_parenthesis(b->right, d->right);
                                 par2 = create_CELL_parenthesis(c->right, d->right);
-                                a->right = par1;
-                                d->right = par2;
-                                d->left = a;
+                                aux2 = create_CELL_parenthesis(a->right, par1);
+                                aux3 = create_CELL_parenthesis(aux2, par2);
 
 
                                 if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                                 {
                                     cauda = get_topo_pilha(pilha);
                                     pilha_remove(pilha);
-                                    cauda->left = d;
+                                    cauda->left = aux3;
                                     pilha_insere(pilha, cauda);
                                 }
                                 else   // Nao tem cauda
                                 {
-                                    pilha_insere(pilha, d);
+                                    d->right = NULL;
+                                    d->left = aux3;
+                                    pilha_insere(pilha, aux3);
                                 }
                             }
 
@@ -614,23 +621,23 @@ CELL* reduct(CELL* inicio)
                                 d = get_topo_pilha(pilha);
                                 pilha_remove(pilha);
 
-                                a->left = a->right;
-                                a->right = b->right;
                                 par1 = create_CELL_parenthesis(c->right, d->right);
-                                d->right = par1;
-                                d->left = a;
+                                aux2 = create_CELL_parenthesis(a->right, b->right);
+                                aux3 = create_CELL_parenthesis(aux2, par1);
 
 
                                 if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                                 {
                                     cauda = get_topo_pilha(pilha);
                                     pilha_remove(pilha);
-                                    cauda->left = d;
+                                    cauda->left = aux3;
                                     pilha_insere(pilha, cauda);
                                 }
                                 else   // Nao tem cauda
                                 {
-                                    pilha_insere(pilha, d);
+                                    d->right = NULL;
+                                    d->left = aux3;
+                                    pilha_insere(pilha, aux3);
                                 }
                             }
 
@@ -675,23 +682,23 @@ CELL* reduct(CELL* inicio)
                                 d = get_topo_pilha(pilha);
                                 pilha_remove(pilha);
 
-                                a->left = a->right;
                                 par1 = create_CELL_parenthesis(b->right, d->right);
-                                a->right = par1;
-                                d->left = a;
-                                d->right = c->right;
+                                aux2 = create_CELL_parenthesis(a->right, par1);
+                                aux3 = create_CELL_parenthesis(aux2, c->right);
 
 
                                 if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                                 {
                                     cauda = get_topo_pilha(pilha);
                                     pilha_remove(pilha);
-                                    cauda->left = d;
+                                    cauda->left = aux3;
                                     pilha_insere(pilha, cauda);
                                 }
                                 else   // Nao tem cauda
                                 {
-                                    pilha_insere(pilha, d);
+                                    d->left = aux3;
+                                    d->right = NULL;
+                                    pilha_insere(pilha, aux3);
                                 }
                             }
 

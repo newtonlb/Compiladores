@@ -240,12 +240,12 @@ CELL* reduct(CELL* inicio)
 
 
         aux = get_topo_pilha(pilha);
-        /*
+        
          printf("operador = %c\n", aux->type.operador);
-         print_graph(inicio);
+         //print_graph(inicio);
          printf("\n");
-         getchar();
-         */
+         //getchar();
+         
         switch (aux->type.operador)
         {
         case 'K':
@@ -708,25 +708,25 @@ CELL* reduct(CELL* inicio)
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
 
-                            a->right = reduct(a->right);
-                            b->right = reduct(b->right);
+                            aux4 = reduct(a->right);
+                            aux5 = reduct(b->right);
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                if (a->right->left != NULL)
+                                if (aux4->left != NULL)
                                 {
-                                    a->right = a->right->left;
+                                    aux4 = aux4->left;
                                 }
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                if (b->right->left != NULL)
+                                if (aux5->left != NULL)
                                 {
-                                    b->right = b->right->left;
+                                    aux5 = aux5->left;
                                 }
                             }
 
-                            resultSoma = (a->right->type.number + b->right->type.number);
+                            resultSoma = ((int)aux4->type.number + (int)aux5->type.number);
 
                             c->left = create_CELL_number(resultSoma);
                             pilha_insere(pilha, c);
@@ -734,24 +734,20 @@ CELL* reduct(CELL* inicio)
                         else
                         {
                             // Nao tem cauda
-                            if(a->right->id != 'n')
-                            {
-                                a->right = reduct(a->right);
-                            }
-                            if(b->right->id != 'n')
-                            {
-                                b->right = reduct(b->right);
-                            }
+                            
+                                aux4 = reduct(a->right);
+                            
+                                aux5 = reduct(b->right);
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                a->right = a->right->left;
+                                aux4 = aux4->left;
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                b->right = b->right->left;
+                                aux5 = aux5->left;
                             }
-                            resultSoma = (a->right->type.number + b->right->type.number);
+                            resultSoma = (aux4->type.number + aux5->type.number);
                             b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
                             pilha_insere(pilha, b);
@@ -788,49 +784,47 @@ CELL* reduct(CELL* inicio)
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
 
-                            a->right = reduct(a->right);
-                            b->right = reduct(b->right);
+                            aux4 = reduct(a->right);
+                            aux5 = reduct(b->right);
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                if (a->right->left != NULL)
+                                if (aux4->left != NULL)
                                 {
-                                    a->right = a->right->left;
+                                    aux4 = aux4->left;
                                 }
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                if (b->right->left != NULL)
+                                if (aux5->left != NULL)
                                 {
-                                    b->right = b->right->left;
+                                    aux5 = aux5->left;
                                 }
                             }
 
-                            resultSoma = (a->right->type.number - b->right->type.number);
+                            resultSoma = (aux4->type.number - aux5->type.number);
                             c->left = create_CELL_number(resultSoma);
                             pilha_insere(pilha, c);
                         }
                         else
                         {
                             // Nao tem cauda
-                            if(a->right->id != 'n')
-                            {
-                                a->right = reduct(a->right);
-                            }
-                            if(b->right->id != 'n')
-                            {
-                                b->right = reduct(b->right);
-                            }
+                           
+                                aux4 = reduct(a->right);
+                            
+                            
+                                aux5 = reduct(b->right);
+                            
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                a->right = a->right->left;
+                                aux4 = aux4->left;
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                b->right = b->right->left;
+                                aux5 = aux5->left;
                             }
-                            resultSoma = (a->right->type.number - b->right->type.number);
+                            resultSoma = (aux4->type.number - aux5->type.number);
                             b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
                             pilha_insere(pilha, b);
@@ -867,25 +861,25 @@ CELL* reduct(CELL* inicio)
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
 
-                            a->right = reduct(a->right);
-                            b->right = reduct(b->right);
+                            aux4 = reduct(a->right);
+                            aux5 = reduct(b->right);
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                if (a->right->left != NULL)
+                                if (aux4->left != NULL)
                                 {
-                                    a->right = a->right->left;
+                                    aux4 = aux4->left;
                                 }
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                if (b->right->left != NULL)
+                                if (aux5->left != NULL)
                                 {
-                                    b->right = b->right->left;
+                                    aux5 = aux5->left;
                                 }
                             }
 
-                            resultSoma = (a->right->type.number * b->right->type.number);
+                            resultSoma = (aux4->type.number * aux5->type.number);
 
                             c->left = create_CELL_number(resultSoma);
                             pilha_insere(pilha, c);
@@ -893,24 +887,22 @@ CELL* reduct(CELL* inicio)
                         else
                         {
                             // Nao tem cauda
-                            if(a->right->id != 'n')
-                            {
-                                a->right = reduct(a->right);
-                            }
-                            if(b->right->id != 'n')
-                            {
-                                b->right = reduct(b->right);
-                            }
+                            
+                                aux4 = reduct(a->right);
+                            
+                            
+                                aux5 = reduct(b->right);
+                            
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                a->right = a->right->left;
+                                aux4 = aux4->left;
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                b->right = b->right->left;
+                                aux5 = aux5->left;
                             }
-                            resultSoma = (a->right->type.number * b->right->type.number);
+                            resultSoma = (aux4->type.number * aux5->type.number);
                             b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
                             pilha_insere(pilha, b);
@@ -948,49 +940,47 @@ CELL* reduct(CELL* inicio)
                             c = get_topo_pilha(pilha);
                             pilha_remove(pilha);
 
-                            a->right = reduct(a->right);
-                            b->right = reduct(b->right);
+                            aux4 = reduct(a->right);
+                            aux5 = reduct(b->right);
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                if (a->right->left != NULL)
+                                if (aux4->left != NULL)
                                 {
-                                    a->right = a->right->left;
+                                    aux4 = aux4->left;
                                 }
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                if (b->right->left != NULL)
+                                if (aux5->left != NULL)
                                 {
-                                    b->right = b->right->left;
+                                     aux5 = aux5->left;
                                 }
                             }
 
-                            resultSoma = (a->right->type.number / b->right->type.number);
+                            resultSoma = (aux4->type.number / aux5->type.number);
                             c->left = create_CELL_number(resultSoma);
                             pilha_insere(pilha, c);
                         }
                         else
                         {
                             // Nao tem cauda
-                            if(a->right->id != 'n')
-                            {
-                                a->right = reduct(a->right);
-                            }
-                            if(b->right->id != 'n')
-                            {
-                                b->right = reduct(b->right);
-                            }
+                           
+                                aux4 = reduct(a->right);
+                            
+                            
+                                aux5 = reduct(b->right);
+                            
 
-                            if(a->right->type.operador == '@')
+                            if(aux4->type.operador == '@')
                             {
-                                a->right = a->right->left;
+                                aux4 = aux4->left;
                             }
-                            if(b->right->type.operador == '@')
+                            if(aux5->type.operador == '@')
                             {
-                                b->right = b->right->left;
+                                aux5 = aux5->left;
                             }
-                            resultSoma = (a->right->type.number / b->right->type.number);
+                            resultSoma = (aux4->type.number / aux5->type.number);
                             b->left = create_CELL_number(resultSoma);
                             b->right = NULL;
                             pilha_insere(pilha, b);
@@ -1023,45 +1013,70 @@ CELL* reduct(CELL* inicio)
                         b = get_topo_pilha(pilha);  // o '@' que guarda o b
                         pilha_remove(pilha);
 
-                        if(a->right->id != 'n')
-                        {
-                            a->right = reduct(a->right);
-                        }
-
-                        if(b->right->id != 'n')
-                        {
-                            b->right = reduct(b->right);
-                        }
-
-                        if(a->right->type.operador == '@')
-                        {
-                            a->right = a->right->left;
-                        }
-                        if(b->right->type.operador == '@')
-                        {
-                            b->right = b->right->left;
-                        }
-                        printf("\na = %d b = %d\n",a->right->type.number, b->right->type.number);
-
-                        if(a->right->type.number == b->right->type.number)
-                        {
-                            aux2 = create_CELL_leaf('K');
-                        }
-                        else
-                        {
-                            aux2 = create_CELL_leaf('k');
-                        }
-
-                        //system("PAUSE");
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                       
+                        if(!is_Pilha_Vazia(pilha)) // o '@' que guarda a cauda c
                         {
                             c = get_topo_pilha(pilha);
-                            c->left = aux2;
+                            pilha_remove(pilha);
+
+                            aux4 = reduct(a->right);
+                            aux5 = reduct(b->right);
+
+                            if(aux4->type.operador == '@')
+                            {
+                                if (aux4->left != NULL)
+                                {
+                                    aux4 = aux4->left;
+                                }
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                if (aux5->left != NULL)
+                                {
+                                     aux5 = aux5->left;
+                                }
+                            }
+
+                            if(aux4->type.number == aux5->type.number)
+                            {
+                                c->left = create_CELL_leaf('K');
+                            }
+                            else
+                            {
+                                c->left = create_CELL_leaf('k');
+                            }
+                            
+                            pilha_insere(pilha, c);
                         }
                         else
                         {
-                            pilha_insere(pilha,aux2);
-                            inicio = aux2;
+                            // Nao tem cauda
+                           
+                                aux4 = reduct(a->right);
+                            
+                            
+                                aux5 = reduct(b->right);
+                            
+
+                            if(aux4->type.operador == '@')
+                            {
+                                aux4 = aux4->left;
+                            }
+                            if(aux5->type.operador == '@')
+                            {
+                                aux5 = aux5->left;
+                            }
+                            if(aux4->type.number == aux5->type.number)
+                            {
+                                b->left = create_CELL_leaf('K');
+                            }
+                            else
+                            {
+                                b->left = create_CELL_leaf('k');
+                            }
+    
+                            b->right = NULL;
+                            pilha_insere(pilha, b);
                         }
                     }
                 }
@@ -1184,7 +1199,7 @@ CELL* reduct(CELL* inicio)
                         {
                             b->right = b->right->left;
                         }
-                        printf("\na = %d b = %d\n",a->right->type.number, b->right->type.number);
+                        //printf("\na = %d b = %d\n",a->right->type.number, b->right->type.number);
 
                         if(a->right->type.number > b->right->type.number)
                         {

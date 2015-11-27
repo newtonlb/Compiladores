@@ -454,13 +454,35 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'S':
-
-            if (lastPos+4 >= HEAP_SIZE/2)
+            if (heapUsado == 0)
             {
-                inicio->memory = gc(inicio->memory);
-                printf("SAIU DO GARBAGE\n");
-                inicio = &heap[inicio->memory];
+                if (lastPos+4 >= HEAP_SIZE/2)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
             }
+            else
+            {
+                if (lastPos+4 >= HEAP_SIZE)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
+            
             if(pilha == NULL)
             {
                 reductible = 0;
@@ -549,6 +571,34 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'B':
+            if (heapUsado == 0)
+            {
+                if (lastPos+2 >= HEAP_SIZE/2)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
+            else
+            {
+                if (lastPos+2 >= HEAP_SIZE)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
             if(pilha == NULL)
             {
                 reductible = 0;
@@ -599,6 +649,34 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'C':
+            if (heapUsado == 0)
+            {
+                if (lastPos+3 >= HEAP_SIZE/2)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
+            else
+            {
+                if (lastPos+3 >= HEAP_SIZE)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
             if(pilha == NULL)
             {
                 reductible = 0;
@@ -651,7 +729,34 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 's':
-
+            if (heapUsado == 0)
+            {
+                if (lastPos+5 >= HEAP_SIZE/2)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
+            else
+            {
+                if (lastPos+5 >= HEAP_SIZE)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
             if(pilha == NULL)
             {
                 reductible = 0;
@@ -710,6 +815,34 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'b':
+            if (heapUsado == 0)
+            {
+                if (lastPos+2 >= HEAP_SIZE/2)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
+            else
+            {
+                if (lastPos+2 >= HEAP_SIZE)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
             if (pilha == NULL)
             {
                 reductible = 0;
@@ -771,6 +904,34 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'c':
+            if (heapUsado == 0)
+            {
+                if (lastPos+2 >= HEAP_SIZE/2)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
+            else
+            {
+                if (lastPos+2 >= HEAP_SIZE)
+                {
+                    inicio->memory = gc(inicio->memory);
+                    printf("SAIU DO GARBAGE\n");
+                    inicio = &heap[inicio->memory];
+                    // print_graph(inicio);
+                    // printf("\n");
+                    pilha = create_pilha();
+                    pilha_insere(pilha, inicio);
+                    break;
+                }
+            }
             if(pilha == NULL)
             {
                 reductible = 0;

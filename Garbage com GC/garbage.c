@@ -276,7 +276,7 @@ int cheney(int inicio, int inicio_novo, int tamanho)
         }
         else
         {
-            if(cp->left != NULL)
+            if(cp->right != NULL)
                 heap[i].right = cp->right->fp;
             else
                 heap[i].right = NULL;
@@ -301,7 +301,7 @@ int cheney(int inicio, int inicio_novo, int tamanho)
 
 
 
-int gc(int inicio)
+unsigned int gc(int inicio)
 {
     if (heapUsado == 0)
     {
@@ -456,28 +456,28 @@ CELL* reduct(CELL* inicio)
         case 'S':
             if (heapUsado == 0)
             {
-                if (lastPos+4 >= HEAP_SIZE/2)
+                if (lastPos+3 >= HEAP_SIZE/2)
                 {
                     inicio->memory = gc(inicio->memory);
                     printf("SAIU DO GARBAGE\n");
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    //pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
             }
             else
             {
-                if (lastPos+4 >= HEAP_SIZE)
+                if (lastPos+3 >= HEAP_SIZE)
                 {
                     inicio->memory = gc(inicio->memory);
                     printf("SAIU DO GARBAGE\n");
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    //pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -580,7 +580,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    //pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -594,7 +594,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    //pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -658,7 +658,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -672,7 +672,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -731,28 +731,28 @@ CELL* reduct(CELL* inicio)
         case 's':
             if (heapUsado == 0)
             {
-                if (lastPos+5 >= HEAP_SIZE/2)
+                if (lastPos+3 >= HEAP_SIZE/2)
                 {
                     inicio->memory = gc(inicio->memory);
                     printf("SAIU DO GARBAGE\n");
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
             }
             else
             {
-                if (lastPos+5 >= HEAP_SIZE)
+                if (lastPos+3 >= HEAP_SIZE)
                 {
                     inicio->memory = gc(inicio->memory);
                     printf("SAIU DO GARBAGE\n");
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -824,7 +824,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -838,7 +838,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -913,7 +913,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -927,7 +927,7 @@ CELL* reduct(CELL* inicio)
                     inicio = &heap[inicio->memory];
                     // print_graph(inicio);
                     // printf("\n");
-                    pilha = create_pilha();
+                    // pilha = create_pilha();
                     pilha_insere(pilha, inicio);
                     break;
                 }

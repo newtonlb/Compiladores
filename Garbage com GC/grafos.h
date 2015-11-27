@@ -214,11 +214,11 @@ void free_pilha(Pilha* p);
 //char *string = "=021(s+I(B(Y(bS(cI(c=I0)1)(b(s+)I(cBI(c-I1)))))(c-I1))2)";
 
 //fib1
-char *string = "S(K(SII))(S(S(KS)K)(K(SII)))(S(K(S(S(S(KI)(S(S(K<)I)(K$2$)))I)))(S(S(KS)(S(K(S(K+)))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$2$))))))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$1$))))))$21$";
+//char *string = "S(K(SII))(S(S(KS)K)(K(SII)))(S(K(S(S(S(KI)(S(S(K<)I)(K$2$)))I)))(S(S(KS)(S(K(S(K+)))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$2$))))))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$1$))))))$23$";
 
 
 //fib2
-//char *string = "S(K(SII))(S(S(KS)K)(K(SII)))(S(K(S(S(S(S(K<)I)(K$2$))I)))(S(S(KS)(S(K(S(K+)))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$2$))))))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$1$))))))$12$";
+char *string = "S(K(SII))(S(S(KS)K)(K(SII)))(S(K(S(S(S(S(K<)I)(K$2$))I)))(S(S(KS)(S(K(S(K+)))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$2$))))))(S(S(KS)(S(KK)I))(K(S(S(K-)I)(K$1$))))))$25$";
 
 // teste '='
 //char *string = "S(S(S(KS)(KI)(KK)))Ifg";

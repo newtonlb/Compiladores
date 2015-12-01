@@ -133,6 +133,12 @@ CELL* create_graph2(int size)
                 inicio = create_CELL_parenthesis(aux, create_graph2(size));
             }
         }
+        else if(string[pos] == '[')
+        {
+            //poss
+            pos++;
+            printf("");
+        }
         else if(string[pos] == '$')
         {
             //$$
@@ -244,7 +250,9 @@ int cheney(int inicio, int inicio_novo, int tamanho)
     int i = inicio_novo;
     int decremento = 0;
     int parada = -1;
-    printf("entrou no CHENEY\n");
+    // print_graph(&heap[inicio]);
+    // printf("\n");
+    printf("entrou no CHENEY %d\n", lastPos);
 
     copia_Cell(cp, &heap[inicio_novo]);
 
@@ -293,7 +301,9 @@ int cheney(int inicio, int inicio_novo, int tamanho)
             break;
         }
     }
-    printf("saiu do CHENEY\n");
+    printf("saiu do CHENEY %d\n", lastPos);
+    // print_graph(&heap[inicio_novo]);
+    // printf("\n");
     return inicio_novo;
 
 }
@@ -320,7 +330,7 @@ unsigned int gc(int inicio)
 
 CELL* reduct(CELL* inicio)
 {
-    CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
+    CELL *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
     CELL* aux = inicio, *aux2, *aux3, *aux4, *aux5;
     int i;
     int resultSoma = 0;
@@ -464,6 +474,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     //pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -478,11 +489,12 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     //pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
             }
-            
+
             if(pilha == NULL)
             {
                 reductible = 0;
@@ -581,6 +593,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     //pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -595,6 +608,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     //pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -659,6 +673,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -673,6 +688,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -739,6 +755,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -753,6 +770,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -825,6 +843,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -839,6 +858,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -914,6 +934,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -928,6 +949,7 @@ CELL* reduct(CELL* inicio)
                     // print_graph(inicio);
                     // printf("\n");
                     // pilha = create_pilha();
+                    free_pilha(pilha);
                     pilha_insere(pilha, inicio);
                     break;
                 }
@@ -1711,6 +1733,68 @@ CELL* reduct(CELL* inicio)
             contY++;
             #endif
 
+            break;
+        case 'H':
+                if(pilha == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                else
+                {
+                    pilha_remove(pilha); //tira o operador
+                    if (!is_Pilha_Vazia(pilha))
+                    {
+                        a = get_topo_pilha(pilha);  // o '@' que guarda o a
+                        pilha_remove(pilha);
+
+                        if(a->right->id == ':')
+                        {
+                            b = a->right->left;
+                            a->left = b;
+                            a->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+                        else
+                        {
+                            // Nao tem ':', entao deu erro
+                            // retorna o H do jeito que veio
+                            // Acho que nao precisa deste else
+                        }
+                        // Tem que ver se vai ter cauda depois da lista
+                    }
+                }
+            break;
+        case 'T':
+                if(pilha == NULL)
+                {
+                    reductible = 0;
+                    break;
+                }
+                else
+                {
+                    pilha_remove(pilha); //tira o operador
+                    if (!is_Pilha_Vazia(pilha))
+                    {
+                        a = get_topo_pilha(pilha);  // o '@' que guarda o a
+                        pilha_remove(pilha);
+
+                        if(a->right->id == ':')
+                        {
+                            b = a->right->right;
+                            a->left = b;
+                            a->right = NULL;
+                            pilha_insere(pilha, b);
+                        }
+                        else
+                        {
+                            // Nao tem ':', entao deu erro
+                            // retorna o H do jeito que veio
+                          // Acho que nao precisa deste else
+                        }
+                        // Tem que ver se vai ter cauda depois da lista
+                    }
+                }
             break;
 
         default:

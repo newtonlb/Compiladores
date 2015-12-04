@@ -7,7 +7,7 @@
 #ifndef REDUCTIONS_H_
 #define REDUCTIONS_H_
 
-void getArguments(int arguments, Pilha* pilha)
+void getArguments(int arguments)
 {
     if(arguments >= 1)
     {
@@ -47,7 +47,7 @@ CELL* reduct(CELL* inicio)
     int resultSub = 0;
     int imprimirGrafo = 0;
     int reductible = 1;
-    Pilha* pilha = create_pilha();
+
     pilha_insere(pilha, inicio);
     aux = inicio;
 
@@ -83,7 +83,7 @@ CELL* reduct(CELL* inicio)
         {
         case 'K':
             arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos <= 1)
             {
                 //printf("XXT\n");
                 reductible = 0; // chegou ao fim
@@ -91,7 +91,7 @@ CELL* reduct(CELL* inicio)
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
+                getArguments(arguments); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
           
                 if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
@@ -116,14 +116,14 @@ CELL* reduct(CELL* inicio)
 
         case 'k':
             arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
+                getArguments(arguments); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
                 if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
@@ -147,14 +147,14 @@ CELL* reduct(CELL* inicio)
 
         case 'S':
             arguments = 3;  // Sao 3 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a, b, c,  mas falta saber se tem o elemento cauda ou nao
+                getArguments(arguments); // Pegamos o a, b, c,  mas falta saber se tem o elemento cauda ou nao
            
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
@@ -185,14 +185,14 @@ CELL* reduct(CELL* inicio)
 
         case 'I':
             arguments = 1; // Tem so 1 argumento
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a, mas falta saber se tem o elemento cauda ou nao
+                getArguments(arguments); // Pegamos o a, mas falta saber se tem o elemento cauda ou nao
                 if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);  // o '@' que guarda o b
@@ -213,14 +213,14 @@ CELL* reduct(CELL* inicio)
 
         case 'B':
             arguments = 3; // Sao 3 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao            
+                getArguments(arguments); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao            
                 aux2 = create_CELL_parenthesis(NULL,NULL);
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = a->right;
@@ -246,14 +246,14 @@ CELL* reduct(CELL* inicio)
 
         case 'C':
             arguments = 3; // Sao 3 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao         
+                getArguments(arguments); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao         
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
                 aux2->right = b->right;
@@ -280,14 +280,14 @@ CELL* reduct(CELL* inicio)
 
         case 's':
             arguments = 4; // Sao 4 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                getArguments(arguments); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
                 aux2->left->right = create_CELL_parenthesis(NULL, NULL);
@@ -317,14 +317,14 @@ CELL* reduct(CELL* inicio)
 
         case 'b':
             arguments = 4; // Sao 4 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                getArguments(arguments); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
@@ -356,14 +356,14 @@ CELL* reduct(CELL* inicio)
 
         case 'c':
             arguments = 4; // Sao 4 argumentos 
-            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
+            if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                getArguments(arguments, pilha); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                getArguments(arguments); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
                 aux2->left->right = create_CELL_parenthesis(NULL, NULL);

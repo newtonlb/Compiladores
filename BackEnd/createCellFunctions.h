@@ -11,6 +11,7 @@
 CELL* create_CELL()
 {
     lastPos++;
+    heap[lastPos].memory = not_copied;
     heap[lastPos].left = NULL;
     heap[lastPos].right = NULL;
     return &heap[lastPos];
@@ -20,6 +21,7 @@ CELL* create_CELL()
 CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
     lastPos++;
+    heap[lastPos].memory = not_copied;
     heap[lastPos].type.operador = '@';
     heap[lastPos].left = esq;
     heap[lastPos].right = dir;
@@ -30,6 +32,7 @@ CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 CELL* create_CELL_leaf(char type)
 {
     lastPos++;
+    heap[lastPos].memory = not_copied;
     heap[lastPos].type.operador = type;
     heap[lastPos].left = NULL;
     heap[lastPos].right = NULL;
@@ -41,15 +44,13 @@ CELL* create_CELL_leaf(char type)
 CELL* create_CELL_number(int type)
 {
     lastPos++;
+    heap[lastPos].memory = not_copied;
     heap[lastPos].type.number = type;
     heap[lastPos].left = NULL;
     heap[lastPos].right = NULL;
     heap[lastPos].id = 'n';
     return &heap[lastPos];
 }
-
-
-
 
  #endif
 

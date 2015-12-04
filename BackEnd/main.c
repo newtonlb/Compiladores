@@ -3,7 +3,7 @@
 #include "stackFunctions.h"
 #include "graphFunctions.h"
 #include "reductions.h"
-
+#include "gcCheney.h"
 
 void mg_V2()
 {
@@ -14,13 +14,9 @@ void mg_V2()
     int i;
     int imprimirGrafo = 0;
     int reductible = 1;
-    Pilha* pilha = create_pilha();
-    pilha_insere(pilha, inicio);
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
     int counter = 0;
 
-    // print_graph(inicio);
-    // printf("\n");
     inicio = reduct(inicio);
     print_graph(inicio);
 

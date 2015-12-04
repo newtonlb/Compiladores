@@ -87,16 +87,25 @@ typedef struct CELL
 // Stack Struct
 typedef struct pilha
 {
-	int cabeca_pilha;
-	int tamanho;
-	CELL** celulas;
+	CELL* celula;
 }Pilha;
 
+// Const Char to indicate copied or not in GC Cheney
+const char copied = 0xFF;
+const char not_copied = 0x00;
+
 // Global Variables
-int redutible = 0;
-int lastPos = 0;
 int pos = 0;
+int redutible = 0;
+int globalReductible = 1;
+int lastPos = -1;
+int heapUsado = 0;
+int pilhaPos = 0;
+int garbage = 0;
 CELL heap[HEAP_SIZE];
+CELL* raizGlobal;
+Pilha pilha[HEAP_SIZE];
+
 
 CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
 CELL* aux, *aux2, *aux3, *aux4, *aux5;
@@ -112,15 +121,18 @@ CELL* create_graph(int size);
 void print_graph(CELL* inicio);
 
 // Functions to manipulate and create stack
-Pilha* create_pilha();
+void pilha_insere(Pilha* p, CELL* celula);
 CELL* get_topo_pilha(Pilha* p);
 int is_Pilha_Vazia(Pilha* p);
-void pilha_insere(Pilha *p, CELL* celula);
 void pilha_remove(Pilha* p);
 void free_pilha(Pilha* p);
 
-
 // Functions to reduct
 CELL* reduct(CELL* inicio);
+
+// Functions to gcCheney
+void copy_cell(CELL *dest, CELL *src);
+void GC_cheney(CELL *root, CELL *dest);
+
 
 #endif

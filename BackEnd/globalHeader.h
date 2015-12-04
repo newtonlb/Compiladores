@@ -15,7 +15,7 @@
  #include "inputString.h"
 
 // Heap Size
-#define HEAP_SIZE 1000000 
+#define HEAP_SIZE 10000000 
 #define HEAP_HALF_SIZE (HEAP_SIZE)/2
 
 #define MACROS

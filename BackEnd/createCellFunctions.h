@@ -21,6 +21,7 @@ CELL* create_CELL()
 CELL* create_CELL_parenthesis(CELL* esq, CELL* dir)
 {
     lastPos++;
+    heap[lastPos].id = 'o';
     heap[lastPos].memory = not_copied;
     heap[lastPos].type.operador = '@';
     heap[lastPos].left = esq;

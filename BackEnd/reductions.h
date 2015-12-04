@@ -7,12 +7,40 @@
 #ifndef REDUCTIONS_H_
 #define REDUCTIONS_H_
 
+void getArguments(int arguments, Pilha* pilha)
+{
+    if(arguments >= 1)
+    {
+        a = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'a'
+        pilha_remove(pilha);       // Retira o @ que guarda o 'a'    
+    }
+
+    if(arguments >= 2)
+    {
+        b = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'b'
+        pilha_remove(pilha);       // Retira o @ que guarda o 'b'
+    }
+    
+    if(arguments >= 3)
+    {
+        c = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'c'
+        pilha_remove(pilha);       // Retira o @ que guarda o 'c'
+    }
+
+    if(arguments >= 4)
+    {
+        d = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'd'
+        pilha_remove(pilha);       // Retira o @ que guarda o 'd'
+    }
+
+}
+
+
 // Function to reduct
 CELL* reduct(CELL* inicio)
 {
-    CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
-    CELL* aux = inicio, *aux2, *aux3, *aux4, *aux5;
-    int i;
+
+    int i, arguments;
     int resultSoma = 0;
     int resultDiv = 0;
     int resultMult = 0;
@@ -21,6 +49,8 @@ CELL* reduct(CELL* inicio)
     int reductible = 1;
     Pilha* pilha = create_pilha();
     pilha_insere(pilha, inicio);
+    aux = inicio;
+
     while(reductible == 1)
     {
 
@@ -40,7 +70,8 @@ CELL* reduct(CELL* inicio)
         }
 
 
-        aux = get_topo_pilha(pilha);
+        op = get_topo_pilha(pilha);
+        pilha_remove(pilha); 
         /*
          printf("operador = %c\n", aux->type.operador);
          print_graph(inicio);
@@ -48,40 +79,30 @@ CELL* reduct(CELL* inicio)
          getchar();
          */
 
-        switch (aux->type.operador)
+        switch (op->type.operador)
         {
         case 'K':
-            if(pilha == NULL)
+            arguments = 2; // Sao 2 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
+                //printf("XXT\n");
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); // Tirar o operador 'K'
-                if (!is_Pilha_Vazia(pilha))
+                getArguments(arguments, pilha); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
+          
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                        {
-                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
-                            c->left = a->right;
-                        }
-                        else   // Nao tem cauda
-                        {
-                            b->left = a->right;
-                            b->right = NULL;
-                            pilha_insere(pilha, b);
-                        }
-
-                    }
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                    cauda->left = a->right;
+                }
+                else   // Nao tem cauda
+                {
+                    b->left = a->right;
+                    b->right = NULL;
+                    pilha_insere(pilha, b);
                 }
             }
 #ifdef COUNTERK
@@ -94,6 +115,7 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'k':
+            arguments = 2; // Sao 2 argumentos 
             if(pilha == NULL)
             {
                 reductible = 0; // chegou ao fim
@@ -101,31 +123,18 @@ CELL* reduct(CELL* inicio)
             }
             else
             {
-                pilha_remove(pilha); // Tirar o operador 'k'
-                if (!is_Pilha_Vazia(pilha))
+                getArguments(arguments, pilha); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-
-                        if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                        {
-                            c = get_topo_pilha(pilha);
-                            c->left = b->right;
-                        }
-                        else   // Nao tem cauda
-                        {
-                           b->left = b->right;
-                           b->right = NULL;
-                           pilha_insere(pilha,b);
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = b->right;
                 }
+                else   // Nao tem cauda
+                {
+                   b->left = b->right;
+                   b->right = NULL;
+                   pilha_insere(pilha,b);
+                }   
             }
 #ifdef COUNTERK
             contKlinha++;
@@ -137,54 +146,35 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'S':
-            if(pilha == NULL)
+            arguments = 3;  // Sao 3 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador
+                getArguments(arguments, pilha); // Pegamos o a, b, c,  mas falta saber se tem o elemento cauda ou nao
+           
+                aux2 = create_CELL_parenthesis(NULL, NULL);
+                aux2->left = create_CELL_parenthesis(NULL, NULL);
+                aux2->right = create_CELL_parenthesis(NULL, NULL);
 
-                if (!is_Pilha_Vazia(pilha))
+                aux2->left->left = a->right;
+                aux2->left->right = c->right;
+                aux2->right->left = b->right;
+                aux2->right->right = c->right;
+
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha))
-                        {
-                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
-                            pilha_remove(pilha);
-                            
-                            aux2 = create_CELL_parenthesis(NULL, NULL);
-                            aux2->left = create_CELL_parenthesis(NULL, NULL);
-                            aux2->right = create_CELL_parenthesis(NULL, NULL);
-
-                            aux2->left->left = a->right;
-                            aux2->left->right = c->right;
-                            aux2->right->left = b->right;
-                            aux2->right->right = c->right;
-
-                            if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                            {
-                                d = get_topo_pilha(pilha);
-                                d->left = aux2;
-                            }
-                            else   // Nao tem cauda
-                            {
-                                inicio = aux2;
-                                pilha_insere(pilha, aux2);
-                            }
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = aux2;
                 }
-
-
+                else   // Nao tem cauda
+                {
+                    inicio = aux2;
+                    pilha_insere(pilha, aux2);
+                }
             }
 
 #ifdef COUNTERS
@@ -194,30 +184,25 @@ CELL* reduct(CELL* inicio)
 
 
         case 'I':
-            if(pilha == NULL)
+            arguments = 1; // Tem so 1 argumento
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador
-                if (!is_Pilha_Vazia(pilha))
+                getArguments(arguments, pilha); // Pegamos o a, mas falta saber se tem o elemento cauda ou nao
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha);  // o '@' que guarda o a
-                    pilha_remove(pilha);
-
-                    if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        b->left = a->right;
-                    }
-                    else   // Nao tem cauda
-                    {
-                        a->left = a->right;
-                        a->right = NULL;
-                        pilha_insere(pilha, a);
-                    }
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o b
+                    cauda->left = a->right;
+                }
+                else   // Nao tem cauda
+                {
+                    a->left = a->right;
+                    a->right = NULL;
+                    pilha_insere(pilha, a);
                 }
             }
 
@@ -227,103 +212,65 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'B':
-            if(pilha == NULL)
+            arguments = 3; // Sao 3 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador
-                if (!is_Pilha_Vazia(pilha))
+                getArguments(arguments, pilha); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao            
+                aux2 = create_CELL_parenthesis(NULL,NULL);
+                aux2->right = create_CELL_parenthesis(NULL, NULL);
+                aux2->left = a->right;
+                aux2->right->left = b->right;
+                aux2->right->right = c->right;
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    f = get_topo_pilha(pilha); // Guarda o ponteiro de 'f'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'f'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        g = get_topo_pilha(pilha);  // o '@' que guarda o g
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha))
-                        {
-                            x = get_topo_pilha(pilha);  // o '@' que guarda o x
-                            pilha_remove(pilha);
-                            
-                            aux2 = create_CELL_parenthesis(NULL,NULL);
-                            aux2->right = create_CELL_parenthesis(NULL, NULL);
-
-                            aux2->left = f->right;
-                            aux2->right->left = g->right;
-                            aux2->right->right = x->right;
-
-
-
-                            if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                            {
-                                cauda = get_topo_pilha(pilha);
-                                cauda->left = aux2;
-                            }
-                            else   // Nao tem cauda
-                            {
-                                inicio = aux2;
-                                pilha_insere(pilha, aux2);
-                            }
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = aux2;
                 }
-
-
+                else   // Nao tem cauda
+                {
+                    inicio = aux2;
+                    pilha_insere(pilha, aux2);
+                }
+  
             }
 #ifdef COUNTERB
             contB++;
 #endif
 
-            break;
+        break;
 
         case 'C':
-            if(pilha == NULL)
+            arguments = 3; // Sao 3 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador 'C'
-                if (!is_Pilha_Vazia(pilha))
+                getArguments(arguments, pilha); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao         
+                aux2 = create_CELL_parenthesis(NULL, NULL);
+                aux2->left = create_CELL_parenthesis(NULL, NULL);
+                aux2->right = b->right;
+                aux2->left->right = c->right;
+                aux2->left->left = a->right;
+
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    f = get_topo_pilha(pilha); // Guarda o ponteiro de 'f'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'f'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        x = get_topo_pilha(pilha);  // o '@' que guarda o x
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha))
-                        {
-                            y = get_topo_pilha(pilha);  // o '@' que guarda o y
-                            pilha_remove(pilha);
-
-                            aux2 = create_CELL_parenthesis(NULL, NULL);
-                            aux2->left = create_CELL_parenthesis(NULL, NULL);
-                            aux2->right = x->right;
-                            aux2->left->right = y->right;
-                            aux2->left->left = f->right;
-
-                            if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                            {
-                                cauda = get_topo_pilha(pilha);
-                                cauda->left = aux2;
-                            }
-                            else   // Nao tem cauda
-                            {
-                                inicio = aux2; // tem que atualizar o inicio, ja que nao tem cauda
-                                pilha_insere(pilha, aux2);
-                            }
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = aux2;
                 }
+                else   // Nao tem cauda
+                {
+                    inicio = aux2; // tem que atualizar o inicio, ja que nao tem cauda
+                    pilha_insere(pilha, aux2);
+                }
+        
             }
 
 #ifdef COUNTERC
@@ -332,62 +279,35 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 's':
-
-            if(pilha == NULL)
+            arguments = 4; // Sao 4 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador
+                getArguments(arguments, pilha); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                aux2 = create_CELL_parenthesis(NULL, NULL);
+                aux2->left = create_CELL_parenthesis(NULL, NULL);
+                aux2->left->right = create_CELL_parenthesis(NULL, NULL);
+                aux2->right = create_CELL_parenthesis(NULL, NULL);
+                aux2->left->left = a->right;
+                aux2->left->right->left = b->right;
+                aux2->left->right->right = d->right;
+                aux2->right->left = c->right;
+                aux2->right->right = d->right;
 
-                if (!is_Pilha_Vazia(pilha))
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha))
-                        {
-                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
-                            pilha_remove(pilha);
-                            if (!is_Pilha_Vazia(pilha))
-                            {
-                                d = get_topo_pilha(pilha);  // o '@' que guarda o d
-                                pilha_remove(pilha);
-
-                                aux2 = create_CELL_parenthesis(NULL, NULL);
-                                aux2->left = create_CELL_parenthesis(NULL, NULL);
-                                aux2->left->right = create_CELL_parenthesis(NULL, NULL);
-                                aux2->right = create_CELL_parenthesis(NULL, NULL);
-
-                                aux2->left->left = a->right;
-                                aux2->left->right->left = b->right;
-                                aux2->left->right->right = d->right;
-                                aux2->right->left = c->right;
-                                aux2->right->right = d->right;
-
-
-                                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                                {
-                                    cauda = get_topo_pilha(pilha);
-                                    cauda->left = aux2;
-                                }
-                                else   // Nao tem cauda
-                                {
-                                    inicio = aux2;
-                                    pilha_insere(pilha, aux2);
-                                    // Nao precisa atualizar o inicio, pq reutilizamos o d, que ja ta sendo apontado por ele
-                                }
-                            }
-
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = aux2;
+                }
+                else   // Nao tem cauda
+                {
+                    inicio = aux2;
+                    pilha_insere(pilha, aux2);
+                    // Nao precisa atualizar o inicio, pq reutilizamos o d, que ja ta sendo apontado por ele
                 }
             }
 #ifdef COUNTERSLINHA
@@ -396,59 +316,35 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'b':
-            if (pilha == NULL)
+            arguments = 4; // Sao 4 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador
+                getArguments(arguments, pilha); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                aux2 = create_CELL_parenthesis(NULL, NULL);
+                aux2->right = create_CELL_parenthesis(NULL, NULL);
+                aux2->left = create_CELL_parenthesis(NULL, NULL);
+                aux2->left->left = a->right;
+                aux2->left->right = b->right;
+                aux2->right->left = c->right;
+                aux2->right->right = d->right;
 
-                if (!is_Pilha_Vazia(pilha))
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha))
-                        {
-                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
-                            pilha_remove(pilha);
-                            if (!is_Pilha_Vazia(pilha))
-                            {
-                                d = get_topo_pilha(pilha); // o '@' que guarda o d
-                                pilha_remove(pilha);
-
-                                aux2 = create_CELL_parenthesis(NULL, NULL);
-                                aux2->right = create_CELL_parenthesis(NULL, NULL);
-                                aux2->left = create_CELL_parenthesis(NULL, NULL);
-
-                                aux2->left->left = a->right;
-                                aux2->left->right = b->right;
-                                aux2->right->left = c->right;
-                                aux2->right->right = d->right;
-
-                                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                                {
-                                    cauda = get_topo_pilha(pilha);
-                                    cauda->left = aux2;
-                                }
-                                else   // Nao tem cauda
-                                {
-                                    inicio = aux2;
-                                    pilha_insere(pilha, aux2);
-                                    // tem que atualizar o inicio, ja que nao tem cauda
-                                }
-                            }
-
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = aux2;
                 }
+                else   // Nao tem cauda
+                {
+                    inicio = aux2;
+                    pilha_insere(pilha, aux2);
+                    // tem que atualizar o inicio, ja que nao tem cauda
+                }
+                            
             }
 
 #ifdef COUNTERBLINHA
@@ -459,58 +355,33 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'c':
-            if(pilha == NULL)
+            arguments = 4; // Sao 4 argumentos 
+            if(pilha == NULL || pilha->cabeca_pilha  <= 0)
             {
-                reductible = 0;
+                reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                pilha_remove(pilha); //tira o operador
+                getArguments(arguments, pilha); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                aux2 = create_CELL_parenthesis(NULL, NULL);
+                aux2->left = create_CELL_parenthesis(NULL, NULL);
+                aux2->left->right = create_CELL_parenthesis(NULL, NULL);
+                aux2->left->left = a->right;
+                aux2->left->right->left = b->right;
+                aux2->left->right->right = d->right;
+                aux2->right = c->right;
 
-                if (!is_Pilha_Vazia(pilha))
+                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha))
-                        {
-                            c = get_topo_pilha(pilha);  // o '@' que guarda o c
-                            pilha_remove(pilha);
-                            if (!is_Pilha_Vazia(pilha))
-                            {
-                                d = get_topo_pilha(pilha); // o '@' que guarda o d
-                                pilha_remove(pilha);
-
-                                aux2 = create_CELL_parenthesis(NULL, NULL);
-                                aux2->left = create_CELL_parenthesis(NULL, NULL);
-                                aux2->left->right = create_CELL_parenthesis(NULL, NULL);
-
-                                aux2->left->left = a->right;
-                                aux2->left->right->left = b->right;
-                                aux2->left->right->right = d->right;
-                                aux2->right = c->right;
-
-                                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
-                                {
-                                    cauda = get_topo_pilha(pilha);
-                                    cauda->left = aux2;
-                                }
-                                else   // Nao tem cauda
-                                {
-                                    inicio = aux2;
-                                    pilha_insere(pilha, aux2); // como foi criado o aux3, tem que atualizar o ponteiro inicial
-                                }
-                            }
-
-                        }
-                    }
+                    cauda = get_topo_pilha(pilha);
+                    cauda->left = aux2;
                 }
+                else   // Nao tem cauda
+                {
+                    inicio = aux2;
+                    pilha_insere(pilha, aux2); // como foi criado o aux3, tem que atualizar o ponteiro inicial
+                }    
             }
 #ifdef COUNTERCLINHA
             contClinha++;

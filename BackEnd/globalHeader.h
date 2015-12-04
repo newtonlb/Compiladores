@@ -98,6 +98,9 @@ int lastPos = 0;
 int pos = 0;
 CELL heap[HEAP_SIZE];
 
+CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
+CELL* aux, *aux2, *aux3, *aux4, *aux5;
+
 /// Functions to create Cell
 CELL* create_CELL();
 CELL* create_CELL_parenthesis(CELL* esq, CELL* dir);
@@ -115,5 +118,9 @@ int is_Pilha_Vazia(Pilha* p);
 void pilha_insere(Pilha *p, CELL* celula);
 void pilha_remove(Pilha* p);
 void free_pilha(Pilha* p);
+
+
+// Functions to reduct
+CELL* reduct(CELL* inicio);
 
 #endif

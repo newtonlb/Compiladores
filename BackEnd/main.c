@@ -18,31 +18,6 @@ void mg_V2()
     int counter = 0;
 
     inicio = reduct(inicio);
-
-    while(garbage == 1)
-    {
-        if (heapUsado == 0)
-        {
-            GC_cheney(inicio, &heap[HEAP_HALF_SIZE]);
-            printf("SAIU DO GC 0\n");
-            heapUsado = 1;
-            lastPos = HEAP_HALF_SIZE;
-            printf("lastPos = %d\n", lastPos);
-            inicio = &heap[HEAP_HALF_SIZE];
-        }
-        else
-        {
-            GC_cheney(inicio, &heap[0]);
-            printf("SAIU DO GC 1\n");
-            heapUsado = 0;
-            lastPos = 0;
-            inicio = &heap[0];            
-        }
-        free_pilha(pilha);
-        garbage = 0;
-        inicio = reduct(inicio);
-    }
-
     print_graph(inicio);
 
 }

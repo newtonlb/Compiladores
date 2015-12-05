@@ -83,7 +83,7 @@ CELL* reduct(CELL* inicio)
         {
         case 'K':
             arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilhaPos <= 1)
+            if(pilha == NULL || pilhaPos <= 0)
             {
                 //printf("XXT\n");
                 reductible = 0; // chegou ao fim
@@ -115,7 +115,7 @@ CELL* reduct(CELL* inicio)
 
         case 'k':
             arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilhaPos  <= 1)
+            if(pilha == NULL || pilhaPos  <= 0)
             {
                 reductible = 0; // chegou ao fim
                 break;
@@ -145,7 +145,23 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'S':
-            arguments = 3;  // Sao 3 argumentos 
+            arguments = 3;  // Sao 3 argumentos
+            if (heapUsado == 0)
+            {
+                if (lastPos + 3 >= HEAP_HALF_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
+            else
+            {
+                if (lastPos + 3 >= HEAP_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
             if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
@@ -184,7 +200,7 @@ CELL* reduct(CELL* inicio)
 
         case 'I':
             arguments = 1; // Tem so 1 argumento
-            if(pilha == NULL || pilhaPos  <= 1)
+            if(pilha == NULL || pilhaPos  <= 0)
             {
                 reductible = 0; // chegou ao fim
                 break;
@@ -210,7 +226,23 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'B':
-            arguments = 3; // Sao 3 argumentos 
+            arguments = 3; // Sao 3 argumentos
+            if (heapUsado == 0)
+            {
+                if (lastPos + 2 >= HEAP_HALF_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
+            else
+            {
+                if (lastPos + 2 >= HEAP_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
             if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
@@ -244,6 +276,22 @@ CELL* reduct(CELL* inicio)
 
         case 'C':
             arguments = 3; // Sao 3 argumentos 
+            if (heapUsado == 0)
+            {
+                if (lastPos + 2 >= HEAP_HALF_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
+            else
+            {
+                if (lastPos + 2 >= HEAP_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
             if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
@@ -277,7 +325,23 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 's':
-            arguments = 4; // Sao 4 argumentos 
+            arguments = 4; // Sao 4 argumentos
+            if (heapUsado == 0)
+            {
+                if (lastPos + 4 >= HEAP_HALF_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
+            else
+            {
+                if (lastPos + 4 >= HEAP_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            } 
             if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
@@ -315,6 +379,22 @@ CELL* reduct(CELL* inicio)
 
         case 'b':
             arguments = 4; // Sao 4 argumentos 
+            if (heapUsado == 0)
+            {
+                if (lastPos + 3 >= HEAP_HALF_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
+            else
+            {
+                if (lastPos + 3 >= HEAP_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
             if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim
@@ -353,7 +433,23 @@ CELL* reduct(CELL* inicio)
             break;
 
         case 'c':
-            arguments = 4; // Sao 4 argumentos 
+            arguments = 4; // Sao 4 argumentos
+            if (heapUsado == 0)
+            {
+                if (lastPos + 3 >= HEAP_HALF_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            }
+            else
+            {
+                if (lastPos + 3 >= HEAP_SIZE)
+                {
+                    garbage = 1;
+                    return inicio;
+                }
+            } 
             if(pilha == NULL || pilhaPos  <= 1)
             {
                 reductible = 0; // chegou ao fim

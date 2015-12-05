@@ -72,12 +72,12 @@ CELL* reduct(CELL* inicio)
 
         op = get_topo_pilha(pilha);
         pilha_remove(pilha); 
-        /*
-         printf("operador = %c\n", aux->type.operador);
-         print_graph(inicio);
-         printf("\n");
-         getchar();
-         */
+        
+         // printf("operador = %c\n", aux->type.operador);
+         // print_graph(inicio);
+         // printf("\n");
+         // getchar();
+         
 
         switch (op->type.operador)
         {
@@ -449,7 +449,7 @@ CELL* reduct(CELL* inicio)
             #ifdef COUNTERSOMA
             contSoma++;
             #endif
-            break;
+            return inicio;
 
         case '-':
             arguments = 2; // Sao 2 argumentos 
@@ -512,7 +512,7 @@ CELL* reduct(CELL* inicio)
             #ifdef COUNTERSUB
             contSub++;
             #endif
-            break;
+            return inicio;
 
         case '*':
             if(pilha == NULL)

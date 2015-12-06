@@ -11,35 +11,35 @@ void getArguments(int arguments, int arit, int arg)
 {
     if(arit == 0)
     {
-        printf("\nArit = %d\n", arit);
+        //printf("\nArit = %d\n", arit);
         if(arguments >= 1)
         {
-            a = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'a'
+            a = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'a'
             pilha_remove(pilha);       // Retira o @ que guarda o 'a'    
         }
 
         if(arguments >= 2)
         {
-            b = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'b'
+            b = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'b'
             pilha_remove(pilha);       // Retira o @ que guarda o 'b'
         }
         
         if(arguments >= 3)
         {
-            c = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'c'
+            c = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'c'
             pilha_remove(pilha);       // Retira o @ que guarda o 'c'
         }
 
         if(arguments >= 4)
         {
-            d = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'd'
+            d = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'd'
             pilha_remove(pilha);       // Retira o @ que guarda o 'd'
         }
     }
     else if(arit == 1) // Eh um aritmetico, vou pegar argumento por argumento
     {
         // void getArguments(int arguments, int arit, int arg)
-        printf("\nArit = %d\n", arit);
+        //printf("\nArit = %d\n", arit);
 
         if(arg == 0)
         {
@@ -79,9 +79,9 @@ CELL* reduct(CELL* inicio)
     posRaizPilha = pilhaPos;
     pilha_insere(pilha, inicio);
     aux = inicio;
-    printf("\nGraph Inicio: ");
-    print_graph(inicio);
-    printf("\n");
+    //printf("\nGraph Inicio: ");
+    //print_graph(inicio);
+    //printf("\n");
     while(reductible == 1)
     {
 
@@ -104,11 +104,12 @@ CELL* reduct(CELL* inicio)
         op = get_topo_pilha(pilha);
         pilha_remove(pilha); 
         
-         // printf("operador = %c\n", aux->type.operador);
-         // print_graph(inicio);
-         // printf("\n");
-         // getchar();
-        printf("\nOP: %c\n",op->type.operador);
+          //printf("operador = %c\n", op->type.operador);
+             //printf("\nOP: %c\n",op->type.operador);
+            //print_graph(inicio);
+          //printf("\n");
+          //getchar();
+       
         switch (op->type.operador)
         {
         case 'K':
@@ -121,16 +122,16 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
-          
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                CELL* arg_a = a;
+                if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
-                    cauda->left = a->right;
+                    cauda->left = arg_a;
                 }
                 else   // Nao tem cauda
                 {
-                    inicio = a->right;
-                    pilha_insere(pilha, a->right);
+                    inicio = arg_a;
+                    pilha_insere(pilha, arg_a);
                 }
             }
 #ifdef COUNTERK
@@ -151,17 +152,19 @@ CELL* reduct(CELL* inicio)
             }
             else
             {
-                getArguments(arguments,0,0);  // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                
+                getArguments(arguments,0,0);
+                CELL* arg_b = b;// Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
+                if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
-                    cauda->left = b->right;
+                    cauda->left = arg_b;
                 }
                 else   // Nao tem cauda
                 {
                    
-                    inicio = b->right;
-                    pilha_insere(pilha, b->right);
+                    inicio = arg_b;
+                    pilha_insere(pilha, arg_b);
                 }   
             }
 #ifdef COUNTERK
@@ -188,17 +191,21 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0);  // Pegamos o a, b, c,  mas falta saber se tem o elemento cauda ou nao
+                CELL* arg_a = a;
+                CELL* arg_b = b;
+                CELL* arg_c = c;
+                
            
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
 
-                aux2->left->left = a->right;
-                aux2->left->right = c->right;
-                aux2->right->left = b->right;
-                aux2->right->right = c->right;
+                aux2->left->left = arg_a;
+                aux2->left->right = arg_c;
+                aux2->right->left = arg_b;
+                aux2->right->right = arg_c;
 
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos-3-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
                     cauda->left = aux2;
@@ -226,15 +233,16 @@ CELL* reduct(CELL* inicio)
             else
             {
                  getArguments(arguments,0,0); // Pegamos o a, mas falta saber se tem o elemento cauda ou nao
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                CELL* arg_a = a;
+                if((pilhaPos-1-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);  // o '@' que guarda o b
-                    cauda->left = a->right;
+                    cauda->left = arg_a;
                 }
                 else   // Nao tem cauda
                 {
-                    inicio = a->right;
-                    pilha_insere(pilha, a->right);
+                    inicio = arg_a;
+                    pilha_insere(pilha, arg_a);
                 }
             }
 
@@ -258,12 +266,15 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0);  // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao            
+                CELL* arg_a = a;
+                CELL* arg_b = b;
+                CELL* arg_c = c;
                 aux2 = create_CELL_parenthesis(NULL,NULL);
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
-                aux2->left = a->right;
-                aux2->right->left = b->right;
-                aux2->right->right = c->right;
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                aux2->left = arg_a;
+                aux2->right->left = arg_b;
+                aux2->right->right = arg_c;
+                if((pilhaPos-3-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
                     cauda->left = aux2;
@@ -296,13 +307,17 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0); // Pegamos o a,b,c mas falta saber se tem o elemento cauda ou nao         
+                CELL* arg_a = a;
+                CELL* arg_b = b;
+                CELL* arg_c = c;
+                
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
-                aux2->right = b->right;
-                aux2->left->right = c->right;
-                aux2->left->left = a->right;
+                aux2->right = arg_b;
+                aux2->left->right = arg_c;
+                aux2->left->left = arg_a;
 
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos-3-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
                     cauda->left = aux2;
@@ -335,17 +350,21 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0);  // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                CELL* arg_a = a;
+                CELL* arg_b = b;
+                CELL* arg_c = c;
+                CELL* arg_d = d;
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
                 aux2->left->right = create_CELL_parenthesis(NULL, NULL);
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
-                aux2->left->left = a->right;
-                aux2->left->right->left = b->right;
-                aux2->left->right->right = d->right;
-                aux2->right->left = c->right;
-                aux2->right->right = d->right;
+                aux2->left->left = arg_a;
+                aux2->left->right->left = arg_b;
+                aux2->left->right->right = arg_d;
+                aux2->right->left = arg_c;
+                aux2->right->right = arg_d;
 
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos-4-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
                     cauda->left = aux2;
@@ -377,15 +396,19 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0); // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                CELL* arg_a = a;
+                CELL* arg_b = b;
+                CELL* arg_c = c;
+                CELL* arg_d = d;
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
-                aux2->left->left = a->right;
-                aux2->left->right = b->right;
-                aux2->right->left = c->right;
-                aux2->right->right = d->right;
+                aux2->left->left = arg_a;
+                aux2->left->right = arg_b;
+                aux2->right->left = arg_c;
+                aux2->right->right = arg_d;
 
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos-4-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
                     cauda->left = aux2;
@@ -421,15 +444,19 @@ CELL* reduct(CELL* inicio)
             else
             {
                 getArguments(arguments,0,0);  // Pegamos o a,b,c,d mas falta saber se tem o elemento cauda ou nao   
+                CELL* arg_a = a;
+                CELL* arg_b = b;
+                CELL* arg_c = c;
+                CELL* arg_d = d;
                 aux2 = create_CELL_parenthesis(NULL, NULL);
                 aux2->left = create_CELL_parenthesis(NULL, NULL);
                 aux2->left->right = create_CELL_parenthesis(NULL, NULL);
-                aux2->left->left = a->right;
-                aux2->left->right->left = b->right;
-                aux2->left->right->right = d->right;
-                aux2->right = c->right;
+                aux2->left->left = arg_a;
+                aux2->left->right->left = arg_b;
+                aux2->left->right->right = arg_d;
+                aux2->right = arg_c;
 
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos-4-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
                     cauda = get_topo_pilha(pilha);
                     cauda->left = aux2;
@@ -461,15 +488,16 @@ CELL* reduct(CELL* inicio)
             {
                // getArguments(arguments,1,)
                 //getArguments(arguments,1,0); // Pega o ArgA
-                CELL *arg_a = pilha[pilhaPos - 1].celula->right; 
+                CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                
 
                 if(arg_a == NULL)
                     return inicio;
                 else if(arg_a->id == 'o')
                 {
-                        printf("\nA: ");
+                        /*printf("\nA: ");
                         print_graph(arg_a);
-                        printf("\n");
+                        printf("\n");*/
                     if (arg_a->type.operador == '@')
                     {
                         int var1 = posRaizPilha;
@@ -488,14 +516,15 @@ CELL* reduct(CELL* inicio)
 
                 //getArguments(arguments,1,1); // Pegar o ArgB
                CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                
              
                 if(arg_b == NULL)
                     return inicio;
                 else if(arg_b->id == 'o')
                 {
-                        printf("\nB: ");
+                        /*printf("\nB: ");
                         print_graph(arg_b);
-                        printf("\n");
+                        printf("\n");*/
                     if (arg_b->type.operador == '@')
                     {
                         int var1 = posRaizPilha;
@@ -519,19 +548,19 @@ CELL* reduct(CELL* inicio)
                 }
 
                 resultSoma = (arg_a->type.number + arg_b->type.number);
-                printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
-                if(arg_a->left != NULL)
-                     printf("Al : %d\n",arg_a->left->type.number); 
-                if(arg_a->right != NULL)
-                     printf("Ar : %d\n",arg_a->right->type.number); 
+                //printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                //if(arg_a->left != NULL)
+                     //printf("Al : %d\n",arg_a->left->type.number);
+                //if(arg_a->right != NULL)
+                     //printf("Ar : %d\n",arg_a->right->type.number);
                 aux2 = create_CELL_number(resultSoma);
-                printf("AUX2 : %d, GR:  ", aux2->type.number);
-                print_graph(aux2);
-                printf("\n\n");
+                //printf("AUX2 : %d, GR:  ", aux2->type.number);
+                //print_graph(aux2);
+                //printf("\n\n");
 
                
 
-                if (!is_Pilha_Vazia(pilha))
+                if ((pilhaPos - 2 -posRaizPilha) > 0)
                 {
                    // c = get_topo_pilha(pilha);
                     c = pilha[pilhaPos - 3].celula;
@@ -546,7 +575,7 @@ CELL* reduct(CELL* inicio)
                 pilha_remove(pilha);
                 pilha_remove(pilha);
                 pilha_insere(pilha, aux2);
-              return inicio;
+              return aux2;
             }
             
             #ifdef COUNTERSOMA
@@ -555,457 +584,701 @@ CELL* reduct(CELL* inicio)
             return inicio;
 
         case '-':
-            if(heapQtdCallGc(1))
-            {
-                garbage = 1;
-                return inicio;
-            }
-            arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilhaPos  <= 1)
-            {
-                reductible = 0; // chegou ao fim
-                break;
-            }
-            else
-            {
-                raiz_aux = inicio;
-                 getArguments(arguments,0,0); 
-                CELL *arg_a = a->right, *arg_b = b->right;
-                int a_int, b_int;
-
-                if(arg_a->id == 'o')
+                if(heapQtdCallGc(1))
                 {
-                    if (arg_a->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_a = reduct(arg_a);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_a;
-                        inicio = raiz_aux;
-                    }
+                    garbage = 1;
+                    return inicio;
                 }
-                if(arg_b->id == 'o')
+                arguments = 2; // Sao 2 argumentos
+                if(pilha == NULL || pilhaPos  <= 1)
                 {
-                    if (arg_b->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_b = reduct(arg_b);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_b;
-                        inicio = raiz_aux;
-                    }
-                }
-                resultSoma = (arg_a->type.number - arg_b->type.number);
-
-                aux2 = create_CELL_number(resultSoma);
-
-                if (!is_Pilha_Vazia(pilha))
-                {
-                    c = get_topo_pilha(pilha);
-                    c->left = aux2;
+                    reductible = 0; // chegou ao fim
+                    break;
                 }
                 else
                 {
-                    inicio = aux2;
+                    // getArguments(arguments,1,)
+                    //getArguments(arguments,1,0); // Pega o ArgA
+                    CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                    
+                    
+                    if(arg_a == NULL)
+                        return inicio;
+                    else if(arg_a->id == 'o')
+                    {
+                        /*printf("\nA: ");
+                        print_graph(arg_a);
+                        printf("\n");*/
+                        if (arg_a->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_a = reduct(arg_a);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 1].celula->right = arg_a;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    //getArguments(arguments,1,1); // Pegar o ArgB
+                    CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                    
+                    
+                    if(arg_b == NULL)
+                        return inicio;
+                    else if(arg_b->id == 'o')
+                    {
+                        /*printf("\nB: ");
+                        print_graph(arg_b);
+                        printf("\n");*/
+                        if (arg_b->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_b = reduct(arg_b);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 2].celula->right = arg_b;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    if(heapQtdCallGc(1))
+                    {
+                        garbage = 1;
+                        return inicio;
+                    }
+                    
+                    resultSoma = (arg_a->type.number - arg_b->type.number);
+                    //printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                    //if(arg_a->left != NULL)
+                        //printf("Al : %d\n",arg_a->left->type.number);
+                    //if(arg_a->right != NULL)
+                        //printf("Ar : %d\n",arg_a->right->type.number);
+                    aux2 = create_CELL_number(resultSoma);
+                    //printf("AUX2 : %d, GR:  ", aux2->type.number);
+                    //print_graph(aux2);
+                    //printf("\n\n");
+                    
+                    
+                    
+                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    {
+                        // c = get_topo_pilha(pilha);
+                        c = pilha[pilhaPos - 3].celula;
+                        c->left = aux2;
+                    }
+                    else
+                    {
+                        inicio = aux2;
+                        
+                    }
+                    
                     pilha_remove(pilha);
                     pilha_remove(pilha);
                     pilha_insere(pilha, aux2);
+                    return aux2;
                 }
-                
-
-            }
             #ifdef COUNTERSUB
             contSub++;
             #endif
             return inicio;
 
         case '*':
-            if(heapQtdCallGc(1))
-            {
-                garbage = 1;
-                return inicio;
-            }
-            if(pilha == NULL)
-            {
-                reductible = 0; // chegou ao fim
-                break;
-            }
-             else
-            {
-                pilha_remove(pilha); // Tirar o operador '+'
-                if (!is_Pilha_Vazia(pilha))
+                if(heapQtdCallGc(1))
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha)) // o '@' que guarda a cauda c
-                        {
-                            c = get_topo_pilha(pilha);
-                            pilha_remove(pilha);
-
-                            a->right = reduct(a->right);
-                            b->right = reduct(b->right);
-
-                            if(a->right->type.operador == '@')
-                            {
-                                if (a->right->left != NULL)
-                                {
-                                    a->right = a->right->left;
-                                }
-                            }
-                            if(b->right->type.operador == '@')
-                            {
-                                if (b->right->left != NULL)
-                                {
-                                    b->right = b->right->left;
-                                }
-                            }
-
-                            resultSoma = (a->right->type.number * b->right->type.number);
-
-                            c->left = create_CELL_number(resultSoma);
-                            pilha_insere(pilha, c);
-                        }
-                        else
-                        {
-                            // Nao tem cauda
-                            if(a->right->id != 'n')
-                            {
-                                a->right = reduct(a->right);
-                            }
-                            if(b->right->id != 'n')
-                            {
-                                b->right = reduct(b->right);
-                            }
-
-                            if(a->right->type.operador == '@')
-                            {
-                                a->right = a->right->left;
-                            }
-                            if(b->right->type.operador == '@')
-                            {
-                                b->right = b->right->left;
-                            }
-                            resultSoma = (a->right->type.number * b->right->type.number);
-                            b->left = create_CELL_number(resultSoma);
-                            b->right = NULL;
-                            pilha_insere(pilha, b);
-                        }
-
-                    }
+                    garbage = 1;
+                    return inicio;
                 }
-            }
+                arguments = 2; // Sao 2 argumentos
+                if(pilha == NULL || pilhaPos  <= 1)
+                {
+                    reductible = 0; // chegou ao fim
+                    break;
+                }
+                else
+                {
+                    // getArguments(arguments,1,)
+                    //getArguments(arguments,1,0); // Pega o ArgA
+                    CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                    
+                    
+                    if(arg_a == NULL)
+                        return inicio;
+                    else if(arg_a->id == 'o')
+                    {
+                        //printf("\nA: ");
+                        //print_graph(arg_a);
+                        //printf("\n");
+                        if (arg_a->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_a = reduct(arg_a);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 1].celula->right = arg_a;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    //getArguments(arguments,1,1); // Pegar o ArgB
+                    CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                    
+                    
+                    if(arg_b == NULL)
+                        return inicio;
+                    else if(arg_b->id == 'o')
+                    {
+                        //printf("\nB: ");
+                        //print_graph(arg_b);
+                        //printf("\n");
+                        if (arg_b->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_b = reduct(arg_b);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 2].celula->right = arg_b;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    if(heapQtdCallGc(1))
+                    {
+                        garbage = 1;
+                        return inicio;
+                    }
+                    
+                    resultSoma = (arg_a->type.number * arg_b->type.number);
+                    //printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                    //if(arg_a->left != NULL)
+                        //printf("Al : %d\n",arg_a->left->type.number);
+                    //if(arg_a->right != NULL)
+                        //printf("Ar : %d\n",arg_a->right->type.number);
+                    aux2 = create_CELL_number(resultSoma);
+                    //printf("AUX2 : %d, GR:  ", aux2->type.number);
+                    //print_graph(aux2);
+                    //printf("\n\n");
+                    
+                    
+                    
+                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    {
+                        // c = get_topo_pilha(pilha);
+                        c = pilha[pilhaPos - 3].celula;
+                        c->left = aux2;
+                    }
+                    else
+                    {
+                        inicio = aux2;
+                        
+                    }
+                    
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_insere(pilha, aux2);
+                    return aux2;
+                }
             #ifdef COUNTERMULT
             contMult++;
             #endif
+                return inicio;
             break;
 
         case '/':
-            if(heapQtdCallGc(1))
-            {
-                garbage = 1;
-                return inicio;
-            }
-            if(pilha == NULL)
-            {
-                reductible = 0; // chegou ao fim
-                break;
-            }
-             else
-            {
-                pilha_remove(pilha); // Tirar o operador '+'
-                if (!is_Pilha_Vazia(pilha))
+                if(heapQtdCallGc(1))
                 {
-                    a = get_topo_pilha(pilha); // Guarda o ponteiro de 'a'
-                    pilha_remove(pilha);    // Retira o @ que guarda o 'a'
-
-                    if(!is_Pilha_Vazia(pilha))
-                    {
-                        b = get_topo_pilha(pilha);  // o '@' que guarda o b
-                        pilha_remove(pilha);
-
-                        if(!is_Pilha_Vazia(pilha)) // o '@' que guarda a cauda c
-                        {
-                            c = get_topo_pilha(pilha);
-                            pilha_remove(pilha);
-
-                            a->right = reduct(a->right);
-                            b->right = reduct(b->right);
-
-                            if(a->right->type.operador == '@')
-                            {
-                                if (a->right->left != NULL)
-                                {
-                                    a->right = a->right->left;
-                                }
-                            }
-                            if(b->right->type.operador == '@')
-                            {
-                                if (b->right->left != NULL)
-                                {
-                                    b->right = b->right->left;
-                                }
-                            }
-
-                            resultSoma = (a->right->type.number / b->right->type.number);
-                            c->left = create_CELL_number(resultSoma);
-                            pilha_insere(pilha, c);
-                        }
-                        else
-                        {
-                            // Nao tem cauda
-                            if(a->right->id != 'n')
-                            {
-                                a->right = reduct(a->right);
-                            }
-                            if(b->right->id != 'n')
-                            {
-                                b->right = reduct(b->right);
-                            }
-
-                            if(a->right->type.operador == '@')
-                            {
-                                a->right = a->right->left;
-                            }
-                            if(b->right->type.operador == '@')
-                            {
-                                b->right = b->right->left;
-                            }
-                            resultSoma = (a->right->type.number / b->right->type.number);
-                            b->left = create_CELL_number(resultSoma);
-                            b->right = NULL;
-                            pilha_insere(pilha, b);
-                        }
-
-                    }
+                    garbage = 1;
+                    return inicio;
                 }
-            }
+                arguments = 2; // Sao 2 argumentos
+                if(pilha == NULL || pilhaPos  <= 1)
+                {
+                    reductible = 0; // chegou ao fim
+                    break;
+                }
+                else
+                {
+                    // getArguments(arguments,1,)
+                    //getArguments(arguments,1,0); // Pega o ArgA
+                    CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                    
+                    
+                    if(arg_a == NULL)
+                        return inicio;
+                    else if(arg_a->id == 'o')
+                    {
+                        //printf("\nA: ");
+                        //print_graph(arg_a);
+                        //printf("\n");
+                        if (arg_a->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_a = reduct(arg_a);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 1].celula->right = arg_a;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    //getArguments(arguments,1,1); // Pegar o ArgB
+                    CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                    
+                    
+                    if(arg_b == NULL)
+                        return inicio;
+                    else if(arg_b->id == 'o')
+                    {
+                        //printf("\nB: ");
+                        //print_graph(arg_b);
+                        //printf("\n");
+                        if (arg_b->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_b = reduct(arg_b);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 2].celula->right = arg_b;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    if(heapQtdCallGc(1))
+                    {
+                        garbage = 1;
+                        return inicio;
+                    }
+                    
+                    resultSoma = (arg_a->type.number / arg_b->type.number);
+                    //printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                    //if(arg_a->left != NULL)
+                        //printf("Al : %d\n",arg_a->left->type.number);
+                    //if(arg_a->right != NULL)
+                        //printf("Ar : %d\n",arg_a->right->type.number);
+                    aux2 = create_CELL_number(resultSoma);
+                    //printf("AUX2 : %d, GR:  ", aux2->type.number);
+                    //print_graph(aux2);
+                    //printf("\n\n");
+                    
+                    
+                    
+                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    {
+                        // c = get_topo_pilha(pilha);
+                        c = pilha[pilhaPos - 3].celula;
+                        c->left = aux2;
+                    }
+                    else
+                    {
+                        inicio = aux2;
+                        
+                    }
+                    
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_insere(pilha, aux2);
+                    return aux2;
+                }
             #ifdef COUNTERDIV
             contDiv++;
             #endif
+                return inicio;
             break;
 
         case '=':
-            if(heapQtdCallGc(1))
-            {
-                garbage = 1;
-                return inicio;
-            }
-            arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilhaPos  <= 1)
-            {
-                reductible = 0; // chegou ao fim
-                break;
-            }
-            else
-            {
-                raiz_aux = inicio;
-                getArguments(arguments,0,0);
-
-                CELL *arg_a = a->right, *arg_b = b->right;
-                int a_int, b_int;
-
-                if(arg_a->id == 'o')
+                if(heapQtdCallGc(1))
                 {
-                    if (arg_a->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_a = reduct(arg_a);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_a;
-                        inicio = raiz_aux;
-                    }
+                    garbage = 1;
+                    return inicio;
                 }
-                if(arg_b->id == 'o')
+                arguments = 2; // Sao 2 argumentos
+                if(pilha == NULL || pilhaPos  <= 1)
                 {
-                    if (arg_b->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_b = reduct(arg_b);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_b;
-                        inicio = raiz_aux;
-                    }
-                }
-
-                if (arg_a->type.number == arg_b->type.number)
-                {
-                    aux2 = create_CELL_leaf('K');
-                }
-                else
-                    aux2 = create_CELL_leaf('k');
-                
-
-                if (!is_Pilha_Vazia(pilha))
-                {
-                    c = get_topo_pilha(pilha);
-                    c->left = aux2;
+                    reductible = 0; // chegou ao fim
+                    break;
                 }
                 else
                 {
-                    inicio = aux2;
+                    // getArguments(arguments,1,)
+                    //getArguments(arguments,1,0); // Pega o ArgA
+                    CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                    
+                    
+                    if(arg_a == NULL)
+                        return inicio;
+                    else if(arg_a->id == 'o')
+                    {
+                        //printf("\nA: ");
+                        //print_graph(arg_a);
+                        //printf("\n");
+                        if (arg_a->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_a = reduct(arg_a);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 1].celula->right = arg_a;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    //getArguments(arguments,1,1); // Pegar o ArgB
+                    CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                    
+                    
+                    if(arg_b == NULL)
+                        return inicio;
+                    else if(arg_b->id == 'o')
+                    {
+                        //printf("\nB: ");
+                        //print_graph(arg_b);
+                        //printf("\n");
+                        if (arg_b->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_b = reduct(arg_b);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 2].celula->right = arg_b;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    if(heapQtdCallGc(1))
+                    {
+                        garbage = 1;
+                        return inicio;
+                    }
+                    
+                    if(arg_a->type.number == arg_b->type.number)
+                    {
+                        aux2 = create_CELL_leaf('K');
+                    }
+                    else
+                    {
+                        aux2 = create_CELL_leaf('k');
+                    }
+                    
+                        //printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                        //if(arg_a->left != NULL)
+                        //printf("Al : %d\n",arg_a->left->type.number);
+                    //if(arg_a->right != NULL)
+                        //printf("Ar : %d\n",arg_a->right->type.number);
+                    //aux2 = create_CELL_number(resultSoma);
+                    //printf("AUX2 : %c, GR:  ", aux2->type.operador);
+                    //print_graph(aux2);
+                    //printf("\n\n");
+
+                    
+                    
+                    
+                    
+                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    {
+                        // c = get_topo_pilha(pilha);
+                        c = pilha[pilhaPos - 3].celula;
+                        c->left = aux2;
+                    }
+                    else
+                    {
+                        inicio = aux2;
+                        
+                    }
+                    
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     pilha_insere(pilha, aux2);
+                    //return aux2;
                 }
-                
-
-            }
 
             #ifdef COUNTERIGUAL
             contIgual++;
             #endif
+                //return inicio;
             break;
 
 
         case '<':
-            if(heapQtdCallGc(1))
-            {
-                garbage = 1;
-               return inicio;
-            }
-            arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilhaPos  <= 1)
-            {
-                reductible = 0; // chegou ao fim
-                break;
-            }
-            else
-            {
-                raiz_aux = inicio;
-                 getArguments(arguments,0,0); 
-
-                CELL *arg_a = a->right, *arg_b = b->right;
-                int a_int, b_int;
-
-                if(arg_a->id == 'o')
+                if(heapQtdCallGc(1))
                 {
-                    if (arg_a->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_a = reduct(arg_a);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_a;
-                        inicio = raiz_aux;
-                    }
+                    garbage = 1;
+                    return inicio;
                 }
-                if(arg_b->id == 'o')
+                arguments = 2; // Sao 2 argumentos
+                if(pilha == NULL || pilhaPos  <= 1)
                 {
-                    if (arg_b->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_b = reduct(arg_b);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_b;
-                        inicio = raiz_aux;
-                    }
-                }
-
-                if (arg_a->type.number < arg_b->type.number)
-                {
-                    aux2 = create_CELL_leaf('K');
-                }
-                else
-                    aux2 = create_CELL_leaf('k');
-                
-
-                if (!is_Pilha_Vazia(pilha))
-                {
-                    c = get_topo_pilha(pilha);
-                    c->left = aux2;
+                    reductible = 0; // chegou ao fim
+                    break;
                 }
                 else
                 {
-                    inicio = aux2;
+                    // getArguments(arguments,1,)
+                    //getArguments(arguments,1,0); // Pega o ArgA
+                    CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                    
+                    
+                    if(arg_a == NULL)
+                        return inicio;
+                    else if(arg_a->id == 'o')
+                    {
+                        /*printf("\nA: ");
+                        print_graph(arg_a);
+                        printf("\n");*/
+                        if (arg_a->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_a = reduct(arg_a);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 1].celula->right = arg_a;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    //getArguments(arguments,1,1); // Pegar o ArgB
+                    CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                    
+                    
+                    if(arg_b == NULL)
+                        return inicio;
+                    else if(arg_b->id == 'o')
+                    {
+                        /*printf("\nB: ");
+                        print_graph(arg_b);
+                        printf("\n");*/
+                        if (arg_b->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_b = reduct(arg_b);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 2].celula->right = arg_b;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    if(heapQtdCallGc(1))
+                    {
+                        garbage = 1;
+                        return inicio;
+                    }
+                    
+                    if(arg_a->type.number < arg_b->type.number)
+                    {
+                        aux2 = create_CELL_leaf('K');
+                    }
+                    else
+                    {
+                        aux2 = create_CELL_leaf('k');
+                    }
+                    
+                    //printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                    //if(arg_a->left != NULL)
+                        //printf("Al : %d\n",arg_a->left->type.number);
+                    //if(arg_a->right != NULL)
+                        //printf("Ar : %d\n",arg_a->right->type.number);
+                    //aux2 = create_CELL_number(resultSoma);
+                    //printf("AUX2 : %c, GR:  ", aux2->type.operador);
+                    //print_graph(aux2);
+                    //printf("\n\n");
+                    
+                    
+                    
+                    
+                    
+                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    {
+                        // c = get_topo_pilha(pilha);
+                        c = pilha[pilhaPos - 3].celula;
+                        c->left = aux2;
+                    }
+                    else
+                    {
+                        inicio = aux2;
+                        
+                    }
+                    
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     pilha_insere(pilha, aux2);
+                    //return aux2;
                 }
-                
-
-            }
             #ifdef COUNTERMENOR
             contMenor++;
             #endif
+                //return inicio;
             break;
 
 
         case '>':
-            if(heapQtdCallGc(1))
-            {
-                garbage = 1;
-                return inicio;
-            }
-            arguments = 2; // Sao 2 argumentos 
-            if(pilha == NULL || pilhaPos  <= 1)
-            {
-                reductible = 0; // chegou ao fim
-                break;
-            }
-            else
-            {
-                raiz_aux = inicio;
-                 getArguments(arguments,0,0); 
-
-                CELL *arg_a = a->right, *arg_b = b->right;
-                int a_int, b_int;
-
-                if(arg_a->id == 'o')
+                if(heapQtdCallGc(1))
                 {
-                    if (arg_a->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_a = reduct(arg_a);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_a;
-                        inicio = raiz_aux;
-                    }
+                    garbage = 1;
+                    return inicio;
                 }
-                if(arg_b->id == 'o')
+                arguments = 2; // Sao 2 argumentos
+                if(pilha == NULL || pilhaPos  <= 1)
                 {
-                    if (arg_b->type.operador == '@')
-                    {
-                        int posLivrePilha = pilhaPos;
-                        pilhaPos += 2;
-                        arg_b = reduct(arg_b);
-                        pilhaPos = posLivrePilha;
-                        // pilha[pilhaPos].celula->right = arg_b;
-                        inicio = raiz_aux;
-                    }
-                }
-
-                if (arg_a->type.number > arg_b->type.number)
-                {
-                    aux2 = create_CELL_leaf('K');
-                }
-                else
-                    aux2 = create_CELL_leaf('k');
-                
-
-                if (!is_Pilha_Vazia(pilha))
-                {
-                    c = get_topo_pilha(pilha);
-                    c->left = aux2;
+                    reductible = 0; // chegou ao fim
+                    break;
                 }
                 else
                 {
-                    inicio = aux2;
+                    // getArguments(arguments,1,)
+                    //getArguments(arguments,1,0); // Pega o ArgA
+                    CELL *arg_a = pilha[pilhaPos - 1].celula->right;
+                    
+                    
+                    if(arg_a == NULL)
+                        return inicio;
+                    else if(arg_a->id == 'o')
+                    {
+                        printf("\nA: ");
+                        print_graph(arg_a);
+                        printf("\n");
+                        if (arg_a->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_a = reduct(arg_a);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 1].celula->right = arg_a;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    //getArguments(arguments,1,1); // Pegar o ArgB
+                    CELL *arg_b = pilha[pilhaPos - 2].celula->right;
+                    
+                    
+                    if(arg_b == NULL)
+                        return inicio;
+                    else if(arg_b->id == 'o')
+                    {
+                        //printf("\nB: ");
+                        //print_graph(arg_b);
+                        //printf("\n");
+                        if (arg_b->type.operador == '@')
+                        {
+                            int var1 = posRaizPilha;
+                            int var2 = pilhaPos;
+                            pilhaPos++;
+                            arg_b = reduct(arg_b);
+                            posRaizPilha = var1;
+                            pilhaPos = var2;
+                            pilha[pilhaPos - 2].celula->right = arg_b;
+                            inicio = raiz_aux;
+                            
+                            if(garbage == 1)
+                                return inicio;
+                        }
+                    }
+                    
+                    if(heapQtdCallGc(1))
+                    {
+                        garbage = 1;
+                        return inicio;
+                    }
+                    
+                    if(arg_a->type.number > arg_b->type.number)
+                    {
+                        aux2 = create_CELL_leaf('K');
+                    }
+                    else
+                    {
+                        aux2 = create_CELL_leaf('k');
+                    }
+                    
+                   /* printf("A : %d , B : %d\n",arg_a->type.number , arg_b->type.number);
+                    if(arg_a->left != NULL)
+                        printf("Al : %d\n",arg_a->left->type.number);
+                    if(arg_a->right != NULL)
+                        printf("Ar : %d\n",arg_a->right->type.number);
+                    //aux2 = create_CELL_number(resultSoma);
+                    printf("AUX2 : %c, GR:  ", aux2->type.operador);
+                    print_graph(aux2);
+                    printf("\n\n");
+                    
+                    */
+                    
+                    
+                    
+                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    {
+                        // c = get_topo_pilha(pilha);
+                        c = pilha[pilhaPos - 3].celula;
+                        c->left = aux2;
+                    }
+                    else
+                    {
+                        inicio = aux2;
+                        
+                    }
+                    
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     pilha_insere(pilha, aux2);
+                    //return aux2;
                 }
-                
-
-            }
             #ifdef COUNTERMAIOR
             contMaior++;
             #endif
+                //return inicio;
             break;
 
         case 'Y':
@@ -1015,24 +1288,31 @@ CELL* reduct(CELL* inicio)
                 return inicio;;
             }
             arguments = 1; // Tem so 1 argumento
-            if(pilha == NULL || pilhaPos  <= 1)
-            {
+            if(pilha == NULL || (pilhaPos -posRaizPilha)  <= 0)
+            {//printf("chegou aqui\n");
                 reductible = 0; // chegou ao fim
                 break;
             }
             else
             {
-                 getArguments(arguments,0,0); 
-
+                 getArguments(arguments,0,0);
+                CELL* arg_a = a;
+                
+                //print_graph(a);
+                //printf("\n\n");
+                
                 aux2 = create_CELL_parenthesis(NULL, NULL);
-                aux2->left = a->right;
+                aux2->left = arg_a;
                 aux2->right = create_CELL_parenthesis(NULL, NULL);
-                aux2->right->right = a->right;
+                aux2->right->right = arg_a;
                 aux2->right->left = op;
+                //print_graph(aux2);
 
-                if(!is_Pilha_Vazia(pilha)) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos - 1 -posRaizPilha) >= 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    b = get_topo_pilha(pilha);  // o '@' que guarda o b
+                    //print_graph("entrou aqui\n");
+                    b = pilha[pilhaPos-1].celula;
+                    //print_graph(b);// o '@' que guarda o b
                     b->left = aux2;
                 }
                 else   // Nao tem cauda

@@ -9,7 +9,7 @@
 void mg_V2()
 {
     int size = strlen(string);
-
+    
     CELL* inicio = create_graph(size);
     CELL* aux = inicio, *aux2, *aux3;
     int i;
@@ -17,10 +17,10 @@ void mg_V2()
     int reductible = 1;
     CELL* vetor[] = {NULL, NULL, NULL, NULL}, *a, *b, *c, *d, *op, *cauda, *f, *g, *x, *y, *par1, *par2;
     int counter = 0;
-
+    
     inicio = reduct(inicio);
     print_graph(inicio);
-
+    
 }
 
 
@@ -28,7 +28,7 @@ int main()
 {
     mg_V2();
     printf("\n\n");
-
+    
 #ifdef PRINTS
     printf("ContK = %d\n", contK);
     printf("ContS = %d\n", contS);
@@ -51,6 +51,6 @@ int main()
     printf("Iterations = %d\n", iterations);
     printf("lastPos = %d\n", lastPos);
 #endif
-
+    
     return 0;
 }

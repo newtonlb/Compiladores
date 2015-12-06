@@ -4,7 +4,7 @@
 
 #ifndef INPUTSTRING_H_
 #define INPUTSTRING_H_
-//
+
 // Initial Input String
 
 //char *string = "IIa";

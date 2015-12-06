@@ -546,7 +546,7 @@ CELL* reduct(CELL* inicio)
                 pilha_remove(pilha);
                 pilha_remove(pilha);
                 pilha_insere(pilha, aux2);
-              //  return inicio;
+              return inicio;
             }
             
             #ifdef COUNTERSOMA

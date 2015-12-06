@@ -43,7 +43,6 @@
 #define COUNTERY
 #define PRINTS
 
-// Set all counter to zero
 int contK = 0;
 int contS = 0;
 int contI = 0;
@@ -101,7 +100,7 @@ int globalReductible = 1;
 int lastPos = -1;
 int heapUsado = 0;
 int pilhaPos = 0;
-int posPilhaLivre;
+int posRaizPilha = 0;
 int garbage = 0;
 CELL heap[HEAP_SIZE];
 CELL* raizGlobal;

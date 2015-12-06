@@ -38,7 +38,7 @@ CELL* create_graph(int size)
 
             pos++;
 
-            char stringAux[50];
+            char stringAux[50] = {'\0'};
             int contadorAux = 0;
             int number;
             while(string[pos] != '$')

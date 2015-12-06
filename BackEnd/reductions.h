@@ -77,15 +77,13 @@ CELL* reduct(CELL* inicio)
          // print_graph(inicio);
          // printf("\n");
          // getchar();
-         
-
+        
         switch (op->type.operador)
         {
         case 'K':
             arguments = 2; // Sao 2 argumentos 
             if(pilha == NULL || pilhaPos <= 1)
             {
-                //printf("XXT\n");
                 reductible = 0; // chegou ao fim
                 break;
             }
@@ -146,7 +144,7 @@ CELL* reduct(CELL* inicio)
 
         case 'S':
             arguments = 3;  // Sao 3 argumentos 
-            if(pilha == NULL || pilhaPos  <= 1)
+            if(pilha == NULL || pilhaPos  <= 2)
             {
                 reductible = 0; // chegou ao fim
                 break;
@@ -184,7 +182,7 @@ CELL* reduct(CELL* inicio)
 
         case 'I':
             arguments = 1; // Tem so 1 argumento
-            if(pilha == NULL || pilhaPos  <= 1)
+            if(pilha[pilhaPos-1].celula->right == NULL || pilhaPos  <= 0)
             {
                 reductible = 0; // chegou ao fim
                 break;

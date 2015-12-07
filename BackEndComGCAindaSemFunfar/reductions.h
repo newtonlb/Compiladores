@@ -6,7 +6,7 @@
 
 #ifndef REDUCTIONS_H_
 #define REDUCTIONS_H_
-// getArguments(arguments,1,)
+
 void getArguments(int arguments, int arit, int arg)
 {
     if(arit == 0)
@@ -14,50 +14,41 @@ void getArguments(int arguments, int arit, int arg)
         //printf("\nArit = %d\n", arit);
         if(arguments >= 1)
         {
-            a = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'a'
-            pilha_remove(pilha);       // Retira o @ que guarda o 'a'    
+            a = pilha[pilhaPos - 1].celula->right;
+           // a = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'a'
+           // pilha_remove(pilha);       // Retira o @ que guarda o 'a'    
         }
 
         if(arguments >= 2)
         {
-            b = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'b'
-            pilha_remove(pilha);       // Retira o @ que guarda o 'b'
+            b= pilha[pilhaPos - 2].celula->right;
+         //   b = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'b'
+         //   pilha_remove(pilha);       // Retira o @ que guarda o 'b'
         }
         
         if(arguments >= 3)
         {
-            c = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'c'
-            pilha_remove(pilha);       // Retira o @ que guarda o 'c'
+            c = pilha[pilhaPos - 3].celula->right;
+           // c = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'c'
+        //    pilha_remove(pilha);       // Retira o @ que guarda o 'c'
         }
 
         if(arguments >= 4)
         {
-            d = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'd'
-            pilha_remove(pilha);       // Retira o @ que guarda o 'd'
+            d = pilha[pilhaPos - 4].celula->right;
+           // d = get_topo_pilha(pilha)->right;  // Guarda o '@' que guarda o 'd'
+         //   pilha_remove(pilha);       // Retira o @ que guarda o 'd'
         }
     }
     else if(arit == 1) // Eh um aritmetico, vou pegar argumento por argumento
     {
-        // void getArguments(int arguments, int arit, int arg)
-        //printf("\nArit = %d\n", arit);
-
         if(arg == 0)
         {
-          //  printf("A: ");
-            a = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'a'
-        //    if(a->right != NULL)
-        //    print_graph(a->right);
-      //  printf("\n");
-         //   pilha_remove(pilha);       // Retira o @ que guarda o 'a'    
+            a = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'a'  
         }
         else if(arg == 1)
         {
-            b = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'b'
-        //    printf("B: ");
-        //    if(b->right != NULL)
-        //        print_graph(b->right);
-        //    printf("\n");
-          //  pilha_remove(pilha);       // Retira o @ que guarda o 'b'    
+            b = get_topo_pilha(pilha);  // Guarda o '@' que guarda o 'b'   
         }
 
     }
@@ -123,13 +114,18 @@ CELL* reduct(CELL* inicio)
             {
                 getArguments(arguments,0,0); // Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
                 CELL* arg_a = a;
+
                 if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = arg_a;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = arg_a;
                     pilha_insere(pilha, arg_a);
                 }
@@ -155,17 +151,22 @@ CELL* reduct(CELL* inicio)
                 
                 getArguments(arguments,0,0);
                 CELL* arg_b = b;// Pegamos o a, b, mas falta saber se tem o elemento cauda ou nao
+    
                 if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = arg_b;
                 }
                 else   // Nao tem cauda
                 {
-                   
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = arg_b;
                     pilha_insere(pilha, arg_b);
-                }   
+                }
+
             }
 #ifdef COUNTERK
             contKlinha++;
@@ -207,11 +208,17 @@ CELL* reduct(CELL* inicio)
 
                 if((pilhaPos-3-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
                     pilha_insere(pilha, aux2);
                 }
@@ -234,13 +241,16 @@ CELL* reduct(CELL* inicio)
             {
                  getArguments(arguments,0,0); // Pegamos o a, mas falta saber se tem o elemento cauda ou nao
                 CELL* arg_a = a;
+
                 if((pilhaPos-1-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o b
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = arg_a;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
                     inicio = arg_a;
                     pilha_insere(pilha, arg_a);
                 }
@@ -274,13 +284,20 @@ CELL* reduct(CELL* inicio)
                 aux2->left = arg_a;
                 aux2->right->left = arg_b;
                 aux2->right->right = arg_c;
+               
                 if((pilhaPos-3-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
                     pilha_insere(pilha, aux2);
                 }
@@ -319,12 +336,18 @@ CELL* reduct(CELL* inicio)
 
                 if((pilhaPos-3-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
-                    inicio = aux2; // tem que atualizar o inicio, ja que nao tem cauda
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    inicio = aux2;
                     pilha_insere(pilha, aux2);
                 }
         
@@ -366,15 +389,23 @@ CELL* reduct(CELL* inicio)
 
                 if((pilhaPos-4-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
                     pilha_insere(pilha, aux2);
-                    // Nao precisa atualizar o inicio, pq reutilizamos o d, que ja ta sendo apontado por ele
                 }
+
             }
 #ifdef COUNTERSLINHA
             contSlinha++;
@@ -410,14 +441,21 @@ CELL* reduct(CELL* inicio)
 
                 if((pilhaPos-4-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
                     pilha_insere(pilha, aux2);
-                    // tem que atualizar o inicio, ja que nao tem cauda
                 }
                             
             }
@@ -458,14 +496,23 @@ CELL* reduct(CELL* inicio)
 
                 if((pilhaPos-4-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    cauda = get_topo_pilha(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
                     cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
-                    pilha_insere(pilha, aux2); // como foi criado o aux3, tem que atualizar o ponteiro inicial
-                }    
+                    pilha_insere(pilha, aux2);
+                }
+
             }
 #ifdef COUNTERCLINHA
             contClinha++;
@@ -558,31 +605,29 @@ CELL* reduct(CELL* inicio)
                 //print_graph(aux2);
                 //printf("\n\n");
 
-               
-
-                if ((pilhaPos - 2 -posRaizPilha) > 0)
+                if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                   // c = get_topo_pilha(pilha);
-                    c = pilha[pilhaPos - 3].celula;
-                    c->left = aux2;
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                    cauda->left = aux2;
                 }
-                else
+                else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
-                   
+                    pilha_insere(pilha, aux2);
                 }
-                
-                pilha_remove(pilha);
-                pilha_remove(pilha);
-                pilha_insere(pilha, aux2);
-              return aux2;
+
+            //  return inicio;
             }
             
             #ifdef COUNTERSOMA
             contSoma++;
             #endif
-            return inicio;
-
+             //   return aux2;
+            break;
         case '-':
                 if(heapQtdCallGc(1))
                 {
@@ -671,27 +716,26 @@ CELL* reduct(CELL* inicio)
                     
                     
                     
-                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                     {
-                        // c = get_topo_pilha(pilha);
-                        c = pilha[pilhaPos - 3].celula;
-                        c->left = aux2;
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
+                        cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                        cauda->left = aux2;
                     }
-                    else
+                    else   // Nao tem cauda
                     {
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
                         inicio = aux2;
-                        
+                        pilha_insere(pilha, aux2);
                     }
-                    
-                    pilha_remove(pilha);
-                    pilha_remove(pilha);
-                    pilha_insere(pilha, aux2);
-                    return aux2;
                 }
             #ifdef COUNTERSUB
             contSub++;
             #endif
-            return inicio;
+              //  return aux2;
+            break;
 
         case '*':
                 if(heapQtdCallGc(1))
@@ -779,29 +823,25 @@ CELL* reduct(CELL* inicio)
                     //print_graph(aux2);
                     //printf("\n\n");
                     
-                    
-                    
-                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                     {
-                        // c = get_topo_pilha(pilha);
-                        c = pilha[pilhaPos - 3].celula;
-                        c->left = aux2;
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
+                        cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                        cauda->left = aux2;
                     }
-                    else
+                    else   // Nao tem cauda
                     {
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
                         inicio = aux2;
-                        
+                        pilha_insere(pilha, aux2);
                     }
-                    
-                    pilha_remove(pilha);
-                    pilha_remove(pilha);
-                    pilha_insere(pilha, aux2);
-                    return aux2;
                 }
             #ifdef COUNTERMULT
             contMult++;
             #endif
-                return inicio;
+                //return aux2;
             break;
 
         case '/':
@@ -889,30 +929,25 @@ CELL* reduct(CELL* inicio)
                     //printf("AUX2 : %d, GR:  ", aux2->type.number);
                     //print_graph(aux2);
                     //printf("\n\n");
-                    
-                    
-                    
-                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                     {
-                        // c = get_topo_pilha(pilha);
-                        c = pilha[pilhaPos - 3].celula;
-                        c->left = aux2;
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
+                        cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                        cauda->left = aux2;
                     }
-                    else
+                    else   // Nao tem cauda
                     {
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
                         inicio = aux2;
-                        
+                        pilha_insere(pilha, aux2);
                     }
-                    
-                    pilha_remove(pilha);
-                    pilha_remove(pilha);
-                    pilha_insere(pilha, aux2);
-                    return aux2;
                 }
             #ifdef COUNTERDIV
             contDiv++;
             #endif
-                return inicio;
+               // return aux2;
             break;
 
         case '=':
@@ -1008,33 +1043,27 @@ CELL* reduct(CELL* inicio)
                     //printf("AUX2 : %c, GR:  ", aux2->type.operador);
                     //print_graph(aux2);
                     //printf("\n\n");
-
                     
-                    
-                    
-                    
-                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                     {
-                        // c = get_topo_pilha(pilha);
-                        c = pilha[pilhaPos - 3].celula;
-                        c->left = aux2;
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
+                        cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                        cauda->left = aux2;
                     }
-                    else
+                    else   // Nao tem cauda
                     {
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
                         inicio = aux2;
-                        
+                        pilha_insere(pilha, aux2);
                     }
-                    
-                    pilha_remove(pilha);
-                    pilha_remove(pilha);
-                    pilha_insere(pilha, aux2);
-                    //return aux2;
                 }
 
             #ifdef COUNTERIGUAL
             contIgual++;
             #endif
-                //return inicio;
+                //return aux2;
             break;
 
 
@@ -1132,31 +1161,26 @@ CELL* reduct(CELL* inicio)
                     //print_graph(aux2);
                     //printf("\n\n");
                     
-                    
-                    
-                    
-                    
-                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                     {
-                        // c = get_topo_pilha(pilha);
-                        c = pilha[pilhaPos - 3].celula;
-                        c->left = aux2;
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
+                        cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                        cauda->left = aux2;
                     }
-                    else
+                    else   // Nao tem cauda
                     {
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
                         inicio = aux2;
-                        
+                        pilha_insere(pilha, aux2);
                     }
-                    
-                    pilha_remove(pilha);
-                    pilha_remove(pilha);
-                    pilha_insere(pilha, aux2);
                     //return aux2;
                 }
             #ifdef COUNTERMENOR
             contMenor++;
             #endif
-                //return inicio;
+              //  return aux2;
             break;
 
 
@@ -1255,30 +1279,25 @@ CELL* reduct(CELL* inicio)
                     printf("\n\n");
                     
                     */
-                    
-                    
-                    
-                    if ((pilhaPos - 2 -posRaizPilha) > 0)
+                    if((pilhaPos-2-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                     {
-                        // c = get_topo_pilha(pilha);
-                        c = pilha[pilhaPos - 3].celula;
-                        c->left = aux2;
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
+                        cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                        cauda->left = aux2;
                     }
-                    else
+                    else   // Nao tem cauda
                     {
+                        pilha_remove(pilha);
+                        pilha_remove(pilha);
                         inicio = aux2;
-                        
+                        pilha_insere(pilha, aux2);
                     }
-                    
-                    pilha_remove(pilha);
-                    pilha_remove(pilha);
-                    pilha_insere(pilha, aux2);
-                    //return aux2;
                 }
             #ifdef COUNTERMAIOR
             contMaior++;
             #endif
-                //return inicio;
+               // return aux2;
             break;
 
         case 'Y':
@@ -1308,22 +1327,24 @@ CELL* reduct(CELL* inicio)
                 aux2->right->left = op;
                 //print_graph(aux2);
 
-                if((pilhaPos - 1 -posRaizPilha) >= 0) // Tem cauda, vai ter que mudar o ponteiro
+                if((pilhaPos-1-posRaizPilha) > 0) // Tem cauda, vai ter que mudar o ponteiro
                 {
-                    //print_graph("entrou aqui\n");
-                    b = pilha[pilhaPos-1].celula;
-                    //print_graph(b);// o '@' que guarda o b
-                    b->left = aux2;
+                    pilha_remove(pilha);
+                    cauda = get_topo_pilha(pilha);  // o '@' que guarda o c
+                    cauda->left = aux2;
                 }
                 else   // Nao tem cauda
                 {
+                    pilha_remove(pilha);
+                    pilha_remove(pilha);
                     inicio = aux2;
+                    pilha_insere(pilha, aux2);
                 }
             }
             #ifdef COUNTERY
             contY++;
             #endif
-
+            return inicio;
             break;
 
         default:
